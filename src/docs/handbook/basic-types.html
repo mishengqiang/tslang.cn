@@ -169,6 +169,25 @@ list[1] = 100;
                 <p>声明一个<code>void</code>类型的变量没有什么大用，因为你只能为它赋予<code>undefined</code>和<code>null</code>：</p>
                 <pre><code class="language-ts">let unusable: void = undefined;
 </code></pre>
+                <h1>Null 和 Undefined</h1>
+                <p>TypeScript里，<code>undefined</code>和<code>null</code>两者各自有自己的类型分别叫做<code>undefined</code>和<code>null</code>。
+                    和
+                    <code>void</code>相似，它们的本身的类型用处不是很大：</p>
+                <pre><code class="language-ts">// Not much else we can assign to these variables!
+let u: undefined = undefined;
+let n: null = null;
+</code></pre>
+                <p>默认情况下<code>null</code>和<code>undefined</code>是所有类型的子类型。 就是说你可以把
+                    <code>null</code>和<code>undefined</code>赋值给<code>number</code>类型的变量。</p>
+                <p>然而，当你指定了<code>--strictNullChecks</code>标记，<code>null</code>和<code>undefined</code>只能赋值给<code>void</code>和它们各自。
+                    这能避免
+                    <em>很多</em>常见的问题。 也许在某处你想传入一个
+                    <code>string</code>或<code>null</code>或<code>undefined</code>，你可以使用联合类型<code>string | null | undefined</code>。
+                    再次说明，稍后我们会介绍联合类型。
+                </p>
+                <blockquote>
+                    <p>注意：我们鼓励尽可能地使用<code>--strictNullChecks</code>，但在本手册里我们假设这个标记是关闭的。</p>
+                </blockquote>
                 <h1>类型断言</h1>
                 <p>有时候你会遇到这样的情况，你会比TypeScript更了解某个值的详细信息。 通常这会发生在你清楚地知道一个实体具有比它现有类型更确切的类型。
                 </p>
@@ -186,7 +205,7 @@ let strLength: number = (&lt;string&gt;someValue).length;
 let strLength: number = (someValue as string).length;
 </code></pre>
                 <p>两种形式是等价的。 至于使用哪个大多数情况下是凭个人喜好；然而，当你在TypeScript里使用JSX时，只有
-                    <code>as</code>语法断言是被允许地。</p>
+                    <code>as</code>语法断言是被允许的。</p>
                 <h1>关于<code>let</code></h1>
                 <p>你可能已经注意到了，我们使用<code>let</code>关键字来代替大家所熟悉的JavaScript关键字<code>var</code>。
                     <code>let</code>关键字是JavaScript的一个新概念，TypeScript实现了它。 我们会在以后详细介绍它，很多常见的问题都可以通过使用

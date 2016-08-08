@@ -125,6 +125,34 @@ function createSquare(config: SquareConfig): { color: string; area: number } {
 
 let mySquare = createSquare({color: &quot;black&quot;});
 </code></pre>
+                <h1>只读属性</h1>
+                <p>一些对象属性只能在对象刚刚创建的时候修改其值。 你可以在属性名前用
+                    <code>readonly</code>来指定只读属性:</p>
+                <pre><code class="language-ts">interface Point {
+    readonly x: number;
+    readonly y: number;
+}
+</code></pre>
+                <p>你可以通过赋值一个对象字面量来构造一个<code>Point</code>。 赋值后，
+                    <code>x</code>和<code>y</code>再也不能被改变了。</p>
+                <pre><code class="language-ts">let p1: Point = { x: 10, y: 20 };
+p1.x = 5; // error!
+</code></pre>
+                <p>TypeScript具有<code>ReadonlyArray&lt;T&gt;</code>类型，它与<code>Array&lt;T&gt;</code>相似，只是把怕有可变方法去掉了，因此可以确保数组创建后再也不能被修改：</p>
+                <pre><code class="language-ts">let a: number[] = [1, 2, 3, 4];
+let ro: ReadonlyArray&lt;number&gt; = a;
+ro[0] = 12; // error!
+ro.push(5); // error!
+ro.length = 100; // error!
+a = ro; // error!
+</code></pre>
+                <p>上面代码的最后一行，可以看到就算把整个<code>ReadonlyArray</code>赋值到一个普通数组也是不可以的。 但是你可以用类型断言重写：
+                </p>
+                <pre><code class="language-ts">a = ro as number[];
+</code></pre>
+                <h2><code>readonly</code> vs <code>const</code></h2>
+                <p>最简单判断该用<code>readonly</code>还是<code>const</code>的方法是看要把它做为变量使用还是做为一个属性。 做为变量使用的话用
+                    <code>const</code>，若做为属性则使用<code>readonly</code>。</p>
                 <h1>额外的属性检查</h1>
                 <p>我们在第一个例子里使用了接口，TypeScript让我们传入<code>{ size: number; label: string; }</code>到仅期望得到<code>{ label: string; }</code>的函数里。
                     我们已经学过了可选属性，并且知道他们在“option bags”模式里很有用。</p>
@@ -150,15 +178,24 @@ let mySquare = createSquare({ colour: &quot;red&quot;, width: 100 });
                 <pre><code class="language-ts">// error: 'colour' not expected in type 'SquareConfig'
 let mySquare = createSquare({ colour: &quot;red&quot;, width: 100 });
 </code></pre>
-                <p>绕开这些检查非常简单。 最好而简便的方法是使用类型断言：
+                <p>绕开这些检查非常简单。 最简便的方法是使用类型断言：
                 </p>
-                <pre><code class="language-ts">let mySquare = createSquare({ colour: &quot;red&quot;, width: 100 } as SquareConfig);
+                <pre><code class="language-ts">let mySquare = createSquare({ width: 100, opacity: 0.5 } as SquareConfig);
 </code></pre>
-                <p>另一个方法，可能会让人有点惊讶，就是将一个对象赋值给另一个变量：</p>
+                <p>然而，最佳的方式是能够添加一个字符串索引签名，前提是你能够确定这个对象可能具有某些做为特殊用途使用的额外属性。 如果
+                    <code>SquareConfig</code>带有上面定义的类型的<code>color</code>和<code>width</code>属性，并且<em>还会</em>带有任意数量的其它属性，那么我们可以这样定义它：</p>
+                <pre><code class="language-ts">interface SquareConfig {
+    color?: string;
+    width?: number;
+    [propName: string]: any;
+}
+</code></pre>
+                <p>我们稍后会讲到索引签名，但在这我们要表示的是<code>SquareConfig</code>可以有任意数量的属性，并且只要它们不是<code>color</code>和<code>width</code>，那么就无所谓它们的类型是什么。</p>
+                <p>还有最后一种跳过这些检查的方式，这可能会让你感到惊讶，它就是将这个对象赋值给一个另一个变量： 因为
+                    <code>squareOptions</code>不会经过额外属性检查，所以编译器不会报错。</p>
                 <pre><code class="language-ts">let squareOptions = { colour: &quot;red&quot;, width: 100 };
 let mySquare = createSquare(squareOptions);
 </code></pre>
-                <p>因为<code>squareOptions</code>不会经过额外属性检查，所以编译器不会报错。</p>
                 <p>要留意，在像上面一样的简单代码里，你可能不应该去绕开这些检查。 对于包含方法和内部状态的复杂对象字面量来讲，你可能需要使用这些技巧，但是大部额外属性检查错误是真正的bug。 就是说你遇到了额外类型检查出的错误，比如选择包，你应该去审查一下你的类型声明。
                     在这里，如果支持传入
                     <code>color</code>或<code>colour</code>属性到<code>createSquare</code>，你应该修改<code>SquareConfig</code>定义来体现出这一点。</p>
@@ -212,19 +249,38 @@ mySearch = function(src, sub) {
     }
 }
 </code></pre>
-                <h1>数组类型</h1>
-                <p>与使用接口描述函数类型差不多，我们也可以描述数组类型。 数组类型具有一个
-                    <code>index</code>类型表示索引的类型，还有一个相应的返回值类型表示通过索引得到的元素的类型。</p>
+                <h1>可索引的类型</h1>
+                <p>与使用接口描述函数类型差不多，我们也可以描述那些能够“通过索引得到”的类型，比如<code>a[10]</code>或<code>ageMap[&quot;daniel&quot;]</code>。 可索引类型具有一个
+                    <em>索引签名</em>，它描述了对象索引的类型，还有相应的索引返回值类型。 让我们看一个例子：
+                </p>
                 <pre><code class="language-ts">interface StringArray {
   [index: number]: string;
 }
 
 let myArray: StringArray;
 myArray = [&quot;Bob&quot;, &quot;Fred&quot;];
+
+let myStr: string = myArray[0];
 </code></pre>
-                <p>支持两种索引类型：string和number。 数组可以同时使用这两种索引类型，但是有一个限制，数字索引返回值的类型必须是字符串索引返回值的类型的子类型。
-                </p>
-                <p>索引签名能够很好的描述数组和<code>dictionary</code>模式，它们也要求所有属性要与返回值类型相匹配。 因为字符串索引表明
+                <p>上面例子里，我们定义了<code>StringArray</code>接口，它具有索引签名。 这个索引签名表示了当用
+                    <code>number</code>去索引<code>StringArray</code>时会得到<code>string</code>类型的返回值。</p>
+                <p>共有支持两种索引签名：字符串和数字。 可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。 这是因为当使用
+                    <code>number</code>来索引时，JavaScript会将它转换成<code>string</code>然后再去索引对象。 也就是说用
+                    <code>100</code>（一个<code>number</code>）去索引等同于使用<code>&quot;100&quot;</code>（一个<code>string</code>）去索引，因此两者需要保持一致。</p>
+                <pre><code class="language-ts">class Animal {
+    name: string;
+}
+class Dog extends Animal {
+    breed: string;
+}
+
+// Error: indexing with a 'string' will sometimes get you a Dog!
+interface NotOkay {
+    [x: number]: Animal;
+    [x: string]: Dog;
+}
+</code></pre>
+                <p>字符串索引签名能够很好的描述<code>dictionary</code>模式，并且它们也会确保所有属性与其返回值类型相匹配。 因为字符串索引声明了
                     <code>obj.property</code>和<code>obj[&quot;property&quot;]</code>两种形式都可以。 下面的例子里，
                     <code>name</code>的类型与字符串索引类型不匹配，所以类型检查器给出一个错误提示：</p>
                 <pre><code class="language-ts">interface NumberDictionary {
@@ -233,6 +289,14 @@ myArray = [&quot;Bob&quot;, &quot;Fred&quot;];
   name: string       // 错误，`name`的类型不是索引类型的子类型
 }
 </code></pre>
+                <p>最后，你可以将索引签名设置为只读，这样就防止了给索引赋值：</p>
+                <pre><code class="language-ts">interface ReadonlyStringArray {
+    readonly [index: number]: string;
+}
+let myArray: ReadonlyStringArray = [&quot;Alice&quot;, &quot;Bob&quot;];
+myArray[2] = &quot;Mallory&quot;; // error!
+</code></pre>
+                <p>你不能设置<code>myArray[2]</code>，因为索引签名是只读的。</p>
                 <h1>类类型</h1>
                 <h2>实现接口</h2>
                 <p>与C#或Java里接口的基本作用一样，TypeScript也能够用它来明确的强制一个类去符合某种契约。</p>

@@ -253,7 +253,21 @@
                             <td>不把<code>/// &lt;reference``&gt;</code>或模块导入的文件加到编译文件列表。</td>
                         </tr>
                         <tr>
-                            <td><s><code>--out</code></s></td>
+                            <td><code>--noUnusedLocals</code></td>
+                            <td><code>boolean</code></td>
+                            <td><code>false</code></td>
+                            <td>若有未使用的局部变量则抛错。</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noUnusedParameters</code></td>
+                            <td><code>boolean</code></td>
+                            <td><code>false</code></td>
+                            <td>若有未使用的参数则抛错。</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <s><code>--out</code></s>
+                            </td>
                             <td><code>string</code></td>
                             <td><code>null</code></td>
                             <td>弃用。使用 <code>--outFile</code> 代替。</td>
