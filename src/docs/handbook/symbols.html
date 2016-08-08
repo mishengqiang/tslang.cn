@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Symbols · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">Symbols</h1>
+            </header>
+            <article class="post-content">
+                <h1>介绍</h1>
+                <p>自ECMAScript 2015起，<code>symbol</code>成为了一种新的原生类型，就像<code>number</code>和<code>string</code>一样。</p>
+                <p><code>symbol</code>类型的值是通过<code>Symbol</code>构造函数创建的。</p>
+                <pre><code class="language-ts">let sym1 = Symbol();
+
+let sym2 = Symbol(&quot;key&quot;); // 可选的字符串key
+</code></pre>
+                <p>Symbols是不可改变且唯一的。</p>
+                <pre><code class="language-ts">let sym2 = Symbol(&quot;key&quot;);
+let sym3 = Symbol(&quot;key&quot;);
+
+sym2 === sym3; // false, symbols是唯一的
+</code></pre>
+                <p>像字符串一样，symbols也可以被用做对象属性的键。</p>
+                <pre><code class="language-ts">let sym = Symbol();
+
+let obj = {
+    [sym]: &quot;value&quot;
+};
+
+console.log(obj[sym]); // &quot;value&quot;
+</code></pre>
+                <p>Symbols也可以与计算出的属性名声明相结合来声明对象的属性和类成员。</p>
+                <pre><code class="language-ts">const getClassNameSymbol = Symbol();
+
+class C {
+    [getClassNameSymbol](){
+       return &quot;C&quot;;
+    }
+}
+
+let c = new C();
+let className = c[getClassNameSymbol](); // &quot;C&quot;
+</code></pre>
+                <h1>众所周知的Symbols</h1>
+                <p>除了用户定义的symbols，还有一些已经众所周知的内置symbols。 内置symbols用来表示语言内部的行为。
+                </p>
+                <p>以下为这些symbols的列表：</p>
+                <h2><code>Symbol.hasInstance</code></h2>
+                <p>方法，会被<code>instanceof</code>运算符调用。构造器对象用来识别一个对象是否是其实例。</p>
+                <h2><code>Symbol.isConcatSpreadable</code></h2>
+                <p>布尔值，表示当在一个对象上调用<code>Array.prototype.concat</code>时，这个对象的数组元素是否可展开。</p>
+                <h2><code>Symbol.iterator</code></h2>
+                <p>方法，被<code>for-of</code>语句调用。返回对象的默认迭代器。</p>
+                <h2><code>Symbol.match</code></h2>
+                <p>方法，被<code>String.prototype.match</code>调用。正则表达式用来匹配字符串。</p>
+                <h2><code>Symbol.replace</code></h2>
+                <p>方法，被<code>String.prototype.replace</code>调用。正则表达式用来替换字符串中匹配的子串。</p>
+                <h2><code>Symbol.search</code></h2>
+                <p>方法，被<code>String.prototype.search</code>调用。正则表达式返回被匹配部分在字符串中的索引。</p>
+                <h2><code>Symbol.species</code></h2>
+                <p>函数值，为一个构造函数。用来创建派生对象。</p>
+                <h2><code>Symbol.split</code></h2>
+                <p>方法，被<code>String.prototype.split</code>调用。正则表达式来用分割字符串。</p>
+                <h2><code>Symbol.toPrimitive</code></h2>
+                <p>方法，被<code>ToPrimitive</code>抽象操作调用。把对象转换为相应的原始值。</p>
+                <h2><code>Symbol.toStringTag</code></h2>
+                <p>方法，被内置方法<code>Object.prototype.toString</code>调用。返回创建对象时默认的字符串描述。</p>
+                <h2><code>Symbol.unscopables</code></h2>
+                <p>对象，它自己拥有的属性会被<code>with</code>作用域排除在外。</p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

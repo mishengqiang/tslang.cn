@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TypeScript 1.3 · TypeScript中文网 · TypeScript——JavaScript的超集</</title>
+        <!-- inject:css -->
+        <!-- endinject -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/assets/images/icons/manifest.json">
+        <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+        <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+        <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">TypeScript 1.3</h1>
+            </header>
+            <article class="post-content">
+                <h2>受保护的</h2>
+                <p>类里面新的<code>protected</code>修饰符作用与其它语言如C++，C#和Java中的一样。一个类的<code>protected</code>成员只在这个类的子类中可见：</p>
+                <pre><code class="language-ts">class Thing {
+  protected doSomething() { /* ... */ }
+}
+
+class MyThing extends Thing {
+  public myMethod() {
+    // OK，可以在子类里访问受保护的成员
+    this.doSomething();
+  }
+}
+var t = new MyThing();
+t.doSomething(); // Error，不能在类外部访问受保护成员
+</code></pre>
+                <h2>元组类型</h2>
+                <p>元组类型表示一个数组，其中元素的类型都是已知的，但是不一样是同样的类型。比如，你可能想要表示一个第一个元素是<code>string</code>类型第二个元素是<code>number</code>类型的数组：</p>
+                <pre><code class="language-ts">// Declare a tuple type
+var x: [string, number];
+// 初始化
+x = ['hello', 10]; // OK
+// 错误的初始化
+x = [10, 'hello']; // Error
+</code></pre>
+                <p>但是访问一个已知的索引，会得到正确的类型：</p>
+                <pre><code class="language-ts">console.log(x[0].substr(1)); // OK
+console.log(x[1].substr(1)); // Error, 'number'没有'substr'方法
+</code></pre>
+                <p>注意在TypeScript1.4里，当访问超出已知索引的元素时，会返回联合类型：</p>
+                <pre><code class="language-ts">x[3] = 'world'; // OK
+console.log(x[5].toString()); // OK, 'string'和'number'都有toString
+x[6] = true; // Error, boolean不是number或string
+</code></pre>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

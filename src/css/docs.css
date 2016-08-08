@@ -1,0 +1,325 @@
+
+.docs-container {
+    padding: 0 0 6em
+}
+
+/*.docs-container .doc-content-container {
+    padding: 0 2em 0 4em;
+    margin-right: 0
+}*/
+
+/*@media (max-width: 992px) {
+    .docs-container .doc-content-container {
+        padding:initial
+    }
+}*/
+
+.docs-container p {
+    margin-top: 20px;
+    margin-bottom: 20px
+}
+
+.docs-container li p {
+    font-size: 1em
+}
+
+.docs-container blockquote p {
+    margin-top: initial
+}
+
+.docs-container .doc {
+    float: right;
+    position: relative;
+    max-width: 700px
+}
+
+.docs-container nav.xs-toc {
+    padding: 2.5em 0 0 .6em;
+    font-size: 1.8em;
+    margin-bottom: -1.5em
+}
+
+.docs-container nav.xs-toc .dropdown-menu ul {
+    list-style: none;
+    padding-left: 0
+}
+
+.docs-container nav.xs-toc .dropdown-menu ul h2 {
+    color: #737373;
+    font-size: .857em;
+    font-family: wf_segoe-ui_Semibold;
+    text-transform: uppercase;
+    padding-left: 20px
+}
+
+.docs-container nav.xs-toc .dropdown-menu ul li a {
+    display: block;
+    padding: 3px 20px;
+    clear: both;
+    font-weight: 400;
+    line-height: 1.42857143;
+    color: #333;
+    white-space: nowrap
+}
+
+.docs-container nav.xs-toc .dropdown-menu ul li a:hover {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5
+}
+
+.docs-container .toc-icon {
+    width: 2.5em;
+    height: 2.5em;
+    background-image: url(../assets/images/tocIcons.png);
+    background-position: 7.5em 0;
+    float: right;
+    margin-right: 1.5em
+}
+
+.docs-container .toc-icon-active {
+    width: 2.5em;
+    height: 2.5em;
+    background-image: url(../assets/images/tocIcons.png);
+    background-position: 5em 0;
+    float: right;
+    margin-right: 1.5em
+}
+
+.docs-container .container-fluid {
+    height: 100%
+}
+
+.docs-container #content.container-fluid {
+    padding-top: 3em
+}
+
+/*.docs-container .toc-container {
+    margin-right: 2em;
+    width: 22em;
+    padding-left: 2em;
+    padding-right: 0
+}*/
+
+.docs-container .toc-dropdown>a {
+    font-size: 1em;
+    background-color: #ddd;
+    border: 1px solid #ddd;
+    box-shadow: none
+}
+
+.docs-container .toc-dropdown>a:active,.docs-container .toc-dropdown>a:focus,.docs-container .toc-dropdown>a:hover {
+    color: #000;
+    background-color: #c4c4c4
+}
+
+.docs-container .post-header {
+    padding: 2em 0 0 1em
+}
+
+.docs-container .post-header .post-title {
+    color: #242424;
+    font-size: 3.6em
+}
+
+.docs-container .post-header .edit-page-link {
+    font-size: 1.2em
+}
+
+.docs-container .post-content {
+    color: #242424;
+    padding-left: 1em;
+    padding-top: 3em
+}
+
+.docs-container .post-content h1 {
+    color: #152740;
+    font-size: 2.4em
+}
+
+.docs-container .post-content h2,.docs-container .post-content h3,.docs-container .post-content h4,.docs-container .post-content h5,.docs-container .post-content h6 {
+    color: #152740;
+    font-size: 1.8em;
+    font-weight: 700
+}
+
+.docs-container .post-content h3,.docs-container .post-content h4,.docs-container .post-content h5,.docs-container .post-content h6 {
+    font-size: 1.6em;
+    font-style: italic
+}
+
+.docs-container .post-content h4,.docs-container .post-content h5,.docs-container .post-content h6 {
+    font-weight: 600;
+    color: #2e568d
+}
+
+.docs-container .post-content h5,.docs-container .post-content h6 {
+    font-weight: 500;
+    color: #5987c8
+}
+
+.docs-container li code,.docs-container p code,.docs-container td code {
+    background-color: transparent;
+    color: #bf414a;
+    font-size: 1em
+}
+
+.docs-container li pre,.docs-container p pre,.docs-container td pre {
+    font-size: 1em
+}
+
+.docs-container pre {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    font-size: 1.6em;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    line-height: 1.4285;
+    background-color: #eaeef3;
+    border-radius: 0;
+    -webkit-text-size-adjust: none;
+    overflow: hidden
+}
+
+.docs-container pre code {
+    color: #2f4f4f;
+    font-family: Menlo,Monaco,"Courier New",monospace;
+    font-size: 1em!important;
+    padding: 0
+}
+
+.docs-container pre code .hljs,.docs-container pre code .hljs-addition,.docs-container pre code .hljs-argument,.docs-container pre code .hljs-blockquote,.docs-container pre code .hljs-built_in,.docs-container pre code .hljs-filename,.docs-container pre code .hljs-header,.docs-container pre code .hljs-keyword,.docs-container pre code .hljs-link_label,.docs-container pre code .hljs-list,.docs-container pre code .hljs-literal,.docs-container pre code .hljs-name,.docs-container pre code .hljs-number,.docs-container pre code .hljs-params,.docs-container pre code .hljs-parent,.docs-container pre code .hljs-string,.docs-container pre code .hljs-tag,.docs-container pre code .hljs-title,.docs-container pre code .hljs-value,.docs-container pre code p,.docs-container pre code span {
+    font-size: 1em!important
+}
+
+.docs-container table {
+    margin-bottom: 1rem;
+    width: 100%;
+    font-size: 1.3em
+}
+
+.docs-container td,.docs-container th {
+    padding: .75rem;
+    border: 1px solid #294e80;
+    font-size: 1em!important;
+    color: #000;
+    background-color: #eaeef3
+}
+
+.docs-container th {
+    text-align: left
+}
+
+.docs-container .docs-nav {
+    margin-top: 4.5rem;
+    position: relative
+}
+
+.docs-container .docs-nav .nav {
+    border-left: 1px solid #ccc
+}
+
+.docs-container .docs-nav .nav .panel {
+    background-color: transparent;
+    box-shadow: none
+}
+
+.docs-container .docs-nav .nav .panel.selected {
+    font-weight: 600;
+    border-left: 1px solid #152740;
+    border-radius: 0;
+    margin-left: -1px;
+    outline: 0
+}
+
+.docs-container .docs-nav .nav .panel.collapsed a {
+    background: url(../assets/images/expand-up.svg) no-repeat;
+    background-size: 24px;
+    background-position: 220px 10px!important;
+    width: 17em;
+    margin-left: -2px
+}
+
+.docs-container .docs-nav .nav .panel.collapsed a:not(.collapsed) {
+    border-left: 1px solid #8c8c8c;
+    color: #152740;
+    font-weight: 600
+}
+
+.docs-container .docs-nav .nav .panel.collapsed a.collapsed {
+    background: url(../assets/images/expand-down.svg) 110px 5px no-repeat;
+    background-size: 24px;
+    color: #242424
+}
+
+.docs-container .docs-nav .nav .panel.collapsed ul {
+    margin-top: -14px;
+    padding-top: 12px
+}
+
+.docs-container .docs-nav .nav .panel.collapsed ul.collapsing {
+    margin-left: -2px;
+    border-left: 1px solid #8c8c8c
+}
+
+.docs-container .docs-nav .nav .panel.collapsed ul.collapse.in {
+    border-left: 1px solid #8c8c8c;
+    margin-left: -2px
+}
+
+.docs-container .docs-nav .nav li {
+    list-style-type: none;
+    margin-bottom: 0;
+    font-size: 1em
+}
+
+.docs-container .docs-nav .nav li a {
+    font-size: 1.5em;
+    color: #242424;
+    margin-left: -2px;
+    border-left: 1px solid #ccc
+}
+
+.docs-container .docs-nav .nav li a.active {
+    color: #152740;
+    font-weight: 600!important
+}
+
+.docs-container .docs-nav .nav li a:focus,.docs-container .docs-nav .nav li a:hover {
+    background: 0 0;
+    color: #152740!important;
+    text-decoration: none!important;
+    border-color: #8c8c8c
+}
+
+.docs-container .docs-nav .nav li li {
+    margin: 16px
+}
+
+.docs-container .docs-nav .nav li li a {
+    font-size: 1.4em;
+    color: #242424;
+    border-left: none!important;
+    font-weight: 100!important;
+    background: 0 0!important
+}
+
+.docs-container .docs-nav .nav li li a.active {
+    color: #152740
+}
+
+.docs-container .dropdown-menu {
+    top: 76px;
+    left: 8px
+}
+
+.docs-container .dropdown-menu li {
+    font-size: 1em
+}
+.hljs{
+    background-color: #eaeef3;
+}
+
+

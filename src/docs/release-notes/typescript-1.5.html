@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TypeScript 1.5 · TypeScript中文网 · TypeScript——JavaScript的超集</</title>
+        <!-- inject:css -->
+        <!-- endinject -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/assets/images/icons/manifest.json">
+        <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+        <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+        <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">TypeScript 1.5</h1>
+            </header>
+            <article class="post-content">
+                <h2>ES6 模块</h2>
+                <p>TypeScript 1.5 支持 ECMAScript 6 (ES6) 模块. ES6 模块可以看做之前 TypeScript 的外部模块换上了新的语法: ES6 模块是分开加载的源文件, 这些文件还可能引入其他模块,
+                    并且导出部分供外部可访问. ES6 模块新增了几种导入和导出声明. 我们建议使用 TypeScript 开发的库和应用能够更新到新的语法, 但不做强制要求. 新的 ES6 模块语法和 TypeScript
+                    原来的内部和外部模块结构同时被支持, 如果需要也可以混合使用.</p>
+                <h3>导出声明</h3>
+                <p>作为 TypeScript 已有的 <code>export</code> 前缀支持, 模块成员也可以使用单独导出的声明导出, 如果需要, <code>as</code> 语句可以指定不同的导出名称.</p>
+                <pre><code class="language-ts">interface Stream { ... }
+function writeToStream(stream: Stream, data: string) { ... }
+export { Stream, writeToStream as write };  // writeToStream 导出为 write
+</code></pre>
+                <p>引入声明也可以使用 <code>as</code> 语句来指定一个不同的导入名称. 比如:</p>
+                <pre><code class="language-ts">import { read, write, standardOutput as stdout } from &quot;./inout&quot;;
+var s = read(stdout);
+write(stdout, s);
+</code></pre>
+                <p>作为单独导入的候选项, 命名空间导入可以导入整个模块:</p>
+                <pre><code class="language-ts">import * as io from &quot;./inout&quot;;
+var s = io.read(io.standardOutput);
+io.write(io.standardOutput, s);
+</code></pre>
+                <h2>重新导出</h2>
+                <p>使用 <code>from</code> 语句一个模块可以复制指定模块的导出项到当前模块, 而无需创建本地名称.</p>
+                <pre><code class="language-ts">export { read, write, standardOutput as stdout } from &quot;./inout&quot;;
+</code></pre>
+                <p><code>export *</code> 可以用来重新导出另一个模块的所有导出项. 在创建一个聚合了其他几个模块导出项的模块时很方便.</p>
+                <pre><code class="language-ts">export function transform(s: string): string { ... }
+export * from &quot;./mod1&quot;;
+export * from &quot;./mod2&quot;;
+</code></pre>
+                <h3>默认导出项</h3>
+                <p>一个 export default 声明表示一个表达式是这个模块的默认导出项.</p>
+                <pre><code class="language-ts">export default class Greeter {
+    sayHello() {
+        console.log(&quot;Greetings!&quot;);
+    }
+}
+</code></pre>
+                <p>对应的可以使用默认导入:</p>
+                <pre><code class="language-ts">import Greeter from &quot;./greeter&quot;;
+var g = new Greeter();
+g.sayHello();
+</code></pre>
+                <h3>无导入加载</h3>
+                <p>&quot;无导入加载&quot; 可以被用来加载某些只需要其副作用的模块.</p>
+                <pre><code class="language-ts">import &quot;./polyfills&quot;;
+</code></pre>
+                <p>了解更多关于模块的信息, 请参见 <a href="https://github.com/Microsoft/TypeScript/issues/2242">ES6 模块支持规范</a>.</p>
+                <h2>声明与赋值的解构</h2>
+                <p>TypeScript 1.5 添加了对 ES6 解构声明与赋值的支持.</p>
+                <h3>解构</h3>
+                <p>解构声明会引入一个或多个命名变量, 并且初始化它们的值为对象的属性或者数组的元素对应的值.</p>
+                <p>比如说, 下面的例子声明了变量 <code>x</code>, <code>y</code> 和 <code>z</code>, 并且分别将它们的值初始化为 <code>getSomeObject().x</code>,
+                    <code>getSomeObject().x</code> 和 <code>getSomeObject().x</code>:</p>
+                <pre><code class="language-ts">var { x, y, z } = getSomeObject();
+</code></pre>
+                <p>解构声明也可以用于从数组中得到值.</p>
+                <pre><code class="language-ts">var [x, y, z = 10] = getSomeArray();
+</code></pre>
+                <p>相似的, 解构可以用在函数的参数声明中:</p>
+                <pre><code class="language-ts">function drawText({ text = &quot;&quot;, location: [x, y] = [0, 0], bold = false }) {
+    // 画出文本
+}
+
+// 以一个对象字面量为参数调用 drawText
+var item = { text: &quot;someText&quot;, location: [1,2,3], style: &quot;italics&quot; };
+drawText(item);
+</code></pre>
+                <h3>赋值</h3>
+                <p>解构也可以被用于普通的赋值表达式. 举例来讲, 交换两个变量的值可以被写作一个解构赋值:</p>
+                <pre><code class="language-ts">var x = 1;
+var y = 2;
+[x, y] = [y, x];
+</code></pre>
+                <h2><code>namespace</code> (命名空间) 关键字</h2>
+                <p>过去 TypeScript 中 <code>module</code> 关键字既可以定义 &quot;内部模块&quot;, 也可以定义 &quot;外部模块&quot;; 这让刚刚接触 TypeScript
+                    的开发者有些困惑. &quot;内部模块&quot; 的概念更接近于大部分人眼中的命名空间; 而 &quot;外部模块&quot; 对于 JS 来讲, 现在也就是模块了.</p>
+                <blockquote>
+                    <p>注意: 之前定义内部模块的语法依然被支持.</p>
+                </blockquote>
+                <p><strong>之前</strong>:</p>
+                <pre><code class="language-ts">module Math {
+    export function add(x, y) { ... }
+}
+</code></pre>
+                <p><strong>之后</strong>:</p>
+                <pre><code class="language-ts">namespace Math {
+    export function add(x, y) { ... }
+}
+</code></pre>
+                <h2><code>let</code> 和 <code>const</code> 的支持</h2>
+                <p>ES6 的 <code>let</code> 和 <code>const</code> 声明现在支持编译到 ES3 和 ES5.</p>
+                <h3>Const</h3>
+                <pre><code class="language-ts">const MAX = 100;
+
+++MAX; // 错误: 自增/减运算符不能用于一个常量
+</code></pre>
+                <h3>块级作用域</h3>
+                <pre><code class="language-ts">if (true) {
+  let a = 4;
+  // 使用变量 a
+}
+else {
+  let a = &quot;string&quot;;
+  // 使用变量 a
+}
+
+alert(a); // 错误: 变量 a 在当前作用域未定义
+</code></pre>
+                <h2><code>for...of</code> 的支持</h2>
+                <p>TypeScript 1.5 增加了 ES6 <code>for...of</code> 循环编译到 ES3/ES5 时对数组的支持, 以及编译到 ES6 时对满足 <code>Iterator</code>                    接口的全面支持.</p>
+                <h3>例子:</h3>
+                <p>TypeScript 编译器会转译 <code>for...of</code> 数组到具有语义的 ES3/ES5 JavaScript (如果被设置为编译到这些版本).</p>
+                <pre><code class="language-ts">for (var v of expr) { }
+</code></pre>
+                <p>会输出为:</p>
+                <pre><code class="language-js">for (var _i = 0, _a = expr; _i &lt; _a.length; _i++) {
+    var v = _a[_i];
+}
+</code></pre>
+                <h2>装饰器</h2>
+                <blockquote>
+                    <p>TypeScript 装饰器是局域 <a href="https://github.com/wycats/javascript-decorators">ES7 装饰器</a> 提案的.</p>
+                </blockquote>
+                <p>一个装饰器是:</p>
+                <ul>
+                    <li>一个表达式</li>
+                    <li>并且值为一个函数</li>
+                    <li>接受 <code>target</code>, <code>name</code>, 以及属性描述对象作为参数</li>
+                    <li>可选返回一个会被应用到目标对象的属性描述对象</li>
+                </ul>
+                <blockquote>
+                    <p>了解更多, 请参见 <a href="https://github.com/Microsoft/TypeScript/issues/2249">装饰器</a> 提案.</p>
+                </blockquote>
+                <h3>例子:</h3>
+                <p>装饰器 <code>readonly</code> 和 <code>enumerable(false)</code> 会在属性 <code>method</code> 添加到类 <code>C</code> 上之前被应用.
+                    这使得装饰器可以修改其实现, 具体到这个例子, 设置了 <code>descriptor</code> 为 <code>writable: false</code> 以及 <code>enumerable: false</code>.</p>
+                <pre><code class="language-ts">class C {
+  @readonly
+  @enumerable(false)
+  method() { }
+}
+
+function readonly(target, key, descriptor) {
+    descriptor.writable = false;
+}
+
+function enumerable(value) {
+  return function (target, key, descriptor) {
+     descriptor.enumerable = value;
+  }
+}
+</code></pre>
+                <h2>计算属性</h2>
+                <p>使用动态的属性初始化一个对象可能会很麻烦. 参考下面的例子:</p>
+                <pre><code class="language-ts">type NeighborMap = { [name: string]: Node };
+type Node = { name: string; neighbors: NeighborMap;}
+
+function makeNode(name: string, initialNeighbor: Node): Node {
+    var neighbors: NeighborMap = {};
+    neighbors[initialNeighbor.name] = initialNeighbor;
+    return { name: name, neighbors: neighbors };
+}
+</code></pre>
+                <p>这里我们需要创建一个包含了 neighbor-map 的变量, 便于我们初始化它. 使用 TypeScript 1.5, 我们可以让编译器来干重活:</p>
+                <pre><code class="language-ts">function makeNode(name: string, initialNeighbor: Node): Node {
+    return {
+        name: name,
+        neighbors: {
+            [initialNeighbor.name]: initialNeighbor
+        }
+    }
+}
+</code></pre>
+                <h2>指出 <code>UMD</code> 和 <code>System</code> 模块输出</h2>
+                <p>作为 <code>AMD</code> 和 <code>CommonJS</code> 模块加载器的补充, TypeScript 现在支持输出为 <code>UMD</code> (<a href="https://github.com/umdjs/umd">Universal Module Definition</a>)
+                    和 <a href="https://github.com/systemjs/systemjs"><code>System</code></a> 模块的格式.</p>
+                <p><strong>用法</strong>:</p>
+                <blockquote>
+                    <p>tsc --module umd</p>
+                </blockquote>
+                <p>以及</p>
+                <blockquote>
+                    <p>tsc --module system</p>
+                </blockquote>
+                <h2>Unicode 字符串码位转义</h2>
+                <p>ES6 中允许用户使用单个转义表示一个 Unicode 码位.</p>
+                <p>举个例子, 考虑我们需要转义一个包含了字符 '𠮷' 的字符串. 在 UTF-16/USC2 中, '𠮷' 被表示为一个代理对, 意思就是它被编码为一对 16 位值的代码单元, 具体来说是 <code>0xD842</code>                    和 <code>0xDFB7</code>. 之前这意味着你必须将该码位转义为 <code>&quot;\uD842\uDFB7&quot;</code>. 这样做有一个重要的问题, 就事很难讲两个独立的字符同一个代理对区分开来.</p>
+                <p>通过 ES6 的码位转义, 你可以在字符串或模板字符串中清晰地通过一个转义表示一个确切的字符: <code>&quot;\u{20bb7}&quot;</code>. TypeScript 在编译到 ES3/ES5
+                    时会将该字符串输出为 <code>&quot;\uD842\uDFB7&quot;</code>.</p>
+                <h2>标签模板字符串编译到 ES3/ES5</h2>
+                <p>TypeScript 1.4 中, 我们添加了模板字符串编译到所有 ES 版本的支持, 并且支持标签模板字符串编译到 ES6. 得益于 <a href="https://github.com/ivogabe">@ivogabe</a>                    的大量付出, 我们填补了标签模板字符串对编译到 ES3/ES5 的支持.</p>
+                <p>当编译到 ES3/ES5 时, 下面的代码:</p>
+                <pre><code class="language-ts">function oddRawStrings(strs: TemplateStringsArray, n1, n2) {
+    return strs.raw.filter((raw, index) =&gt; index % 2 === 1);
+}
+
+oddRawStrings `Hello \n${123} \t ${456}\n world`
+</code></pre>
+                <p>会被输出为:</p>
+                <pre><code class="language-ts">function oddRawStrings(strs, n1, n2) {
+    return strs.raw.filter(function (raw, index) {
+        return index % 2 === 1;
+    });
+}
+(_a = [&quot;Hello \n&quot;, &quot; \t &quot;, &quot;\n world&quot;], _a.raw = [&quot;Hello \\n&quot;, &quot; \\t &quot;, &quot;\\n world&quot;], oddRawStrings(_a, 123, 456));
+var _a;
+</code></pre>
+                <h2>AMD 可选依赖名称</h2>
+                <p><code>/// &lt;amd-dependency path=&quot;x&quot; /&gt;</code> 会告诉编译器需要被注入到模块 <code>require</code> 方法中的非 TS
+                    模块依赖; 然而在 TS 代码中无法使用这个模块.</p>
+                <p>新的 <code>amd-dependency name</code> 属性允许为 AMD 依赖传递一个可选的名称.</p>
+                <pre><code class="language-ts">/// &lt;amd-dependency path=&quot;legacy/moduleA&quot; name=&quot;moduleA&quot;/&gt;
+declare var moduleA:MyType
+moduleA.callStuff()
+</code></pre>
+                <p>生成的 JS 代码:</p>
+                <pre><code class="language-ts">define([&quot;require&quot;, &quot;exports&quot;, &quot;legacy/moduleA&quot;], function (require, exports, moduleA) {
+    moduleA.callStuff()
+});
+</code></pre>
+                <h2>通过 <code>tsconfig.json</code> 指示一个项目</h2>
+                <p>通过添加 <code>tsconfig.json</code> 到一个目录指明这是一个 TypeScript 项目的根目录. <code>tsconfig.json</code> 文件指定了根文件以及编译项目需要的编译器选项.
+                    一个项目可以由以下方式编译:</p>
+                <ul>
+                    <li>调用 tsc 并不指定输入文件, 此时编译器会从当前目录开始往上级目录寻找 <code>tsconfig.json</code> 文件.</li>
+                    <li>调用 tsc 并不指定输入文件, 使用 <code>-project</code> (或者 <code>-p</code>) 命令行选项指定包含了 <code>tsconfig.json</code>                        文件的目录.</li>
+                </ul>
+                <h3>例子:</h3>
+                <pre><code class="language-json">{
+    &quot;compilerOptions&quot;: {
+        &quot;module&quot;: &quot;commonjs&quot;,
+        &quot;noImplicitAny&quot;: true,
+        &quot;sourceMap&quot;: true,
+    }
+}
+</code></pre>
+                <p>参见 <a href="https://github.com/Microsoft/TypeScript/wiki/tsconfig.json">tsconfig.json wiki 页面</a> 查看更多信息.</p>
+                <h2><code>--rootDir</code> 命令行选项</h2>
+                <p>选项 <code>--outDir</code> 在输出中会保留输入的层级关系. 编译器将所有输入文件共有的最长路径作为根路径; 并且在输出中应用对应的子层级关系.</p>
+                <p>有的时候这并不是期望的结果, 比如输入 <code>FolderA\FolderB\1.ts</code> 和 <code>FolderA\FolderB\2.ts</code>, 输出结构会是 <code>FolderA\FolderB\</code>                    对应的结构. 如果输入中新增 <code>FolderA\3.ts</code> 文件, 输出的结构将突然变为 <code>FolderA\</code> 对应的结构.</p>
+                <p><code>--rootDir</code> 指定了会输出对应结构的输入目录, 不再通过计算获得.</p>
+                <h2><code>--noEmitHelpers</code> 命令行选项</h2>
+                <p>TypeScript 编译器在需要的时候会输出一些像 <code>__extends</code> 这样的工具函数. 这些函数会在使用它们的所有文件中输出. 如果你想要聚合所有的工具函数到同一个位置, 或者覆盖默认的行为,
+                    使用 <code>--noEmitHelpers</code> 来告知编译器不要输出它们.</p>
+                <h2><code>--newLine</code> 命令行选项</h2>
+                <p>默认输出的换行符在 Windows 上是 <code>\r\n</code>, 在 *nix 上是 <code>\n</code>. <code>--newLine</code> 命令行标记可以覆盖这个行为,
+                    并指定输出文件中使用的换行符.</p>
+                <h2><code>--inlineSourceMap</code> and <code>inlineSources</code> 命令行选项</h2>
+                <p><code>--inlineSourceMap</code> 将内嵌源文件映射到 <code>.js</code> 文件, 而不是在单独的 <code>.js.map</code> 文件中. <code>--inlineSources</code>                    允许进一步将 <code>.ts</code> 文件内容包含到输出文件中.</p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

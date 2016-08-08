@@ -1,0 +1,55 @@
+{
+  "name": "tslang",
+  "description": "TypeScript中文网",
+  "main": "index.js",
+  "authors": [
+    "mishengqiang"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "typescirpt",
+    "ts",
+    "javascript",
+    "es6"
+  ],
+  "homepage": "www.tslang.cn",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "overrides": {
+    "jquery": {
+      "main": [
+        "dist/jquery.js"
+      ]
+    },
+    "bootstrap": {
+      "main": [
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap.css",
+        "dist/fonts/*.*"
+      ]
+    },
+    "highlight": {
+      "main": [
+        "highlight.pack.js",
+        "src/styles/vs.css"
+      ]
+    },
+    "magnific-popup": {
+      "main": [
+        "dist/jquery.magnific-popup.min.js",
+        "dist/magnific-popup.css"
+      ]
+    }
+  },
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "highlight": "^9.4.0",
+    "magnific-popup": "^1.1.0"
+  }
+}

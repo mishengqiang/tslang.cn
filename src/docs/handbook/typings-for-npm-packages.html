@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>NPM包的类型 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">NPM包的类型</h1>
+            </header>
+            <article class="post-content">
+                <p>TypeScript编译器处理Node模块名时使用的是<a href="https://nodejs.org/api/modules.html#modules_all_together">Node.js模块解析算法</a>。
+                    TypeScript也可以同时加载与npm包绑在一起的类型声明文件。 编译通过下面的规则来查找
+                    <code>&quot;foo&quot;</code>模块的类型信息：</p>
+                <ol>
+                    <li>尝试加载相应代码包目录下<code>package.json</code>文件（<code>node_modules/foo/</code>）。如果存在，从<code>&quot;typings&quot;</code>字段里读取类型文件的路径。比如，在下面的<code>package.json</code>里，编译器会认为类型文件位于<code>node_modules/foo/lib/foo.d.ts</code>。
+                <pre><code class="language-json">{
+    &quot;name&quot;: &quot;foo&quot;,
+    &quot;author&quot;: &quot;Vandelay Industries&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;main&quot;: &quot;./lib/foo.js&quot;,
+    &quot;typings&quot;: &quot;./lib/foo.d.ts&quot;
+}
+</code></pre></li>
+                </ol>
+                <ol start="2">
+                    <li>尝试加载在相应代码包目录下的名字为<code>index.d.ts</code>的文件（<code>node_modules/foo/</code>） - 这个文件应该包含了这个代码包的类型信息。</li>
+                </ol>
+                <p>解析模块的详细算法可以在<a href="https://github.com/Microsoft/TypeScript/issues/2338">这里</a>找到。</p>
+                <h3>你的定义文件应该</h3>
+                <ul>
+                    <li>是<code>.d.ts</code>文件</li>
+                    <li>写做外部模块</li>
+                    <li>不包含<code>///&lt;reference&gt;</code>引用</li>
+                </ul>
+                <p>基本的原理是类型文件不能引入新的可编译代码； 否则真正的实现文件就可能会在编译时被重盖。 另外，
+                    <strong>加载类型信息不应该污染全局空间</strong>，当从同一个库的不同版本中引入潜在冲突的实体的时候。</p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>在MSBuild里使用编译选项 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">在MSBuild里使用编译选项</h1>
+            </header>
+            <article class="post-content">
+                <h2>概述</h2>
+                <p>编译选项可以在使用MSBuild的项目里通过MSBuild属性指定。</p>
+                <h2>例子</h2>
+                <pre><code class="language-XML">  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Debug'&quot;&gt;
+    &lt;TypeScriptRemoveComments&gt;false&lt;/TypeScriptRemoveComments&gt;
+    &lt;TypeScriptSourceMap&gt;true&lt;/TypeScriptSourceMap&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Release'&quot;&gt;
+    &lt;TypeScriptRemoveComments&gt;true&lt;/TypeScriptRemoveComments&gt;
+    &lt;TypeScriptSourceMap&gt;false&lt;/TypeScriptSourceMap&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;Import Project=&quot;$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets&quot;
+          Condition=&quot;Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')&quot; /&gt;
+</code></pre>
+                <h2>映射</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>编译选项</th>
+                            <th>MSBuild属性名称</th>
+                            <th>可用值</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>--declaration</code></td>
+                            <td>TypeScriptGeneratesDeclarations</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--module</code></td>
+                            <td>TypeScriptModuleKind</td>
+                            <td><code>AMD</code>, <code>CommonJs</code>, <code>UMD</code> 或 <code>System</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--target</code></td>
+                            <td>TypeScriptTarget</td>
+                            <td><code>ES3</code>, <code>ES5</code>, or <code>ES6</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--charset</code></td>
+                            <td>TypeScriptCharset</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--emitBOM</code></td>
+                            <td>TypeScriptEmitBOM</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--emitDecoratorMetadata</code></td>
+                            <td>TypeScriptEmitDecoratorMetadata</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--experimentalDecorators</code></td>
+                            <td>TypeScriptExperimentalDecorators</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--inlineSourceMap</code></td>
+                            <td>TypeScriptInlineSourceMap</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--inlineSources</code></td>
+                            <td>TypeScriptInlineSources</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--locale</code></td>
+                            <td><em>自动的</em></td>
+                            <td>自动设置成PreferredUILang的值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--mapRoot</code></td>
+                            <td>TypeScriptMapRoot</td>
+                            <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--newLine</code></td>
+                            <td>TypeScriptNewLine</td>
+                            <td><code>CRLF</code> 或 <code>LF</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--noEmitOnError</code></td>
+                            <td>TypeScriptNoEmitOnError</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noEmitHelpers</code></td>
+                            <td>TypeScriptNoEmitHelpers</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noImplicitAny</code></td>
+                            <td>TypeScriptNoImplicitAny</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noLib</code></td>
+                            <td>TypeScriptNoLib</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noResolve</code></td>
+                            <td>TypeScriptNoResolve</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--out</code></td>
+                            <td>TypeScriptOutFile</td>
+                            <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--outDir</code></td>
+                            <td>TypeScriptOutDir</td>
+                            <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--preserveConstEnums</code></td>
+                            <td>TypeScriptPreserveConstEnums</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--removeComments</code></td>
+                            <td>TypeScriptRemoveComments</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--rootDir</code></td>
+                            <td>TypeScriptRootDir</td>
+                            <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--isolatedModules</code></td>
+                            <td>TypeScriptIsolatedModules</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--sourceMap</code></td>
+                            <td>TypeScriptSourceMap</td>
+                            <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--sourceRoot</code></td>
+                            <td>TypeScriptSourceRoot</td>
+                            <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--suppressImplicitAnyIndexErrors</code></td>
+                            <td>TypeScriptSuppressImplicitAnyIndexErrors</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--suppressExcessPropertyErrors</code></td>
+                            <td>TypeScriptSuppressExcessPropertyErrors</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--moduleResolution</code></td>
+                            <td>TypeScriptModuleResolution</td>
+                            <td><code>Classic</code> or <code>Node</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--experimentalAsyncFunctions</code></td>
+                            <td>TypeScriptExperimentalAsyncFunctions</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--jsx</code></td>
+                            <td>TypeScriptJSXEmit</td>
+                            <td><code>React</code> or <code>Preserve</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--reactNamespace</code></td>
+                            <td>TypeScriptReactNamespace</td>
+                            <td>string</td>
+                        </tr>
+                        <tr>
+                            <td><code>--skipDefaultLibCheck</code></td>
+                            <td>TypeScriptSkipDefaultLibCheck</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--allowUnusedLabels</code></td>
+                            <td>TypeScriptAllowUnusedLabels</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noImplicitReturns</code></td>
+                            <td>TypeScriptNoImplicitReturns</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noFallthroughCasesInSwitch</code></td>
+                            <td>TypeScriptNoFallthroughCasesInSwitch</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--allowUnreachableCode</code></td>
+                            <td>TypeScriptAllowUnreachableCode</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--forceConsistentCasingInFileNames</code></td>
+                            <td>TypeScriptForceConsistentCasingInFileNames</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--allowSyntheticDefaultImports</code></td>
+                            <td>TypeScriptAllowSyntheticDefaultImports</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noImplicitUseStrict</code></td>
+                            <td>TypeScriptNoImplicitUseStrict</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--project</code></td>
+                            <td><em>VS不支持</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--watch</code></td>
+                            <td><em>VS不支持</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--diagnostics</code></td>
+                            <td><em>VS不支持</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--listFiles</code></td>
+                            <td><em>VS不支持</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--noEmit</code></td>
+                            <td><em>VS不支持</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--allowJs</code></td>
+                            <td><em>VS不支持</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><em>VS特有选项</em></td>
+                            <td>TypeScriptAdditionalFlags</td>
+                            <td><em>任意编译选项</em></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h2>我使用的Visual Studio版本里支持哪些选项?</h2>
+                <p>查找 <code>C:\Program Files (x86)\MSBuild\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets</code>                    文件。 可用的MSBuild XML标签与相应的<code>tsc</code>编译选项的映射都在那里。</p>
+                <h2>ToolsVersion</h2>
+                <p>工程文件里的<code>&lt;TypeScriptToolsVersion&gt;1.7&lt;/TypeScriptToolsVersion&gt;</code>属性值表明了构建时使用的编译器的版本号（这个例子里是1.7）
+                    这样就允许一个工程在不同的机器上使用固定的版本去编译。
+                </p>
+                <p>如果没有指定<code>TypeScriptToolsVersion</code>，则会使用机器上安装的最新版本的编译器去构建。</p>
+                <p>如果用户使用的是更新版本的TypeScript，则会在首次加载工程的时候看到一个提示升级工程的对话框。</p>
+                <h2>TypeScriptCompileBlocked</h2>
+                <p>如果你使用其它的构建工具（比如，gulp， grunt等等）并且使用VS做为开发和调试工具，那么在工程里设置<code>&lt;TypeScriptCompileBlocked&gt;true&lt;/TypeScriptCompileBlocked&gt;</code>。
+                    这样VS只会提供给你编辑的功能，而不会在你按F5的时候去构建。
+                </p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

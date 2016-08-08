@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>React & Webpack · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">React & Webpack</h1>
+            </header>
+            <article class="post-content">
+                <p>这个快速上手指南将会教你如何将TypeScript和<a href="http://facebook.github.io/react/">React</a>还有<a href="http://webpack.github.io/">webpack</a>连结在一起使用。</p>
+                <p>我们假设已经在使用<a href="https://nodejs.org/">Node.js</a>和<a href="https://www.npmjs.com/">npm</a>。</p>
+                <h1>初始化项目</h1>
+                <p>让我们新建一个目录。 将会命名为
+                    <code>proj</code>，但是你可以改成任何你喜欢的名字。</p>
+                <pre><code class="language-shell">mkdir proj
+cd proj
+</code></pre>
+                <p>我们会像下面的结构组织我们的工程：</p>
+                <pre><code class="language-text">proj/
+   +- src/
+   |    +- components/
+   |
+   +- dist/
+</code></pre>
+                <p>TypeScript文件会放在<code>src</code>文件夹里，通过TypeScript编译器编译，然后经webpack处理，最后生成一个<code>bundle.js</code>文件放在<code>dist</code>目录下。
+                    我们自定义的组件将会放在
+                    <code>src/components</code>文件夹下。</p>
+                <p>下面来创建基本结构：</p>
+                <pre><code class="language-shell">mkdir src
+cd src
+mkdir components
+cd ..
+mkdir dist
+</code></pre>
+                <h1>初始化工程</h1>
+                <p>现在把这个目录变成npm包。</p>
+                <pre><code class="language-shell">npm init
+</code></pre>
+                <p>你会看到一些提示。 你可以使用默认项除了开始脚本。 使用
+                    <code>./lib/bundle.js</code>做为开始脚本。 当然，你也可以随时到生成的
+                    <code>package.json</code>文件里修改。</p>
+                <h1>安装依赖</h1>
+                <p>首先确保TypeScript，typings和webpack已经全局安装了。</p>
+                <pre><code class="language-shell">npm install -g typescript typings webpack
+</code></pre>
+                <p>Webpack这个工具可以将你的所有代码和可选择地将依赖捆绑成一个单独的<code>.js</code>文件。
+                    <a href="https://www.npmjs.com/package/typings">Typings</a>是一个包管理器，它是用来获取定义文件的。</p>
+                <p>现在我们添加React和React-DOM依赖到<code>package.json</code>文件里：</p>
+                <pre><code class="language-shell">npm install --save react react-dom
+</code></pre>
+                <p>接下来，我们要添加开发时依赖<a href="https://www.npmjs.com/package/ts-loader">ts-loader</a>和<a href="https://www.npmjs.com/package/source-map-loader">source-map-loader</a>。</p>
+                <pre><code class="language-shell">npm install --save-dev ts-loader source-map-loader
+npm link typescript
+</code></pre>
+                <p>这些依赖会让TypeScript和webpack在一起良好地工作。 ts-loader可以让webpack使用TypeScript的标准配置文件
+                    <code>tsconfig.json</code>编译TypeScript代码。 source-map-loader使用TypeScript输出的sourcemap文件来告诉webpack何时生成
+                    <em>自己的</em>sourcemaps。 这就允许你在调试最终生成的文件时就好像在调试TypeScript源码一样。
+                </p>
+                <p>链接TypeScript，允许ts-loader使用全局安装的TypeScript，而不需要单独的本地拷贝。 如果你想要一个本地的拷贝，执行
+                    <code>npm install typescript</code>。</p>
+                <p>最后，我们使用<code>typings</code>工具来获取React的声明文件：</p>
+                <pre><code class="language-shell">typings install  --global --save dt~react
+typings install  --global --save dt~react-dom
+</code></pre>
+                <p><code>--global dt~</code>标记告诉typings从<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a>获取声明文件，这是由社区维护的<code>.d.ts</code>文件仓库。
+                    这个命令会创建一个名为
+                    <code>typings.json</code>的文件和一个<code>typings</code>目录在当前目录下。</p>
+                <h1>写一些代码</h1>
+                <p>下面使用React写一段TypeScript代码。 首先，在
+                    <code>src/components</code>目录下创建一个名为<code>Hello.tsx</code>的文件，代码如下：</p>
+                <pre><code class="language-ts">import * as React from &quot;react&quot;;
+import * as ReactDOM from &quot;react-dom&quot;;
+
+export class HelloComponent extends React.Component&lt;any, any&gt; {
+    render() {
+        return &lt;h1&gt;Hello from {this.props.compiler} and {this.props.framework}!&lt;/h1&gt;;
+    }
+}
+
+</code></pre>
+                <p>注意一点这个例子已经很像类了，我们不再需要使用类。 使用React的其它方式（比如
+                    <a href="https://facebook.github.io/react/docs/reusable-components.html#stateless-functions">无状态的功能组件</a>）。</p>
+                <p>接下来，在<code>src</code>下创建<code>index.tsx</code>文件，源码如下：</p>
+                <pre><code class="language-ts">import * as React from &quot;react&quot;;
+import * as ReactDOM from &quot;react-dom&quot;;
+
+import { HelloComponent } from &quot;./components/Hello&quot;;
+
+ReactDOM.render(
+    &lt;HelloComponent compiler=&quot;TypeScript&quot; framework=&quot;React&quot; /&gt;,
+    document.getElementById(&quot;example&quot;)
+);
+</code></pre>
+                <p>我们仅仅将<code>Hello</code>组件导入<code>index.tsx</code>。 注意，不同于
+                    <code>&quot;react&quot;</code>或<code>&quot;react-dom&quot;</code>，我们使用<code>index.tsx</code>的<em>相对路径</em>                    - 这很重要。 如果不这样做，TypeScript只会尝试在
+                    <code>node_modules</code>文件夹里查找。 其它使用React的方法也应该可以。
+                </p>
+                <p>我们还需要一个页面来显示<code>Hello</code>组件。 在根目录
+                    <code>proj</code>创建一个名为<code>index.html</code>的文件，如下：</p>
+                <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot; /&gt;
+        &lt;title&gt;Hello React!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;div id=&quot;example&quot;&gt;&lt;/div&gt;
+
+        &lt;!-- Dependencies --&gt;
+        &lt;script src=&quot;./node_modules/react/dist/react.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;./node_modules/react-dom/dist/react-dom.js&quot;&gt;&lt;/script&gt;
+
+        &lt;!-- Main --&gt;
+        &lt;script src=&quot;./dist/bundle.js&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+                <p>需要注意一点我们是从<code>node_modules</code>引入的文件。 React和React-DOM的npm包里包含了独立的
+                    <code>.js</code>文件，你可以在页面上引入它们，这里我们为了快捷就直接引用了。 可以随意地将它们拷贝到其它目录下，或者从CDN上引用。 Facebook在CND上提供了一系列可用的React版本，你可以在这里查看
+                    <a href="http://facebook.github.io/react/downloads.html#development-vs.-production-builds">更多内容</a>。</p>
+                <h1>添加TypeScript配置文件</h1>
+                <p>现在，可以把所有TypeScript文件放在一起 - 包括我们编写的代码和必要的typings文件。</p>
+                <p>现在需要创建<code>tsconfig.json</code>文件，它包含输入文件的列表和编译选项。 在根目录下执行下在命令：
+                </p>
+                <pre><code class="language-shell">tsc --init ./typings/main.d.ts ./src/index.tsx --jsx react --outDir ./dist --sourceMap --noImplicitAny
+</code></pre>
+                <p>你可以在<a href="../tsconfig.json.md">这里</a>学习到更多关于<code>tsconfig.json</code>。</p>
+                <h1>创建webpack配置文件</h1>
+                <p>新建一个<code>webpack.config.js</code>文件在工程根目录下。</p>
+                <pre><code class="language-js">module.exports = {
+    entry: &quot;./src/index.tsx&quot;,
+    output: {
+        filename: &quot;./dist/bundle.js&quot;,
+    },
+
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: &quot;source-map&quot;,
+
+    resolve: {
+        // Add '.ts' and '.tsx' as resolvable extensions.
+        extensions: [&quot;&quot;, &quot;.webpack.js&quot;, &quot;.web.js&quot;, &quot;.ts&quot;, &quot;.tsx&quot;, &quot;.js&quot;]
+    },
+
+    module: {
+        loaders: [
+            // All files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'.
+            { test: /\.tsx?$/, loader: &quot;ts-loader&quot; }
+        ],
+
+        preLoaders: [
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            { test: /\.js$/, loader: &quot;source-map-loader&quot; }
+        ]
+    }，
+
+    // When importing a module whose path matches one of the following, just
+    // assume a corresponding global variable exists and use that instead.
+    // This is important because it allows us to avoid bundling all of our
+    // dependencies, which allows browsers to cache those libraries between builds.
+    externals: {
+        &quot;react&quot;: &quot;React&quot;,
+        &quot;react-dom&quot;: &quot;ReactDOM&quot;
+    },
+};
+</code></pre>
+                <p>大家可能对<code>externals</code>字段有所疑惑。 我们想要避免把所有的React都放到一个文件里，因为会增加编译时间并且浏览器还能够缓存没有发生改变的库文件。 理想情况下，我们只需要在浏览器里引入React模块，但是大部分浏览器还没有支持模块。
+                    因此大部分代码库会把自己包裹在一个单独的全局变量内，比如：
+                    <code>jQuery</code>或<code>_</code>。 这叫做“命名空间”模式，webpack也允许我们继续使用通过这种方式写的代码库。 通过我们的设置
+                    <code>&quot;react&quot;: &quot;React&quot;</code>，webpack会神奇地将所有对<code>&quot;react&quot;</code>的导入转换成从<code>React</code>全局变量中加载。</p>
+                <p>你可以在<a href="http://webpack.github.io/docs/configuration.html">这里</a>了解更多如何配置webpack。</p>
+                <h1>整合在一起</h1>
+                <p>执行：</p>
+                <pre><code class="language-shell">webpack
+</code></pre>
+                <p>在浏览器里打开<code>index.html</code>，工程应该已经可以用了！ 你可以看到页面上显示着“Hello from TypeScript and React!”</p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

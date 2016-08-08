@@ -1,0 +1,81 @@
+header{
+	height: 5rem;
+}
+
+.navbar-default{
+	background-color: #294E80;
+    border: 0;
+    box-shadow: 3px 3px 5px rgba(0,0,0,.25)
+}
+
+.navbar-default li,.navbar-default p,.navbar-default span {
+    font-size: 1.4rem
+}
+
+.navbar_center>ul {
+    display: inline-block;
+    float: none
+}
+
+.navbar_center {
+    text-align: center;
+    margin-bottom: -3px
+}
+
+.navbar-default .navbar-nav>li>a {
+    color: #fff;
+    font-size: 1.4rem;
+    margin-left: .5em
+}
+
+.navbar-default .navbar-nav>.active>a,.navbar-default .navbar-nav>.active>a:focus,.navbar-default .navbar-nav>.active>a:hover {
+    color: #555;
+    background-color: #fff
+}
+
+.navbar-default .navbar-nav>.open>a,.navbar-default .navbar-nav>.open>a:focus,.navbar-default .navbar-nav>.open>a:hover {
+    color: #fff
+}
+
+.navbar-default .navbar-nav>li>a:focus,.navbar-default .navbar-nav>li>a:hover {
+    color: #FFA700
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff
+}
+
+.navbar-nav {
+    color: #fff
+}
+
+.navbar-brand {
+    padding: 0;
+    margin: 0
+}
+
+.navbar-default li,.navbar-default p,.navbar-default span {
+    font-size: 1.4rem
+}
+
+.fork-me-ribbon {
+    width: 130px;
+    right: 0;
+    top: 0;
+    position: absolute;
+}
+
+.navbar-default .navbar-toggle {
+    border: none
+}
+
+.navbar-brand:focus,.navbar-brand:hover {
+    text-decoration: none
+}
+
+.navbar-logo{
+    width: 7.5em;
+    height: 1.6em;
+    margin-left: .5em;
+    margin-top: .4em;
+}

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+ <title>TypeScript</title>
+ <link href="typecriptlang.com/atom.xml" rel="self"/>
+ <link href="typecriptlang.com/"/>
+ <updated>2016-04-13T13:06:38-07:00</updated>
+ <id>typecriptlang.com</id>
+ <author>
+   <name></name>
+   <email></email>
+ </author>
+
+ 
+
+</feed>

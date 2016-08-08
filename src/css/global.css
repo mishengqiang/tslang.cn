@@ -1,0 +1,159 @@
+.vertically-centered {
+    position: relative;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    display: inline-block
+}
+
+@font-face {
+    font-family: wf_segoe-ui_normal;
+    src: url(//i.s-microsoft.com/fonts/segoe-ui/west-european/normal/latest.eot);
+    src: url(//i.s-microsoft.com/fonts/segoe-ui/west-european/normal/latest.eot?#iefix) format("embedded-opentype"),url(//i.s-microsoft.com/fonts/segoe-ui/west-european/normal/latest.woff) format("woff"),url(//i.s-microsoft.com/fonts/segoe-ui/west-european/normal/latest.ttf) format("truetype"),url(//i.s-microsoft.com/fonts/segoe-ui/west-european/normal/latest.svg#web) format("svg");
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: wf_segoe-ui_semilight;
+    src: url(//i.s-microsoft.com/fonts/segoe-ui/west-european/semilight/latest.eot);
+    src: url(//i.s-microsoft.com/fonts/segoe-ui/west-european/semilight/latest.eot?#iefix) format("embedded-opentype"),url(//i.s-microsoft.com/fonts/segoe-ui/west-european/semilight/latest.woff) format("woff"),url(//i.s-microsoft.com/fonts/segoe-ui/west-european/semilight/latest.ttf) format("truetype"),url(//i.s-microsoft.com/fonts/segoe-ui/west-european/semilight/latest.svg#web) format("svg");
+    font-weight: 400;
+    font-style: normal
+}
+
+@font-face {
+    font-family: wf_segoe-ui_Semibold;
+    src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semibold/latest.eot);
+    src: url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semibold/latest.eot?#iefix) format("embedded-opentype"),url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semibold/latest.woff) format("woff"),url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semibold/latest.ttf) format("truetype"),url(//c.s-microsoft.com/static/fonts/segoe-ui/west-european/Semibold/latest.svg#web) format("svg");
+    font-weight: 400;
+    font-style: normal
+}
+
+body {
+    font-family: wf_segoe-ui_normal,Verdana,Geneva,Tahoma,sans-serif,微软雅黑;
+    font-size: 10px;
+    color: #fff
+}
+
+@media (max-width: 767px) {
+    body {
+        font-size:7px
+    }
+
+    .navbar-logo {
+        height: 1.8em!important;
+        margin-left: -.5em!important;
+        margin-top: .6em!important
+    }
+
+    .fork-me-ribbon {
+        display: none
+    }
+
+    .update-banner {
+        padding: 3em 3em 1em!important;
+        font-size: 1.1em
+    }
+}
+
+@media (min-width: 768px) {
+    body {
+        font-size:8px
+    }
+
+    .navbar-brand {
+        top: 5px;
+        left: 15px;
+        position: absolute
+    }
+
+    .update-banner {
+        padding: 1.6em 1.6em 1em!important;
+        font-size: 1.1em;
+        height: 4.4em!important
+    }
+}
+
+@media (min-width: 992px) {
+    body {
+        font-size:9px
+    }
+
+    .update-banner {
+        padding: 1.2em!important;
+        height: 4.2em!important
+    }
+}
+
+@media (min-width: 1200px) {
+    body {
+        font-size:10px
+    }
+
+    .update-banner {
+        padding: .9em!important;
+        height: 4em!important
+    }
+}
+
+.update-banner {
+    background-color: #ddd;
+    width: 100%;
+    padding: .9em;
+    min-height: 4em
+}
+
+.update-banner div {
+    color: #000;
+    font-weight: 500;
+    font-size: 1.4em;
+    text-align: center
+}
+
+h1,h2,h3,h4,h5 {
+    color: #FFA700;
+    font-family: wf_segoe-ui_semilight
+}
+
+h1 {
+    color: #152740;
+    font-size: 3.6em
+}
+
+ol li,p,span,ul li {
+    font-size: 1.6em;
+    line-height: 1.6em
+}
+
+blockquote,ol li ol li,ul li ul li {
+    font-size: 1em
+}
+
+img {
+    width: 100%;
+    height: auto
+}
+
+.light-theme {
+    color: #000
+}
+
+.row-centered {
+    text-align: center
+}
+
+.row {
+    margin-right: 0;
+    margin-left: 0
+}
+
+.col-centered {
+    display: inline-block;
+    float: none;
+    text-align: left
+}
+
+.btn {
+    box-shadow: 2px 2px 8px 0 rgba(0,0,0,.25)
+}

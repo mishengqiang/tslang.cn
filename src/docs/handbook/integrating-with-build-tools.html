@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>与其它构建工具整合 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">与其它构建工具整合</h1>
+            </header>
+            <article class="post-content">
+                <h1>Browserify</h1>
+                <h3>安装</h3>
+                <pre><code class="language-sh">npm install tsify
+</code></pre>
+                <h3>使用命令行交互</h3>
+                <pre><code class="language-sh">browserify main.ts -p [ tsify --noImplicitAny ] &gt; bundle.js
+</code></pre>
+                <h3>使用API</h3>
+                <pre><code class="language-js">var browserify = require(&quot;browserify&quot;);
+var tsify = require(&quot;tsify&quot;);
+
+browserify()
+    .add('main.ts')
+    .plugin('tsify', { noImplicitAny: true })
+    .bundle()
+    .pipe(process.stdout);
+</code></pre>
+                <p>更多详细信息：<a href="https://github.com/smrq/tsify">smrq/tsify</a></p>
+                <h1>Duo</h1>
+                <h3>安装</h3>
+                <pre><code class="language-sh">npm install duo-typescript
+</code></pre>
+                <h3>使用命令行交互</h3>
+                <pre><code class="language-sh">duo --use duo-typescript entry.ts
+</code></pre>
+                <h3>使用API</h3>
+                <pre><code class="language-js">var Duo = require('duo');
+var fs = require('fs')
+var path = require('path')
+var typescript = require('duo-typescript');
+
+var out = path.join(__dirname, &quot;output.js&quot;)
+
+Duo(__dirname)
+    .entry('entry.ts')
+    .use(typescript())
+    .run(function (err, results) {
+        if (err) throw err;
+        // Write compiled result to output file
+        fs.writeFileSync(out, results.code);
+    });
+</code></pre>
+                <p>更多详细信息：<a href="https://github.com/frankwallis/duo-typescript">frankwallis/duo-typescript</a></p>
+                <h1>Grunt</h1>
+                <h3>安装</h3>
+                <pre><code class="language-sh">npm install grunt-ts
+</code></pre>
+                <h3>基本Gruntfile.js</h3>
+                <pre><code class="language-js">module.exports = function(grunt) {
+    grunt.initConfig({
+        ts: {
+            default : {
+                src: [&quot;**/*.ts&quot;, &quot;!node_modules/**/*.ts&quot;]
+            }
+        }
+    });
+    grunt.loadNpmTasks(&quot;grunt-ts&quot;);
+    grunt.registerTask(&quot;default&quot;, [&quot;ts&quot;]);
+};
+</code></pre>
+                <p>更多详细信息：<a href="https://github.com/TypeStrong/grunt-ts">TypeStrong/grunt-ts</a></p>
+                <h1>gulp</h1>
+                <h3>安装</h3>
+                <pre><code class="language-sh">npm install gulp-typescript
+</code></pre>
+                <h3>基本gulpfile.js</h3>
+                <pre><code class="language-js">var gulp = require(&quot;gulp&quot;);
+var ts = require(&quot;gulp-typescript&quot;);
+
+gulp.task(&quot;default&quot;, function () {
+    var tsResult = gulp.src(&quot;src/*.ts&quot;)
+        .pipe(ts({
+              noImplicitAny: true,
+              out: &quot;output.js&quot;
+        }));
+    return tsResult.js.pipe(gulp.dest('built/local'));
+});
+</code></pre>
+                <p>更多详细信息：<a href="https://github.com/ivogabe/gulp-typescript">ivogabe/gulp-typescript</a></p>
+                <h1>jspm</h1>
+                <h3>安装</h3>
+                <pre><code class="language-sh">npm install -g jspm@beta
+</code></pre>
+                <p><em>注意：目前jspm的0.16beta版本支持TypeScript</em></p>
+                <p>更多详细信息：<a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/jspm">TypeScriptSamples/jspm</a></p>
+                <h1>webpack</h1>
+                <h3>安装</h3>
+                <pre><code class="language-sh">npm install ts-loader --save-dev
+</code></pre>
+                <h3>基本webpack.config.js</h3>
+                <pre><code class="language-js">module.exports = {
+    entry: &quot;./src/index.tsx&quot;,
+    output: {
+        filename: &quot;bundle.js&quot;
+    },
+    resolve: {
+        // Add '.ts' and '.tsx' as a resolvable extension.
+        extensions: [&quot;&quot;, &quot;.webpack.js&quot;, &quot;.web.js&quot;, &quot;.ts&quot;, &quot;.tsx&quot;, &quot;.js&quot;]
+    },
+    module: {
+        loaders: [
+            // all files with a '.ts' or '.tsx' extension will be handled by 'ts-loader'
+            { test: /\.tsx?$/, loader: &quot;ts-loader&quot; }
+        ]
+    }
+};
+</code></pre>
+                <p>查看<a href="https://www.npmjs.com/package/ts-loader">更多关于ts-loader的详细信息</a></p>
+                <p>或者</p>
+                <ul>
+                    <li><a href="https://www.npmjs.com/package/awesome-typescript-loader">awesome-typescript-loader</a></li>
+                </ul>
+                <h1>MSBuild</h1>
+                <p>更新工程文件，包含本地安装的<code>Microsoft.TypeScript.Default.props</code>（在顶端）和<code>Microsoft.TypeScript.targets</code>（在底部）文件：</p>
+                <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
+  &lt;!-- Include default props at the bottom --&gt;
+  &lt;Import
+      Project=&quot;$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props&quot;
+      Condition=&quot;Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')&quot; /&gt;
+
+  &lt;!-- TypeScript configurations go here --&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Debug'&quot;&gt;
+    &lt;TypeScriptRemoveComments&gt;false&lt;/TypeScriptRemoveComments&gt;
+    &lt;TypeScriptSourceMap&gt;true&lt;/TypeScriptSourceMap&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Release'&quot;&gt;
+    &lt;TypeScriptRemoveComments&gt;true&lt;/TypeScriptRemoveComments&gt;
+    &lt;TypeScriptSourceMap&gt;false&lt;/TypeScriptSourceMap&gt;
+  &lt;/PropertyGroup&gt;
+
+  &lt;!-- Include default targets at the bottom --&gt;
+  &lt;Import
+      Project=&quot;$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets&quot;
+      Condition=&quot;Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')&quot; /&gt;
+&lt;/Project&gt;
+</code></pre>
+                <p>关于配置MSBuild编译器选项的更多详细信息，请参考：[在MSBuild里使用编译选项](./Compiler Options in MSBuild.md)</p>
+                <h1>NuGet</h1>
+                <ul>
+                    <li>右键点击 -&gt; Manage NuGet Packages</li>
+                    <li>查找<code>Microsoft.TypeScript.MSBuild</code></li>
+                    <li>点击<code>Install</code></li>
+                    <li>安装完成后，Rebuild。</li>
+                </ul>
+                <p>更多详细信息请参考<a href="http://docs.nuget.org/Consume/Package-Manager-Dialog">Package Manager Dialog</a>和<a href="https://github.com/Microsoft/TypeScript/wiki/Nightly-drops#using-nuget-with-msbuild">using nightly builds with NuGet</a></p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

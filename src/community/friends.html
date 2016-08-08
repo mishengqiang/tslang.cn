@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TypeScript的朋友们 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+    <!-- inject:header:html -->
+    <!-- endinject -->
+    <!-- inject:message:html -->
+    <!-- endinject -->
+    <div class="friends">
+        <div class="friendbar-content friend-info">
+            <div data-hash-nav="friends" class="has-hash-nav clearfix friend-contentcontainer">
+                <center>
+                    <h1>TypeScript的朋友们</h1></center>
+                <div class="friend-container">
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.appmonkeys.nl"><img src="/assets/images/friends/AppMonkeys/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a class="icon bug img-circle" href="https://angular.io/"><img src="/assets/images/friends/Angular/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://adm-co.net/"><img src="/assets/images/friends/Amirkabir/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://artistgrowth.com/"><img src="/assets/images/friends/ArtistGrowth/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://asana.com/"><img src="/assets/images/friends/asana/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.assuresign.com/"><img src="/assets/images/friends/AssureSign/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://atomicgameengine.com"><img src="/assets/images/friends/Atomic/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://aurelia.io/"><img src="/assets/images/friends/Aurelia/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.babylonjs.com"><img src="/assets/images/friends/Babylon/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.basware.com"><img src="/assets/images/friends/basware/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.bet365.com/"><img src="/assets/images/friends/bet365/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://bithound.io"><img src="/assets/images/friends/bitHound/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://cardsapp.com"><img src="/assets/images/friends/CardsApp/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://chocolatechip-ui.github.io"><img src="/assets/images/friends/ChocolateChip/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://labs.criteo.com"><img src="/assets/images/friends/CRITEO/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.colectica.com"><img src="/assets/images/friends/Colectica/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.coveo.com/"><img src="/assets/images/friends/Coveo/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.csgpro.com"><img src="/assets/images/friends/CSGPro/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://dariksoft.com"><img src="/assets/images/friends/Dariksoft/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.daskeyboard.com"><img src="/assets/images/friends/DasKeyboard/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://dojotoolkit.com"><img src="/assets/images/friends/Dojo/logo.svg" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://dorsaportal.com/"><img src="/assets/images/friends/Dorsa/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.dougs.fr"><img src="/assets/images/friends/Dougs/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.ebayclassifieds.com/"><img src="/assets/images/friends/eBayClassifieds/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://Ecocion.com"><img src="/assets/images/friends/Ecocion/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://github.com/egret-labs/egret-core"><img src="/assets/images/friends/Egret/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://emberjs.com"><img src="/assets/images/friends/Ember/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.epic.com/"><img src="/assets/images/friends/Epic/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.ericsson.com"><img src="/assets/images/friends/Ericsson/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.everlaw.com"><img src="/assets/images/friends/Everlaw/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.eplan.de"><img src="/assets/images/friends/EPLAN/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.exagoinc.com"><img src="/assets/images/friends/Exago/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.expensya.com"><img src="/assets/images/friends/Expensya/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.witheve.com"><img src="/assets/images/friends/Eve/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.faraconesh.com"><img src="/assets/images/friends/Faraconesh/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.gainsight.com/"><img src="/assets/images/friends/Gainsight/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://galleryserverpro.com"><img src="/assets/images/friends/GalleryServer/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.groupxs.com/"><img src="/assets/images/friends/GroupXS/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://heapanalytics.com"><img src="/assets/images/friends/Heap/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://hexed.it"><img src="/assets/images/friends/hexedit/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://play.google.com/store/apps/details?id=com.perfectedz.heatrivals"><img src="/assets/images/friends/HeatRivals/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.hobsons.com/"><img src="/assets/images/friends/hobsons/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.humongous.io"><img src="/assets/images/friends/Humongousio/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.ideliverable.com"><img src="/assets/images/friends/IDeliverable/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.idscan.com"><img src="/assets/images/friends/IDscan/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.igniteui.com/"><img src="/assets/images/friends/Ignite/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://indg.com/"><img src="/assets/images/friends/INDG/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://inedo.com/"><img src="/assets/images/friends/Inedo/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://ionicframework.com/"><img src="/assets/images/friends/Ionic/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.ipushpull.com"><img src="/assets/images/friends/iPushPull/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.iShia.org"><img src="/assets/images/friends/iShiaProject/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.instartlogic.com"><img src="/assets/images/friends/InstartLogic/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.jetbrains.com/"><img src="/assets/images/friends/JetBrains/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.kaggle.com"><img src="/assets/images/friends/Kaggle/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.languagezen.com"><img src="/assets/images/friends/LanguageZen/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.livebet.com/"><img src="/assets/images/friends/LiveBet/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://MapLarge.com"><img src="/assets/images/friends/MapLarge/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.mediamonks.com/"><img src="/assets/images/friends/MediaMonks/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.mendix.com"><img src="/assets/images/friends/Mendix/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://nocturnus.us"><img src="/assets/images/friends/Nocturnus/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.telerik.com/nativescript"><img src="/assets/images/friends/NativeScript/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.onshape.com"><img src="/assets/images/friends/Onshape/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.outsystems.com/"><img src="/assets/images/friends/OutSystems/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://palantir.com/"><img src="/assets/images/friends/Palantir/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://getparle.com"><img src="/assets/images/friends/Parle/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://platypi.io/"><img src="/assets/images/friends/Platypi/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://playing.se/"><img src="/assets/images/friends/Playing/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://prostyle.io"><img src="/assets/images/friends/ProStyle/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.puzzlepart.com/"><img src="/assets/images/friends/PuzzlepartAS/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.rastmobile.com"><img src="/assets/images/friends/RastMobile/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.renuo.ch"><img src="/assets/images/friends/RenuoGmbH/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://robowhale.com/"><img src="/assets/images/friends/RoboWhale/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://sameroom.io"><img src="/assets/images/friends/Sameroom/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://samanehkish.ir/index.php/en/"><img src="/assets/images/friends/SamanehKish/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.shieldui.com/"><img src="/assets/images/friends/ShieldUI/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://mozilla.github.io/shumway/"><img src="/assets/images/friends/Shumway/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.silk.co"><img src="/assets/images/friends/Silk/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.simenty.com"><img src="/assets/images/friends/Simenty/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.sitepen.com/"><img src="/assets/images/friends/SitePen/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://smedialink.com"><img src="/assets/images/friends/SMediaLink/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.sparklinlabs.com/"><img src="/assets/images/friends/Superpowers/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://spysystem.dk"><img src="/assets/images/friends/Spy/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://stimulsoft.com"><img src="/assets/images/friends/Stimulsoft/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.syndle.nl"><img src="/assets/images/friends/SYNDLE/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.systemgroup.net/en"><img src="/assets/images/friends/SystemGroup/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.tachyus.com"><img src="/assets/images/friends/Tachyus/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://tbcom.ir"><img src="/assets/images/friends/tbcom/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.teamviennagames.com/images/logo.png"><img src="/assets/images/friends/TeamViennaGames/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.thecodecampus.de"><img src="/assets/images/friends/theCodeCampus/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.traeger.de"><img src="/assets/images/friends/Traeger/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://ubet.com"><img src="/assets/images/friends/UBet/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://ubisoft.com"><img src="/assets/images/friends/Ubisoft/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://github.com/valor-software"><img src="/assets/images/friends/Valor/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.vanamco.com/"><img src="/assets/images/friends/Vanamco/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://vandaw.com"><img src="/assets/images/friends/Vandaw/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://velocityapp.com"><img src="/assets/images/friends/Velocity/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.villamedia.ca"><img src="/assets/images/friends/Villamedia/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.vorlonjs.io"><img src="/assets/images/friends/Vorlon/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://wallabyjs.com/"><img src="/assets/images/friends/Wallabyjs/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://way2.com.br/"><img src="/assets/images/friends/Way2/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://watchup.com"><img src="/assets/images/friends/Watchup/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://webrxjs.org/"><img src="/assets/images/friends/WebRx/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="https://www.webucator.com/"><img src="/assets/images/friends/Webucator/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://wijmo.com/"><img src="/assets/images/friends/Wijmo/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.wix.com"><img src="/assets/images/friends/Wixcom/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                    <div class="friend-item">
+                        <div class="friend-itemcontainer">
+                            <a href="http://www.zenpozitif.com"><img src="/assets/images/friends/ZenPozitif/logo.png" class="friend-logo"></a>
+                        </div>
+                    </div>
+                </div>
+                <p style="text-align:center">所有Logo图标的使用都得到了各自所有者的许可。如果你想要添加你的Logo图标，请<a href="https://github.com/microsoft/typescript/issues/new?title=New+Website+Logo%3A+%5Binsert+name%5D%0A&amp;body=Please+fill+the+following+out%3A%0A%0A-+Name%3A+%28correctly+formatted%29%0A-+Homepage+url%3A+%28homepage%2Fprimary+entry+point+for+users%29%0A-+Brand+Guidelines%2FLicensing%3A+%28or+anything+we+need+to+know+before+using+your+logo%29%0A-+Logo%3A+%28svg+if+possible%2C+pngs+over+500x200px+with+transparent+backgrounds+are+also+acceptable%29%0A%0A%3E+Example%3A%0A%3E%0A%3E+Name%3A+Microsoft%0A%3E+Homepage+url%3A+https%3A%2F%2Fmicrosoft.com%0A%3E+Brand+Guidelines%2FLicensing%3A+https%3A%2F%2Fwww.microsoft.com%2Fen-us%2Flegal%2Fintellectualproperty%2Ftrademarks%2Fusage%2Flogo.aspx%0A%3E+Logo%3A+https%3A%2F%2Fnews.microsoft.com%2Fmicrosoft-news-center-photos%2Fmsft_logo_rgb_c-gray%2F%0A">填写这个简短表单</a>。</p>
+            </div>
+        </div>
+    </div>
+    <!-- inject:footer:html -->
+    <!-- endinject -->
+    <!-- inject:js -->
+    <!-- endinject -->
+</body>
+
+</html>

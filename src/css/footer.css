@@ -1,0 +1,57 @@
+.signature-container {
+    background-color: #0b2f3d
+}
+.signature-container .signature {
+    margin: 0
+}
+
+.signature-container .signature .ms-logo-footer {
+    width: 12em;
+    height: 6em;
+    margin-left: -6px
+}
+
+.signature-container .signature p {
+    font-size: 1.2em;
+    line-height: 5.6em;
+    vertical-align: middle;
+    color: #a4b3cd
+}
+
+.signature-container .signature p span {
+    margin-top: 10px;
+    font-size: 1em;
+    padding: 0 2px
+}
+
+.signature-container .signature .pull-left,.signature-container .signature pull-right {
+    margin-bottom: 0
+}
+
+@media (max-width: 991px) {
+    #footer {
+        font-size:10px
+    }
+
+    .ms-logo-footer {
+        padding-top: 4px
+    }
+}
+
+@media (min-width: 992px) {
+    .ms-logo-footer {
+        padding-top:6px
+    }
+}
+
+.github-buttons,.twitter-buttons {
+    display: inline-block;
+    font-size: 1.2em;
+    line-height: 5.6em;
+    vertical-align: middle;
+    margin-left: 1em;
+}
+
+.github-buttons{
+    margin-top: 4px
+}

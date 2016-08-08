@@ -1,0 +1,181 @@
+.examples {
+    background-color: #f2f2f2;
+    padding: 2em 0 6em;
+    color: #000
+}
+
+.examples .container,.examples .container-fluid {
+    padding-left: 0
+}
+
+.examples .filterInputs fieldset {
+    float: left
+}
+
+@media (min-width: 1200px) {
+    .examplesHeader h1 {
+        margin-left:2.5em
+    }
+
+    .filterDiv {
+        margin-top: 30px
+    }
+}
+
+.examplesHeader .filter_column {
+    margin-top: 32px
+}
+
+.examplesHeader .filterLabel {
+    position: relative;
+    top: -5px;
+    padding: 10px;
+    display: inline-block;
+    font-size: 1.6em;
+    color: gray
+}
+
+.examplesHeader .filterInputs {
+    display: inline-block
+}
+
+.examplesHeader .filterInputs input {
+    height: 1.6em;
+    width: 1.6em
+}
+
+.examplesHeader .filterInputs span {
+    font-size: 1.6em;
+    padding: 10px 10px 10px 4px
+}
+
+.exampleBox {
+    width: 316px
+}
+
+.exampleBox ul {
+    font-size: 1.4em
+}
+
+.exampleBox ul li {
+    font-size: 1em
+}
+
+.exampleBox .exampleImg {
+    height: 200px;
+    width: 295px;
+    position: relative;
+    top: 10px;
+    right: 4px
+}
+
+.exampleBox .exampleImg img {
+    height: 200px;
+    width: 295px;
+    border-width: 1px;
+    border-color: #f2f2f2;
+    border-style: solid
+}
+
+.exampleBox .exampleHeadline h3 {
+    position: relative;
+    font-size: 1.6em
+}
+
+.exampleBox .exampleDescription {
+    font-size: 1.6em;
+    padding: 18px;
+    word-wrap: break-word
+}
+
+.exampleBox .exampleSummary {
+    font-size: 1.4em;
+    word-wrap: break-word;
+    width: 290px
+}
+
+.exampleBox .exampleInfo {
+    height: 25px;
+    width: 25px;
+    background-image: url(../assets/images/examples/info.svg);
+    background-size: 100% 100%;
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    opacity: .4
+}
+
+.exampleBox .exampleInfo:hover {
+    cursor: pointer;
+    opacity: .8
+}
+
+.exampleBox .exampleTags {
+    padding-top: 1.4em;
+    word-wrap: break-word
+}
+
+.exampleBox .exampleTags span {
+    background-color: #e6e6e6;
+    border-radius: .75em;
+    padding: .15em .8em;
+    margin: 4px 4px 0 0;
+    color: #000;
+    font-size: 1.4em
+}
+
+.exampleBox {
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    margin: 1em;
+    height: 360px
+}
+
+.exampleBox.hover .flip-container {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg)
+}
+
+.exampleBox .flip-container {
+    -webkit-transition: .5s;
+    transition: .5s;
+    -webkit-transform-style: preserve-3d;
+    transform-style: preserve-3d;
+    position: relative
+}
+
+.exampleBox .back-face,.exampleBox .front-face {
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #fff;
+    color: #000;
+    box-shadow: 3px 3px 3px #ccc;
+    padding: 0 16px;
+    width: 320px;
+    height: 360px
+}
+
+.exampleBox .front-face {
+    z-index: 2;
+    -webkit-transform: rotateY(0deg);
+    transform: rotateY(0deg)
+}
+
+.exampleBox .back-face {
+    -webkit-transform: rotateY(180deg);
+    transform: rotateY(180deg);
+    left: -30px
+}
+
+.exampleBox .back-face>div {
+    padding-top: 10px;
+    font-size: .9em
+}
+
+.exampleBox .back-face>div li {
+    margin-left: -10px;
+    font-size: 1em
+}

@@ -1,0 +1,45 @@
+#version{
+    color:#242424;
+}
+#version h2{
+    color:#242424;
+    font-size: 1.2em;
+}
+#version h2>small{
+    margin-left: .2em;
+}
+#version ul{
+    list-style: none;
+}
+#version ol li{
+    font-size: 1em;
+}
+#version p{
+    font-size: 1em;
+}
+#version p>label{
+    color: #fff;
+    margin: 0 0.2em;
+    padding: 0 0.5em;
+    border-radius: 0.3em;
+}
+/*增加*/
+#version p>label.add{
+    background-color: blue;
+}
+/*删除*/
+#version p>label.delete{
+    background-color: red;
+}
+/*更新*/
+#version p>label.update{
+    background-color: green;
+}
+/*优化*/
+#version p>label.optimization{ 
+    background-color: yellow;
+}
+/*修复*/
+#version p>label.repair{
+    background-color: purple;
+}

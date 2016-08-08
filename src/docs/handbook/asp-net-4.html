@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ASP.NET 4 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">ASP.NET 4</h1>
+            </header>
+            <article class="post-content">
+                <h1>安装</h1>
+                <h2>安装 TypeScript</h2>
+                <p>如果你使用的 Visual Studio 版本还不支持 TypeScript， 你可以安装 <a href="http://www.microsoft.com/en-us/download/details.aspx?id=48593">Visual Studio 2015</a>                    或者 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48739">Visual Studio 2013</a>。 这个快速上手指南使用的是
+                    Visual Studio 2015。</p>
+                <h2>新建项目</h2>
+                <ol>
+                    <li>
+                        <p>选择 <strong>File</strong></p>
+                    </li>
+                    <li>
+                        <p>选择 <strong>New Project</strong></p>
+                    </li>
+                    <li>
+                        <p>选择 <strong>Visual C#</strong></p>
+                    </li>
+                    <li>
+                        <p>选择 <strong>ASP.NET Web Application</strong></p>
+                        <p><img src="../../assets/images/tutorials/aspnet/new-asp-project.png" alt="Create new ASP.NET project"></p>
+                    </li>
+                    <li>
+                        <p>选择 <strong>MVC</strong></p>
+                        <p>取消复选 &quot;Host in the cloud&quot; 本指南将使用一个本地示例。
+                            <img src="../../assets/images/tutorials/aspnet/new-asp-project-template.png" alt="Use MVC template"></p>
+                    </li>
+                </ol>
+                <p>运行此应用以确保它能正常工作。</p>
+                <h1>添加 TypeScript</h1>
+                <p>下一步我们为 TypeScript 添加一个文件夹。</p>
+                <p><img src="../../assets/images/tutorials/aspnet/new-folder.png" alt="Create new folder"></p>
+                <p>将文件夹命名为 src。</p>
+                <p><img src="../../assets/images/tutorials/aspnet/src-folder.png" alt="src folder"></p>
+                <h2>添加 TypeScript 代码</h2>
+                <p>在 <code>src</code> 上右击并选择 <strong>New Item</strong>。 接着选择 <strong>TypeScript File</strong> 并将此文件命名为 <code>app.ts</code>。</p>
+                <p><img src="../../assets/images/tutorials/aspnet/new-item.png" alt="New item"></p>
+                <h2>添加示例代码</h2>
+                <p>将以下代码写入 <code>app.ts</code> 文件。</p>
+                <pre><code class="language-ts">function sayHello() {
+    const compiler = (document.getElementById(&quot;compiler&quot;) as HTMLInputElement).value;
+    const framework = (document.getElementById(&quot;framework&quot;) as HTMLInputElement).value;
+    return `Hello from ${compiler} and ${framework}!`;
+}
+</code></pre>
+                <h2>构建设置</h2>
+                <p>右击项目并选择 <strong>New Item</strong>。 接着选择 <strong>TypeScript Configuration File</strong> 保持文件的默认名字为 <code>tsconfig.json</code>。</p>
+                <p><img src="../../assets/images/tutorials/aspnet/new-tsconfig.png" alt="Create tsconfig.json"></p>
+                <p>将默认的 <code>tsconfig.json</code> 内容改为如下所示：</p>
+                <pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;noImplicitAny&quot;: true,
+    &quot;noEmitOnError&quot;: true,
+    &quot;sourceMap&quot;: true,
+    &quot;target&quot;: &quot;es5&quot;,
+    &quot;outDir&quot;: &quot;./Scripts/App&quot;
+  },
+  &quot;files&quot;: [
+    &quot;./src/app.ts&quot;,
+  ],
+  &quot;compileOnSave&quot;: true
+}
+</code></pre>
+                <p>看起来和默认的设置差不多，但注意以下不同之处：</p>
+                <ol>
+                    <li>设置 <code>&quot;noImplicitAny&quot;: true</code>。</li>
+                    <li>特别是这里 <code>&quot;outDir&quot;: &quot;./Scripts/App&quot;</code>。</li>
+                    <li>显式列出了 <code>&quot;files&quot;</code> 而不是依据 <code>&quot;excludes&quot;</code>选项。</li>
+                    <li>设置 <code>&quot;compileOnSave&quot;: true</code>。</li>
+                </ol>
+                <p>当你写新代码时，设置 <code>&quot;noImplicitAny&quot;</code> 选项是个好主意 — 这可以确保你不会错写任何新的类型。 设置 <code>&quot;compileOnSave&quot;</code>                    选项可以确保你在运行web程序前自动编译保存变更后的代码。 更多信息请参见 <a href="../tsconfig.json.md">the tsconfig.json documentation</a>。</p>
+                <h2>在视图中调用脚本</h2>
+                <ol>
+                    <li>
+                        <p>在 <strong>Solution Explorer</strong> 中, 打开 <strong>Views</strong> | <strong>Home</strong> | <code>Index.cshtml</code>。</p>
+                        <p><img src="../../assets/images/tutorials/aspnet/open-index.png" alt="Open Index.cshtml"></p>
+                    </li>
+                    <li>
+                        <p>修改代码如下：</p>
+                        <pre><code class="language-html">@{
+    ViewBag.Title = &quot;Home Page&quot;;
+}
+&lt;script src=&quot;~/Scripts/App/app.js&quot;&gt;&lt;/script&gt;
+&lt;div id=&quot;message&quot;&gt;&lt;/div&gt;
+&lt;div&gt;
+    Compiler: &lt;input id=&quot;compiler&quot; value=&quot;TypeScript&quot; onkeyup=&quot;document.getElementById('message').innerText = sayHello()&quot; /&gt;&lt;br /&gt;
+    Framework: &lt;input id=&quot;framework&quot; value=&quot;ASP.NET&quot; onkeyup=&quot;document.getElementById('message').innerText = sayHello()&quot; /&gt;
+&lt;/div&gt;
+</code></pre>
+                    </li>
+                </ol>
+                <h2>测试</h2>
+                <ol>
+                    <li>运行项目。</li>
+                    <li>在输入框中键入时，您应该看到一个消息：</li>
+                </ol>
+                <p><img src="../../assets/images/tutorials/aspnet/running-demo.png" alt="Picture of running demo"></p>
+                <h2>调试</h2>
+                <ol>
+                    <li>在 Edge 浏览器中, 按 F12 键并选择 <strong>Debugger</strong> 标签页。</li>
+                    <li>展开 localhost 列表, 选择 src/app.ts</li>
+                    <li>在 <code>return</code> 那一行上打一个断点。</li>
+                    <li>在输入框中键入一些内容，确认TypeScript代码命中断点，观察它是否能正确地工作。</li>
+                </ol>
+                <p><img src="../../assets/images/tutorials/aspnet/paused-demo.png" alt="Demo paused on breakpoint"></p>
+                <p>这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。接下来，我们引入Angular，写一个简单的Angular程序示例。</p>
+                <h1>添加 Angular 2</h1>
+                <h2>使用 NPM 下载所需的包</h2>
+                <ol>
+                    <li>
+                        <p>安装 <a href="https://github.com/madskristensen/PackageInstaller">PackageInstaller</a>。</p>
+                    </li>
+                    <li>
+                        <p>用 PackageInstaller 来安装 Angular 2， systemjs 和 Typings。</p>
+                        <p>在project上右击, 选择 <strong>Quick Install Package</strong>。</p>
+                        <p><img src="../../assets/images/tutorials/aspnet/packageinstaller-angular2.png" alt="Use PackageInstaller to install angular2">
+                            <img src="../../assets/images/tutorials/aspnet/packageinstaller-systemjs.png" alt="Use PackageInstaller to install systemjs">
+                            <img src="../../assets/images/tutorials/aspnet/packageinstaller-typings.png" alt="Use PackageInstaller to install Typings"></p>
+                    </li>
+                    <li>
+                        <p>用 PackageInstaller 安装 es6-shim 的类型文件。</p>
+                        <p>Angular 2 包含 es6-shim 以提供 Promise 支持, 但 TypeScript 还需要它的类型文件。 在 PackageInstaller 中, 选择 Typing 替换
+                            npm 选项。接着键入 &quot;es6-shim&quot;：</p>
+                        <p><img src="../../assets/images/tutorials/aspnet/packageinstaller-es6-shim.png" alt="Use PackageInstaller to install es6-shim typings"></p>
+                    </li>
+                </ol>
+                <h2>更新 tsconfig.json</h2>
+                <p>现在安装好了 Angular 2 及其依赖项， 我们还需要启用 TypeScript 中实验性的装饰器支持并且引入 es6-shim 的类型文件。 将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。添加
+                    <code>&quot;experimentalDecorators&quot;: true, &quot;emitDecoratorMetadata&quot;: true</code> 选项到 <code>&quot;compilerOptions&quot;</code>                    选项段， 添加 <code>&quot;./typings/main.d.ts&quot;</code> 到 <code>&quot;files&quot;</code> 选项段。 最后，我们还将要创建新的代码文件
+                    <code>&quot;./src/model.ts&quot;</code>、<code>&quot;./src/main.ts&quot;</code> ，也将它们添加到 <code>&quot;files&quot;</code>                    中，现在 tsconfig 看起来像这样：</p>
+                <pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;noImplicitAny&quot;: false,
+    &quot;noEmitOnError&quot;: true,
+    &quot;sourceMap&quot;: true,
+    &quot;target&quot;: &quot;es5&quot;,
+    &quot;experimentalDecorators&quot;: true,
+    &quot;emitDecoratorMetadata&quot;: true,
+    &quot;outDir&quot;: &quot;./Scripts/App&quot;
+  },
+  &quot;files&quot;: [
+    &quot;./src/app.ts&quot;,
+    &quot;./src/model.ts&quot;,
+    &quot;./src/main.ts&quot;,
+    &quot;./typings/main.d.ts&quot;
+  ]
+}
+</code></pre>
+                <h2>添加 CopyFiles 到 build 中</h2>
+                <p>最后，我们需要确保 Angular 文件作为 build 的一部分复制进来。这样操作，右击项目选择 'Unload' ，再次右击项目选择 'Edit csproj'。 在 TypeScript 配置项 PropertyGroup
+                    之后，添加一个 ItemGroup 和 Target 配置项来复制 Angular 文件。</p>
+                <pre><code class="language-xml">&lt;ItemGroup&gt;
+  &lt;NodeLib Include=&quot;$(MSBuildProjectDirectory)\node_modules\angular2\bundles\angular2.js&quot;/&gt;
+  &lt;NodeLib Include=&quot;$(MSBuildProjectDirectory)\node_modules\angular2\bundles\angular2-polyfills.js&quot;/&gt;
+  &lt;NodeLib Include=&quot;$(MSBuildProjectDirectory)\node_modules\systemjs\dist\system.src.js&quot;/&gt;
+  &lt;NodeLib Include=&quot;$(MSBuildProjectDirectory)\node_modules\rxjs\bundles\Rx.js&quot;/&gt;
+&lt;/ItemGroup&gt;
+&lt;Target Name=&quot;CopyFiles&quot; BeforeTargets=&quot;Build&quot;&gt;
+  &lt;Copy SourceFiles=&quot;@(NodeLib)&quot; DestinationFolder=&quot;$(MSBuildProjectDirectory)\Scripts&quot;/&gt;
+&lt;/Target&gt;
+</code></pre>
+                <p>现在，右击 project 选择重新加载项目。 此时应当能在 Solution Explorer 中看到 node_modules。</p>
+                <h2>用 TypeScript 写一个简单的 Angular 应用</h2>
+                <p>首先，将 <code>app.ts</code> 改成：</p>
+                <pre><code class="language-ts">import {Component} from &quot;angular2/core&quot;
+import {MyModel} from &quot;./model&quot;
+
+@Component({
+    selector: `my-app`,
+    template: `&lt;div&gt;Hello from {{getCompiler()}}&lt;/div&gt;`
+})
+class MyApp {
+    model = new MyModel();
+    getCompiler() {
+        return this.model.compiler;
+    }
+}
+</code></pre>
+                <p>接着在 <code>src</code> 中添加 TypeScript 文件 <code>model.ts</code>:</p>
+                <pre><code class="language-ts">export class MyModel {
+    compiler = &quot;TypeScript&quot;;
+}
+</code></pre>
+                <p>再在 <code>src</code> 中添加 <code>main.ts</code>：</p>
+                <pre><code class="language-ts">import {bootstrap} from &quot;angular2/platform/browser&quot;;
+import {MyApp} from &quot;./app&quot;;
+bootstrap(MyApp);
+</code></pre>
+                <p>最后，将 <code>Views/Home/Index.cshtml</code> 改成：</p>
+                <pre><code class="language-html">@{
+    ViewBag.Title = &quot;Home Page&quot;;
+}
+&lt;script src=&quot;~/Scripts/angular2-polyfills.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;~/Scripts/system.src.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;~/Scripts/rx.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;~/Scripts/angular2.js&quot;&gt;&lt;/script&gt;
+&lt;script&gt;
+    System.config({
+        packages: {
+            '/Scripts/App': {
+                format: 'cjs',
+                defaultExtension: 'js'
+            }
+        }
+    });
+    System.import('/Scripts/App/main').then(null, console.error.bind(console));
+&lt;/script&gt;
+&lt;my-app&gt;Loading...&lt;/my-app&gt;
+</code></pre>
+                <p>这里加载了此应用。 运行 ASP.NET 应用，你应该能看到一个 div 显示 &quot;Loading...&quot; 紧接着更新成显示 &quot;Hello from TypeScript&quot;。</p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

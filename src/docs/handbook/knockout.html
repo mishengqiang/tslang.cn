@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Knockout · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">Knockout</h1>
+            </header>
+            <article class="post-content">
+                <p>这个快速上手指南会告诉你如何结合使用TypeScript和<a href="http://knockoutjs.com/">Knockout.js</a>。</p>
+                <p>这里我们假设你已经会使用<a href="https://nodejs.org/">Node.js</a>和<a href="https://www.npmjs.com/">npm</a></p>
+                <h1>初始化项目</h1>
+                <p>首先，我们新建一个目录。 暂时命名为
+                    <code>proj</code>，当然了你可以使用任何喜欢的名字。</p>
+                <pre><code class="language-shell">mkdir proj
+cd proj
+</code></pre>
+                <p>接下来，我们按如下方式来组织这个工程：</p>
+                <pre><code class="language-text">proj/
+   +- src/
+   +- built/
+</code></pre>
+                <p>TypeScript源码放在<code>src</code>目录下，结过TypeScript编译器编译后，生成的文件放在<code>built</code>目录里。</p>
+                <p>下面创建目录：</p>
+                <pre><code class="language-shell">mkdir src
+mkdir built
+</code></pre>
+                <h1>安装构建依赖</h1>
+                <p>首先确保TypeScript和Typings已经全局安装。</p>
+                <pre><code class="language-shell">npm install -g typescript typings
+</code></pre>
+                <p>你肯定已经很了解TypeScript了，但你有可能还不太了解Typings.
+                    <a href="https://www.npmjs.com/package/typings">Typings</a>是一个包管理器用来获取声明文件。 我们将会使用它来获取Knockout的声明文件。
+                </p>
+                <pre><code class="language-shell">typings install --ambient --save knockout
+</code></pre>
+                <p><code>--ambient</code>标记会告诉Typings从<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a>去获取声明文件，这是由社区维护的<code>.d.ts</code>文件仓库。
+                    这个命令会在当前目录下创建一个
+                    <code>typings.json</code>文件和一个<code>typings</code>文件夹。</p>
+                <h1>获取运行时依赖</h1>
+                <p>我们需要Knockout和RequireJS。
+                    <a href="http://www.requirejs.org/">RequireJS</a>是一个库，它可以让我们在运行时异步地加载模块。</p>
+                <p>有以下几种获取方式：</p>
+                <ol>
+                    <li>手动下载文件并维护它们。</li>
+                    <li>通过像<a href="http://bower.io/">Bower</a>这样的包管理下载并维护它们。</li>
+                    <li>使用内容分发网络（CDN）来维护这两个文件。</li>
+                </ol>
+                <p>我们使用第一种方法，它会简单一些，但是Knockout的官方文档上有讲解<a href="http://knockoutjs.com/downloads/index.html">如何使用CDN</a>，更多像RequireJS一样的代码库可以在
+                    <a
+                        href="https://cdnjs.com/">cdnjs</a>上查找。</p>
+                <p>下面让我们在工程根目录下创建<code>externals</code>目录。</p>
+                <pre><code class="language-shell">mkdir externals
+</code></pre>
+                <p>然后<a href="http://knockoutjs.com/downloads/index.html">下载Knockout</a>和<a href="http://www.requirejs.org/docs/download.html#latest">下载RequireJS</a>到这个目录里。
+                    最新的压缩后版本就可以。
+                </p>
+                <h1>添加TypeScript配置文件</h1>
+                <p>下面我们想把所有的TypeScript文件整合到一起 - 包括自己写的和必须的声明文件。</p>
+                <p>我们需要创建一个<code>tsconfig.json</code>文件，包含了输入文件列表和编译选项。 在工程根目录下创建一个新文件
+                    <code>tsconfig.json</code>，内容如下：</p>
+                <pre><code class="language-json">{
+    &quot;compilerOptions&quot;: {
+        &quot;outDir&quot;: &quot;./built/&quot;,
+        &quot;sourceMap&quot;: true,
+        &quot;noImplicitAny&quot;: true,
+        &quot;module&quot;: &quot;amd&quot;,
+        &quot;target&quot;: &quot;es5&quot;
+    },
+    &quot;files&quot;: [
+        &quot;./typings/main.d.ts&quot;,
+        &quot;./src/require-config.ts&quot;,
+        &quot;./src/hello.ts&quot;
+    ]
+}
+</code></pre>
+                <p>这里引用了<code>typings/main.d.ts</code>，它是Typings帮我们创建的。 这个文件会自动地包含所有安装的依赖。
+                </p>
+                <p>你可能会对<code>typings</code>目录下的<code>browser.d.ts</code>文件感到好奇，尤其因为我们将在浏览器里运行代码。 其实原因是这样的，当目标为浏览器的时候，一些包会生成不同的版本。
+                    通常来讲，这些情况很少发生并且在这里我们不会遇到这种情况，所以我们可以忽略
+                    <code>browser.d.ts</code>。</p>
+                <p>你可以在<a href="../tsconfig.json.md">这里</a>查看更多关于<code>tsconfig.json</code>文件的信息</p>
+                <h1>写些代码</h1>
+                <p>下面我们使用Knockout写一段TypeScript代码。 首先，在
+                    <code>src</code>目录里新建一个<code>hello.ts</code>文件。</p>
+                <pre><code class="language-ts">import * as ko from &quot;knockout&quot;;
+
+class HelloViewModel {
+    language: KnockoutObservable&lt;string&gt;
+    framework: KnockoutObservable&lt;string&gt;
+
+    constructor(language: string, framework: string) {
+        this.language = ko.observable(language);
+        this.framework = ko.observable(framework);
+    }
+}
+
+ko.applyBindings(new HelloViewModel(&quot;TypeScript&quot;, &quot;Knockout&quot;));
+</code></pre>
+                <p>接下来，在<code>src</code>目录下再新建一个<code>require-config.ts</code>文件。</p>
+                <pre><code class="language-ts">declare var require: any;
+require.config({
+    paths: {
+        &quot;knockout&quot;: &quot;externals/knockout-3.4.0&quot;,
+    }
+});
+</code></pre>
+                <p>这个文件会告诉RequireJS从哪里导入Knockout，好比我们在<code>hello.ts</code>里做的一样。 你创建的所有页面都应该在RequireJS之后和导入任何东西之前引入它。 为了更好地理解这个文件和如何配置RequireJS，可以查看
+                    <a href="http://requirejs.org/docs/api.html#config">文档</a>。</p>
+                <p>我们还需要一个视图来显示<code>HelloViewModel</code>。 在
+                    <code>proj</code>目录的根上创建一个文件<code>index.html</code>，内容如下：</p>
+                <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;meta charset=&quot;UTF-8&quot; /&gt;
+        &lt;title&gt;Hello Knockout!&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;p&gt;
+            Hello from
+            &lt;strong data-bind=&quot;text: language&quot;&gt;todo&lt;/strong&gt;
+            and
+            &lt;strong data-bind=&quot;text: framework&quot;&gt;todo&lt;/strong&gt;!
+        &lt;/p&gt;
+
+        &lt;p&gt;Language: &lt;input data-bind=&quot;value: language&quot; /&gt;&lt;/p&gt;
+        &lt;p&gt;Framework: &lt;input data-bind=&quot;value: framework&quot; /&gt;&lt;/p&gt;
+
+        &lt;script src=&quot;./externals/require.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;./built/require-config.js&quot;&gt;&lt;/script&gt;
+        &lt;script&gt;
+            require([&quot;built/hello&quot;]);
+        &lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+                <p>注意，有两个script标签。 首先，我们引入RequireJS。 然后我们再在
+                    <code>require-config.js</code>里映射外部依赖，这样RequireJS就能知道到哪里去查找它们。 最后，使用我们要去加载的模块去调用
+                    <code>require</code>。</p>
+                <h1>将所有部分整合在一起</h1>
+                <p>运行</p>
+                <pre><code class="language-shell">tsc
+</code></pre>
+                <p>现在，在你喜欢的浏览器打开<code>index.html</code>，所有都应该好用了。 你应该可以看到页面上显示“Hello from TypeScript and Knockout!”。 在它下面，你还会看到两个输入框。
+                    当你改变输入和切换焦点时，就会看到原先显示的信息改变了。
+                </p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

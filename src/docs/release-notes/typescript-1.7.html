@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TypeScript 1.7 · TypeScript中文网 · TypeScript——JavaScript的超集</</title>
+        <!-- inject:css -->
+        <!-- endinject -->
+        <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+        <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+        <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+        <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+        <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+        <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+        <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+        <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+        <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+        <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="/assets/images/icons/manifest.json">
+        <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+        <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+        <meta name="theme-color" content="#ffffff">
+        <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+        <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">TypeScript 1.7</h1>
+            </header>
+            <article class="post-content">
+                <h2>支持 <code>async</code>/<code>await</code> 编译到 ES6 (Node v4+)</h2>
+                <p>TypeScript 目前在已经原生支持 ES6 generator 的引擎 (比如 Node v4 及以上版本) 上支持异步函数. 异步函数前置 <code>async</code> 关键字; <code>await</code>                    会暂停执行, 直到一个异步函数执行后返回的 promise 被 fulfill 后获得它的值.</p>
+                <h3>例子</h3>
+                <p>在下面的例子中, 输入的内容将会延时 200 毫秒逐个打印:</p>
+                <pre><code class="language-ts">&quot;use strict&quot;;
+
+// printDelayed 返回值是一个 'Promise&lt;void&gt;'
+async function printDelayed(elements: string[]) {
+    for (const element of elements) {
+        await delay(200);
+        console.log(element);
+    }
+}
+
+async function delay(milliseconds: number) {
+    return new Promise&lt;void&gt;(resolve =&gt; {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
+printDelayed([&quot;Hello&quot;, &quot;beautiful&quot;, &quot;asynchronous&quot;, &quot;world&quot;]).then(() =&gt; {
+    console.log();
+    console.log(&quot;打印每一个内容!&quot;);
+});
+</code></pre>
+                <p>查看 <a href="http://blogs.msdn.com/b/typescript/archive/2015/11/03/what-about-async-await.aspx">Async Functions</a>                    一文了解更多.</p>
+                <h2>支持同时使用 <code>--target ES6</code> 和 <code>--module</code></h2>
+                <p>TypeScript 1.7 将 <code>ES6</code> 添加到了 <code>--module</code> 选项支持的选项的列表, 当编译到 <code>ES6</code> 时允许指定模块类型.
+                    这让使用具体运行时中你需要的特性更加灵活.</p>
+                <h3>例子</h3>
+                <pre><code class="language-json">{
+    &quot;compilerOptions&quot;: {
+        &quot;module&quot;: &quot;amd&quot;,
+        &quot;target&quot;: &quot;es6&quot;
+    }
+}
+</code></pre>
+                <h2><code>this</code> 类型</h2>
+                <p>在方法中返回当前对象 (也就是 <code>this</code>) 是一种创建链式 API 的常见方式. 比如, 考虑下面的 <code>BasicCalculator</code> 模块:</p>
+                <pre><code class="language-ts">export default class BasicCalculator {
+    public constructor(protected value: number = 0) { }
+
+    public currentValue(): number {
+        return this.value;
+    }
+
+    public add(operand: number) {
+        this.value += operand;
+        return this;
+    }
+
+    public subtract(operand: number) {
+        this.value -= operand;
+        return this;
+    }
+
+    public multiply(operand: number) {
+        this.value *= operand;
+        return this;
+    }
+
+    public divide(operand: number) {
+        this.value /= operand;
+        return this;
+    }
+}
+</code></pre>
+                <p>使用者可以这样表述 <code>2 * 5 + 1</code>:</p>
+                <pre><code class="language-ts">import calc from &quot;./BasicCalculator&quot;;
+
+let v = new calc(2)
+    .multiply(5)
+    .add(1)
+    .currentValue();
+</code></pre>
+                <p>这使得这么一种优雅的编码方式成为可能; 然而, 对于想要去继承 <code>BasicCalculator</code> 的类来说有一个问题. 想象使用者可能需要编写一个 <code>ScientificCalculator</code>:</p>
+                <pre><code class="language-ts">import BasicCalculator from &quot;./BasicCalculator&quot;;
+
+export default class ScientificCalculator extends BasicCalculator {
+    public constructor(value = 0) {
+        super(value);
+    }
+
+    public square() {
+        this.value = this.value ** 2;
+        return this;
+    }
+
+    public sin() {
+        this.value = Math.sin(this.value);
+        return this;
+    }
+}
+</code></pre>
+                <p>因为 <code>BasicCalculator</code> 的方法返回了 <code>this</code>, TypeScript 过去推断的类型是 <code>BasicCalculator</code>,
+                    如果在 <code>ScientificCalculator</code> 的实例上调用属于 <code>BasicCalculator</code> 的方法, 类型系统不能很好地处理.</p>
+                <p>举例来说:</p>
+                <pre><code class="language-ts">import calc from &quot;./ScientificCalculator&quot;;
+
+let v = new calc(0.5)
+    .square()
+    .divide(2)
+    .sin()    // Error: 'BasicCalculator' 没有 'sin' 方法.
+    .currentValue();
+</code></pre>
+                <p>这已经不再是问题 - TypeScript 现在在类的实例方法中, 会将 <code>this</code> 推断为一个特殊的叫做 <code>this</code> 的类型. <code>this</code>                    类型也就写作 <code>this</code>, 可以大致理解为 &quot;方法调用时点左边的类型&quot;.</p>
+                <p><code>this</code> 类型在描述一些使用了 mixin 风格继承的库 (比如 Ember.js) 的交叉类型:</p>
+                <pre><code class="language-ts">interface MyType {
+    extend&lt;T&gt;(other: T): this &amp; T;
+}
+</code></pre>
+                <h2>ES7 幂运算符</h2>
+                <p>TypeScript 1.7 支持将在 ES7/ES2016 中增加的<a href="https://github.com/rwaldron/exponentiation-operator">幂运算符</a>:
+                    <code>**</code> 和 <code>**=</code>. 这些运算符会被转换为 ES3/ES5 中的 <code>Math.pow</code>.</p>
+                <h3>举例</h3>
+                <pre><code class="language-ts">var x = 2 ** 3;
+var y = 10;
+y **= 2;
+var z =  -(4 ** 3);
+</code></pre>
+                <p>会生成下面的 JavaScript:</p>
+                <pre><code class="language-ts">var x = Math.pow(2, 3);
+var y = 10;
+y = Math.pow(y, 2);
+var z = -(Math.pow(4, 3));
+</code></pre>
+                <h2>改进对象字面量解构的检查</h2>
+                <p>TypeScript 1.7 使对象和数组字面量解构初始值的检查更加直观和自然.</p>
+                <p>当一个对象字面量通过与之对应的对象解构绑定推断类型时:</p>
+                <ul>
+                    <li>对象解构绑定中有默认值的属性对于对象字面量来说可选.</li>
+                    <li>对象解构绑定中的属性如果在对象字面量中没有匹配的值, 则该属性必须有默认值, 并且会被添加到对象字面量的类型中.</li>
+                    <li>对象字面量中的属性必须在对象解构绑定中存在.</li>
+                </ul>
+                <p>当一个数组字面量通过与之对应的数组解构绑定推断类型时:</p>
+                <ul>
+                    <li>数组解构绑定中的元素如果在数组字面量中没有匹配的值, 则该元素必须有默认值, 并且会被添加到数组字面量的类型中.</li>
+                </ul>
+                <h3>举例</h3>
+                <pre><code class="language-ts">// f1 的类型为 (arg?: { x?: number, y?: number }) =&gt; void
+function f1({ x = 0, y = 0 } = {}) { }
+
+// And can be called as:
+f1();
+f1({});
+f1({ x: 1 });
+f1({ y: 1 });
+f1({ x: 1, y: 1 });
+
+// f2 的类型为 (arg?: (x: number, y?: number) =&gt; void
+function f2({ x, y = 0 } = { x: 0 }) { }
+
+f2();
+f2({});        // 错误, x 非可选
+f2({ x: 1 });
+f2({ y: 1 });  // 错误, x 非可选
+f2({ x: 1, y: 1 });
+</code></pre>
+                <h2>装饰器 (decorators) 支持的编译目标版本增加 ES3</h2>
+                <p>装饰器现在可以编译到 ES3. TypeScript 1.7 在 <code>__decorate</code> 函数中移除了 ES5 中增加的 <code>reduceRight</code>. 相关改动也内联了对
+                    <code>Object.getOwnPropertyDescriptor</code> 和 <code>Object.defineProperty</code> 的调用, 并向后兼容, 使 ES5 的输出可以消除前面提到的
+                    <code>Object</code> 方法的重复<sup>[1]</sup>.</p>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>三斜线指令 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">三斜线指令</h1>
+            </header>
+            <article class="post-content">
+                <p>三斜线指令是包含单个XML标签的单行注释。 注释的内容会做为编译器指令使用。
+                </p>
+                <p>三斜线指令<em>仅</em>可放在包含它的文件的最顶端。 一个三斜线指令的前面只能出现单行或多行注释，这包括其它的三斜线指令。 如果它们出现在一个语句或声明之后，那么它们会被当做普通的单行注释，并且不具有特殊的涵义。
+                </p>
+                <h2><code>/// &lt;reference path=&quot;...&quot; /&gt;</code></h2>
+                <p><code>/// &lt;reference path=&quot;...&quot; /&gt;</code>指令是三斜线指令中最常见的一种。 它用于声明文件间的
+                    <em>依赖</em>。</p>
+                <p>三斜线引用告诉编译器在编译过程中要引入的额外的文件。</p>
+                <p>当使用<code>--out</code>或<code>--outFile</code>时，它也可以做为调整输出内容顺序的一种方法。 文件在输出文件内容中的位置与经过预处理后的输入顺序一致。
+                </p>
+                <h3>预处理输入文件</h3>
+                <p>编译器会对输入文件进行预处理来解析所有三斜线引用指令。 在这个过程中，额外的文件会加到编译过程中。
+                </p>
+                <p>这个过程会以一些<em>根文件</em>开始； 它们是在命令行中指定的文件或是在
+                    <code>tsconfig.json</code>中的<code>&quot;files&quot;</code>列表里的文件。 这些根文件按指定的顺序进行预处理。 在一个文件被加入列表前，它包含的所有三斜线引用都要被处理，还有它们包含的目标。
+                    三斜线引用以它们在文件里出现的顺序，使用深度优先的方式解析。
+                </p>
+                <p>一个三斜线引用路径是相对于包含它的文件的，如果不是根文件。</p>
+                <h3>错误</h3>
+                <p>引用不存在的文件会报错。 一个文件用三斜线指令引用自己会报错。
+                </p>
+                <h3>使用 <code>--noResolve</code></h3>
+                <p>如果指定了<code>--noResolve</code>编译选项，三斜线引用会被忽略；它们不会增加新文件，也不会改变给定文件的顺序。</p>
+                <h2><code>/// &lt;reference no-default-lib=&quot;true&quot;/&gt;</code></h2>
+                <p>这个指令把一个文件标记成<em>默认库</em>。 你会在
+                    <code>lib.d.ts</code>文件和它不同的变体的顶端看到这个注释。</p>
+                <p>这个指令告诉编译器在编译过程中<em>不要</em>包含这个默认库（比如，<code>lib.d.ts</code>）。 这与在命令行上使用
+                    <code>--noLib</code>相似。</p>
+                <p>还要注意，当传递了<code>--skipDefaultLibCheck</code>时，编译器只会忽略检查带有<code>/// &lt;reference no-default-lib=&quot;true&quot;/&gt;</code>的文件。</p>
+                <h2><code>/// &lt;amd-module /&gt;</code></h2>
+                <p>默认情况下生成的AMD模块都是匿名的。 但是，当一些工具需要处理生成的模块时会产生问题，比如
+                    <code>r.js</code>。</p>
+                <p><code>amd-module</code>指令允许给编译器传入一个可选的模块名：</p>
+                <h5>amdModule.ts</h5>
+                <pre><code class="language-ts">///&lt;amd-module name='NamedModule'/&gt;
+export class C {
+}
+</code></pre>
+                <p>这会将<code>NamedModule</code>传入到AMD <code>define</code>函数里：</p>
+                <h5>amdModule.js</h5>
+                <pre><code class="language-js">define(&quot;NamedModule&quot;, [&quot;require&quot;, &quot;exports&quot;], function (require, exports) {
+    var C = (function () {
+        function C() {
+        }
+        return C;
+    })();
+    exports.C = C;
+});
+</code></pre>
+                <h2><code>/// &lt;amd-dependency /&gt;</code></h2>
+                <blockquote>
+                    <p><strong>注意</strong>：这个指令被废弃了。使用<code>import &quot;moduleName&quot;;</code>语句代替。</p>
+                </blockquote>
+                <p><code>/// &lt;amd-dependency path=&quot;x&quot; /&gt;</code>告诉编译器有一个非TypeScript模块依赖需要被注入，做为目标模块<code>require</code>调用的一部分。</p>
+                <p><code>amd-dependency</code>指令也可以带一个可选的<code>name</code>属性；它允许我们为amd-dependency传入一个可选名字：</p>
+                <pre><code class="language-ts">/// &lt;amd-dependency path=&quot;legacy/moduleA&quot; name=&quot;moduleA&quot;/&gt;
+declare var moduleA:MyType
+moduleA.callStuff()
+</code></pre>
+                <p>生成的JavaScript代码：</p>
+                <pre><code class="language-js">define([&quot;require&quot;, &quot;exports&quot;, &quot;legacy/moduleA&quot;], function (require, exports, moduleA) {
+    moduleA.callStuff()
+});
+</code></pre>
+
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

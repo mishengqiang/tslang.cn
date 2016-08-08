@@ -1,0 +1,108 @@
+.community {
+    padding: 1em 15px 6em
+}
+
+.community .next-steps-container {
+    background-color: #fff
+}
+
+.community .banner-text {
+    font-size: 1.6em;
+    margin-top: 20px;
+    color: #000
+}
+
+.community .callouts {
+    margin: 20px 0;
+    color: #000
+}
+
+.community .callouts .callout {
+    margin-top: 20px
+}
+
+.community .callouts .callout a>h2 {
+    font-size: 1.6em;
+    margin-top: 0
+}
+
+.community .callouts .text {
+    height: 100px;
+    font-size: 1.6em
+}
+
+.community .callouts .icon {
+    height: 10em;
+    width: 10em;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-size: auto 6.4em;
+    display: block;
+    -webkit-transition: background-color .2s ease-out;
+    transition: background-color .2s ease-out;
+    float: left;
+    margin: 0 20px 20px
+}
+
+.community .callouts .icon.weibo {
+    background-image: url(../assets/images/community/icon-weibo.svg);
+    background-color: rgb(230, 22, 45);
+}
+
+.community .callouts .icon.qqgroup {
+    background-image: url(../assets/images/community/icon-qq.svg);
+    background-color: #24bdff;
+}
+
+.community .callouts .icon.friends-of-typescript {
+    background-image: url(../assets/images/community/connect-group-icon.svg);
+    background-color: #243A61;
+}
+
+.community .callouts .icon.stackoverflow {
+    background-image: url(../assets/images/community/connect-stackoverflow-icon.svg);
+    background-color: #FFA700;
+}
+
+.community .callouts .icon.blog {
+    background-image: url(../assets/images/community/connect-blog-icon.svg);
+    background-color: #E84E21;
+}
+
+.community .callouts .icon.uservoice {
+    background-image: url(../assets/images/community/connect-uservoice-icon.svg);
+    background-color: #1a2833;
+}
+
+.community .callouts .icon.twitter {
+    background-image: url(../assets/images/community/connect-twitter-icon.svg);
+    background-color: #00a0d1;
+    background-size: 5.5em
+}
+
+.community .callouts .icon.definitelytyped {
+    background-image: url(../assets/images/community/definitely_typed_logo.png);
+    background-color: #0077D2;
+    background-size: 10em
+}
+
+.community .callouts .icon.bug {
+    background-image: url(../assets/images/community/connect-github-icon.png);
+    background-color: #4d4d4d;
+    background-size: 5.5em
+}
+
+.community .callout img.qrcode{
+    position: absolute;
+    top:0;
+    left:35px;
+    z-index: 1;
+    width: 10em;
+    height: 0;
+    -webkit-transition: height .2s ease-in-out;
+    -moz-transition: height .2s ease-in-out;
+    transition: height .2s ease-in-out;
+}
+.community .callout:hover img.qrcode{
+    height: 10em;
+}
