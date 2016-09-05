@@ -14,7 +14,7 @@ header{
 
 .navbar_center>ul {
     display: inline-block;
-    float: none
+    float: none;
 }
 
 .navbar_center {
@@ -56,6 +56,12 @@ header{
 
 .navbar-default li,.navbar-default p,.navbar-default span {
     font-size: 1.4rem
+}
+.navbar-form>.btn{
+    border-radius: 4px; 
+    background-color: #fff; 
+    padding: 6px 12px;
+    font-size: 14px; 
 }
 
 .fork-me-ribbon {
