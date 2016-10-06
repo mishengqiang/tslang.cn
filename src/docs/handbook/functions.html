@@ -254,7 +254,7 @@ alert(&quot;card: &quot; + pickedCard.card + &quot; of &quot; + pickedCard.suit)
                     <code>this.suits[pickedSuit]</code>里的<code>this</code>的类型为<code>any</code>。</p>
                 <h2><code>this</code>参数</h2>
                 <p>不幸的是，<code>this.suits[pickedSuit]</code>的类型依旧为<code>any</code>。 这是因为
-                    <code>this</code>来自对象字面量里的函数表达式。 修改的方法是，提供一个显示的
+                    <code>this</code>来自对象字面量里的函数表达式。 修改的方法是，提供一个显式的
                     <code>this</code>参数。
                     <code>this</code>参数是个假的参数，它出现在参数列表的最前面：</p>
                 <pre><code class="language-ts">function f(this: void) {
@@ -313,7 +313,7 @@ alert(&quot;card: &quot; + pickedCard.card + &quot; of &quot; + pickedCard.suit)
 let h = new Handler();
 uiElement.addClickListener(h.onClickBad); // error!
 </code></pre>
-                <p>指定了<code>this</code>类型后，你显示声明<code>onClickBad</code>必须在<code>Handler</code>的实例上调用。 然后TypeScript会检测到
+                <p>指定了<code>this</code>类型后，你显式声明<code>onClickBad</code>必须在<code>Handler</code>的实例上调用。 然后TypeScript会检测到
                     <code>addClickListener</code>要求函数带有<code>this: void</code>。 改变
                     <code>this</code>类型来修复这个错误：</p>
                 <pre><code class="language-ts">class Handler {
@@ -399,7 +399,6 @@ alert(&quot;card: &quot; + pickedCard2.card + &quot; of &quot; + pickedCard2.sui
                 </p>
                 <p>注意，<code>function pickCard(x): any</code>并不是重载列表的一部分，因此这里只有两个重载：一个是接收对象另一个接收数字。 以其它参数调用
                     <code>pickCard</code>会产生错误。</p>
-
             </article>
         </div>
     </div>

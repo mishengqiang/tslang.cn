@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>发布 · 声明文件 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">发布</h1>
+            </header>
+            <article class="post-content">
+                <p>现在我们已经按照指南里的步骤写好一个声明文件，是时候把它发布到npm了。 有两种主要方式用来发布声明文件到npm：
+                </p>
+                <ol>
+                    <li>与你的npm包捆绑在一起，或</li>
+                    <li>发布到npm上的<a href="https://www.npmjs.com/~types">@types organization</a>。</li>
+                </ol>
+                <p>如果你能控制要使用你发布的声明文件的那个npm包的话，推荐第一种方式。 这样的话，你的声明文件与JavaScript总是在一起传递。
+                </p>
+                <h1>包含声明文件到你的npm包</h1>
+                <p>如果你的包有一个主<code>.js</code>文件，你还是需要在<code>package.json</code>里指定主声明文件。 设置
+                    <code>types</code>属性指向捆绑在一起的声明文件。 比如：
+                </p>
+                <pre><code class="language-json">{
+    &quot;name&quot;: &quot;awesome&quot;,
+    &quot;author&quot;: &quot;Vandelay Industries&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;main&quot;: &quot;./lib/main.js&quot;,
+    &quot;types&quot;: &quot;./lib/main.d.ts&quot;
+}
+</code></pre>
+                <p>注意<code>&quot;typings&quot;</code>与<code>&quot;types&quot;</code>具有相同的意义，也可以使用它。</p>
+                <p>同样要注意的是如果主声明文件名是<code>index.d.ts</code>并且位置在包的根目录里（与<code>index.js</code>并列），你就不需要使用<code>&quot;types&quot;</code>属性指定了。</p>
+                <h2>依赖</h2>
+                <p>所有的依赖是由npm管理的。 确保所依赖的声明包都在
+                    <code>package.json</code>的<code>&quot;dependencies&quot;</code>里指明了 比如，假设我们写了一个包它依赖于Browserify和TypeScript。
+                </p>
+                <pre><code class="language-json">{
+    &quot;name&quot;: &quot;browserify-typescript-extension&quot;,
+    &quot;author&quot;: &quot;Vandelay Industries&quot;,
+    &quot;version&quot;: &quot;1.0.0&quot;,
+    &quot;main&quot;: &quot;./lib/main.js&quot;,
+    &quot;types&quot;: &quot;./lib/main.d.ts&quot;,
+    &quot;dependencies&quot;: [
+        &quot;browserify@latest&quot;,
+        &quot;@types/browserify@latest&quot;,
+        &quot;typescript@next&quot;
+    ]
+}
+</code></pre>
+                <p>这里，我们的包依赖于<code>browserify</code>和<code>typescript</code>包。
+                    <code>browserify</code>没有把它的声明文件捆绑在它的npm包里，所以我们需要依赖于<code>@types/browserify</code>得到它的声明文件。
+                    <code>typescript</code>相反，它把声明文件放在了npm包里，因此我们不需要依赖额外的包。</p>
+                <p>我们的包要从这两个包里暴露出声明文件，因此<code>browserify-typescript-extension</code>的用户也需要这些依赖。 正因此，我们使用
+                    <code>&quot;dependencies&quot;</code>而不是<code>&quot;devDependencies&quot;</code>，否则用户将需要手动安装那些包。 如果我们只是在写一个命令行应用，并且我们的包不会被当做一个库使用的话，那么我就可以使用
+                    <code>devDependencies</code>。</p>
+                <h2>危险信号</h2>
+                <h3><code>/// &lt;reference path=&quot;...&quot; /&gt;</code></h3>
+                <p><em>不要</em>在声明文件里使用<code>/// &lt;reference path=&quot;...&quot; /&gt;</code>。</p>
+                <pre><code class="language-ts">/// &lt;reference path=&quot;../typescript/lib/typescriptServices.d.ts&quot; /&gt;
+....
+</code></pre>
+                <p><em>应该</em>使用<code>/// &lt;reference types=&quot;...&quot; /&gt;</code>代替</p>
+                <pre><code class="language-ts">/// &lt;reference types=&quot;typescript&quot; /&gt;
+....
+</code></pre>
+                <p>务必阅读[使用依赖](./Library Structures.md#consuming-dependencies)一节了解详情。</p>
+                <h3>打包所依赖的声明</h3>
+                <p>如果你的类型声明依赖于另一个包：</p>
+                <ul>
+                    <li><em>不要</em>把依赖的包放进你的包里，保持它们在各自的文件里。</li>
+                    <li><em>不要</em>将声明拷贝到你的包里。</li>
+                    <li><em>应该</em>依赖于npm类型声明包，如果依赖包没包含它自己的声明的话。</li>
+                </ul>
+                <h2>公布你的声明文件</h2>
+                <p>在发布声明文件包之后，确保在<a href="https://github.com/DefinitelyTyped/DefinitelyTyped/blob/types-2.0/notNeededPackages.json">DefinitelyTyped外部包列表</a>里面添加一条引用。
+                    这可以让查找工具知道你的包提供了自己的声明文件。
+                </p>
+                <!-- TODO: more about this. -->
+                <h1>发布到<a href="https://www.npmjs.com/~types">@types</a></h1>
+                <p><a href="https://www.npmjs.com/~types">@types</a>下面的包是从<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a>里自动发布的，通过
+                    <a
+                        href="https://github.com/Microsoft/types-publisher">types-publisher工具</a>。 如果想让你的包发布为@types包，提交一个pull request到<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">https://github.com/DefinitelyTyped/DefinitelyTyped</a>。
+                        在这里查看详细信息
+                        <a href="http://definitelytyped.org/guides/contributing.html">contribution guidelines page</a>。</p>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

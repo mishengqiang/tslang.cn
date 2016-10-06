@@ -52,16 +52,16 @@
                 <h2>概述</h2>
                 <p>编译选项可以在使用MSBuild的项目里通过MSBuild属性指定。</p>
                 <h2>例子</h2>
-                <pre><code class="language-XML">  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Debug'&quot;&gt;
-    &lt;TypeScriptRemoveComments&gt;false&lt;/TypeScriptRemoveComments&gt;
-    &lt;TypeScriptSourceMap&gt;true&lt;/TypeScriptSourceMap&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Release'&quot;&gt;
-    &lt;TypeScriptRemoveComments&gt;true&lt;/TypeScriptRemoveComments&gt;
-    &lt;TypeScriptSourceMap&gt;false&lt;/TypeScriptSourceMap&gt;
-  &lt;/PropertyGroup&gt;
-  &lt;Import Project=&quot;$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets&quot;
-          Condition=&quot;Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')&quot; /&gt;
+                <pre><code class="language-XML">&lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Debug'&quot;&gt;
+  &lt;TypeScriptRemoveComments&gt;false&lt;/TypeScriptRemoveComments&gt;
+  &lt;TypeScriptSourceMap&gt;true&lt;/TypeScriptSourceMap&gt;
+&lt;/PropertyGroup&gt;
+&lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Release'&quot;&gt;
+  &lt;TypeScriptRemoveComments&gt;true&lt;/TypeScriptRemoveComments&gt;
+  &lt;TypeScriptSourceMap&gt;false&lt;/TypeScriptSourceMap&gt;
+&lt;/PropertyGroup&gt;
+&lt;Import Project=&quot;$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets&quot;
+        Condition=&quot;Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')&quot; /&gt;
 </code></pre>
                 <h2>映射</h2>
                 <table>
@@ -207,6 +207,11 @@
                             <td><code>--sourceRoot</code></td>
                             <td>TypeScriptSourceRoot</td>
                             <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--strictNullChecks</code></td>
+                            <td>TypeScriptStrictNullChecks</td>
+                            <td>布尔值</td>
                         </tr>
                         <tr>
                             <td><code>--suppressImplicitAnyIndexErrors</code></td>

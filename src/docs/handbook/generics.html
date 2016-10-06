@@ -85,11 +85,11 @@
                 </p>
                 <pre><code class="language-ts">let output = identity&lt;string&gt;(&quot;myString&quot;);  // type of output will be 'string'
 </code></pre>
-                <p>这里我们明确的指定了<code>T</code>是字符串类型，并做为一个参数传给函数，使用了<code>&lt;&gt;</code>括起来而不是<code>()</code>。</p>
-                <p>第二种方法更普遍。利用了<em>类型推论</em>，编译器会根据传入的参数自动地帮助我们确定T的类型：</p>
+                <p>这里我们明确的指定了<code>T</code>是<code>string</code>类型，并做为一个参数传给函数，使用了<code>&lt;&gt;</code>括起来而不是<code>()</code>。</p>
+                <p>第二种方法更普遍。利用了<em>类型推论</em> -- 即编译器会根据传入的参数自动地帮助我们确定T的类型：</p>
                 <pre><code class="language-ts">let output = identity(&quot;myString&quot;);  // type of output will be 'string'
 </code></pre>
-                <p>注意我们并没用<code>&lt;&gt;</code>明确的指定类型，编译器看到了<code>myString</code>，把<code>T</code>设置为此类型。 类型推论帮助我们保持代码精简和高可读性。如果编译器不能够自动地推断出类型的话，只能像上面那样明确的传入T的类型，在一些复杂的情况下，这是可能出现的。
+                <p>注意我们没必要使用尖括号（<code>&lt;&gt;</code>）来明确地传入类型；编译器可以查看<code>myString</code>的值，然后把<code>T</code>设置为它的类型。 类型推论帮助我们保持代码精简和高可读性。如果编译器不能够自动地推断出类型的话，只能像上面那样明确的传入T的类型，在一些复杂的情况下，这是可能出现的。
                 </p>
                 <h1>使用泛型变量</h1>
                 <p>使用泛型创建像<code>identity</code>这样的泛型函数时，编译器要求你在函数体必须正确的使用这个通用的类型。 换句话说，你必须把这些参数当做是任意或所有类型。
@@ -232,18 +232,11 @@ function loggingIdentity&lt;T extends Lengthwise&gt;(arg: T): T {
                 <pre><code class="language-ts">loggingIdentity({length: 10, value: 3});
 </code></pre>
                 <h2>在泛型约束中使用类型参数</h2>
-                <p>你可以声明一个类型参数去约束另一个类型参数。 比如，我们想要把一个对象的属性复制到另一个对象。我们要确保没有从 <code>source</code> 中写入额外的属性，为此，我们在这两个类型间设置了约束：</p>
-                <pre><code class="language-ts">function copyFields&lt;T extends U, U&gt;(target: T, source: U): T {
-    for (let id in source) {
-        target[id] = source[id];
-    }
-    return target;
+                <p>你可以声明一个类型参数，且它被另一个类型参数所约束。比如，</p>
+                <pre><code class="language-ts">function find&lt;T, U extends Findable&lt;T&gt;&gt;(n: T, s: U) {
+  // ...
 }
-
-let x = { a: 1, b: 2, c: 3, d: 4 };
-
-copyFields(x, { b: 10, d: 20 }); // okay
-copyFields(x, { Q: 90 });  // error: property 'Q' isn't declared in 'x'.
+find (giraffe, myAnimals);
 </code></pre>
                 <h2>在泛型里使用类类型</h2>
                 <p>在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如，</p>
@@ -280,7 +273,6 @@ function findKeeper&lt;A extends Animal, K&gt; (a: {new(): A;
 
 findKeeper(Lion).nametag;  // typechecks!
 </code></pre>
-
             </article>
         </div>
     </div>

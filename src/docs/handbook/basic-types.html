@@ -145,7 +145,7 @@ notSure = false; // okay, definitely a boolean
 </code></pre>
                 <p>在对现有代码进行改写的时候，<code>any</code>类型是十分有用的，它允许你在编译时可选择地包含或移除类型检查。 你可能认为
                     <code>Object</code>有相似的作用，就像它在其它语言中那样。 但是
-                    <code>Object</code>类型的变量只是允许你给它赋任意值 -- 但是却不能够在它上面调用任意的方法，即便它真的有这些方法：</p>
+                    <code>Object</code>类型的变量只是允许你给它赋任意值 - 但是却不能够在它上面调用任意的方法，即便它真的有这些方法：</p>
                 <pre><code class="language-ts">let notSure: any = 4;
 notSure.ifItExists(); // okay, ifItExists might exist at runtime
 notSure.toFixed(); // okay, toFixed exists (but the compiler doesn't check)
@@ -188,6 +188,30 @@ let n: null = null;
                 <blockquote>
                     <p>注意：我们鼓励尽可能地使用<code>--strictNullChecks</code>，但在本手册里我们假设这个标记是关闭的。</p>
                 </blockquote>
+                <h1>Never</h1>
+                <p><code>never</code>类型表示的是那些永不存在的值的类型。 例如，
+                    <code>never</code>类型是那些总是会抛出异常或根本就不会有返回值的函数表达式或箭头函数表达式的返回值类型； 变量也可能是
+                    <code>never</code>类型，当它们被永不为真的类型保护所约束时。</p>
+                <p><code>never</code>类型是任何类型的子类型，也可以赋值给任何类型；然而，<em>没有</em>类型是<code>never</code>的子类型或可以赋值给<code>never</code>类型（除了<code>never</code>本身之外）。
+                    即使
+                    <code>any</code>也不可以赋值给<code>never</code>。</p>
+                <p>下面是一些返回<code>never</code>类型的函数：</p>
+                <pre><code class="language-ts">// 返回never的函数必须存在无法达到的终点
+function error(message: string): never {
+    throw new Error(message);
+}
+
+// 推断的返回值类型为never
+function fail() {
+    return error(&quot;Something failed&quot;);
+}
+
+// 返回never的函数必须存在无法达到的终点
+function infiniteLoop(): never {
+    while (true) {
+    }
+}
+</code></pre>
                 <h1>类型断言</h1>
                 <p>有时候你会遇到这样的情况，你会比TypeScript更了解某个值的详细信息。 通常这会发生在你清楚地知道一个实体具有比它现有类型更确切的类型。
                 </p>
@@ -210,7 +234,6 @@ let strLength: number = (someValue as string).length;
                 <p>你可能已经注意到了，我们使用<code>let</code>关键字来代替大家所熟悉的JavaScript关键字<code>var</code>。
                     <code>let</code>关键字是JavaScript的一个新概念，TypeScript实现了它。 我们会在以后详细介绍它，很多常见的问题都可以通过使用
                     <code>let</code>来解决，所以尽可能地使用<code>let</code>来代替<code>var</code>吧。</p>
-
             </article>
         </div>
     </div>

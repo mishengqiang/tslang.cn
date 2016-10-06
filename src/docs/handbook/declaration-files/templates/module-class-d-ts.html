@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>module-class.d.ts · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">module-class.d.ts</h1>
+            </header>
+            <article class="post-content">
+                <p></p>
+                <pre><code class="language-ts">// Type definitions for [~THE LIBRARY NAME~] [~OPTIONAL VERSION NUMBER~]
+// Project: [~THE PROJECT NAME~]
+// Definitions by: [~YOUR NAME~] &lt;[~A URL FOR YOU~]&gt;
+
+/*~ This is the module template file for class modules.
+ *~ You should rename it to index.d.ts and place it in a folder with the same name as the module.
+ *~ For example, if you were writing a file for &quot;super-greeter&quot;, this
+ *~ file should be 'super-greeter/index.d.ts'
+ */
+
+/*~ Note that ES6 modules cannot directly export class objects.
+ *~ This file should be imported using the CommonJS-style:
+ *~   import x = require('someLibrary');
+ *~
+ *~ Refer to the documentation to understand common
+ *~ workarounds for this limitation of ES6 modules.
+ */
+
+/*~ If this module is a UMD module that exposes a global variable 'myClassLib' when
+ *~ loaded outside a module loader environment, declare that global here.
+ *~ Otherwise, delete this declaration.
+ */
+export as namespace myClassLib;
+
+/*~ This declaration specifies that the class constructor function
+ *~ is the exported object from the file
+ */
+export = MyClass;
+
+/*~ Write your module's methods and properties in this class */
+declare class MyClass {
+    constructor(someParam?: string);
+
+    someProperty: string[];
+
+    myMethod(opts: MyClass.MyClassMethodOptions): number;
+}
+
+/*~ If you want to expose types from your module as well, you can
+ *~ place them in this block.
+ */
+declare namespace MyClass {
+    export interface MyClassMethodOptions {
+        width?: number;
+        height?: number;
+    }
+}
+</code></pre>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

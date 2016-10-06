@@ -138,7 +138,7 @@ f(false); // returns 'undefined'
                 <h2>变量获取怪异之处</h2>
                 <p>快速的猜一下下面的代码会返回什么：</p>
                 <pre><code class="language-ts">for (var i = 0; i &lt; 10; i++) {
-    setTimeout(function() {console.log(i); }, 100 * i);
+    setTimeout(function() { console.log(i); }, 100 * i);
 }
 </code></pre>
                 <p>介绍一下，<code>setTimeout</code>会在若干毫秒的延时后执行一个函数（等待其它代码执行完毕）。</p>
@@ -473,7 +473,6 @@ f({}) // error, 'a' is required if you supply an argument
                 <p>要小心使用解构。 从前面的例子可以看出，就算是最简单的解构也会有很多问题。 尤其当存在深层嵌套解构的时候，就算这时没有堆叠在一起的重命名，默认值和类型注解，也是令人难以理解的。 解构表达式要尽量保持小而简单。
                     你自己也可以直接使用解构将会生成的赋值表达式。
                 </p>
-
             </article>
         </div>
     </div>

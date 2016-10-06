@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>深入 · 声明文件 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">深入</h1>
+            </header>
+            <article class="post-content">
+                <h1>声明文件原理：深入探究</h1>
+                <p>组织模块以提供你想要的API形式保持一致是比较难的。 比如，你可能想要这样一个模块，可以用或不用
+                    <code>new</code>来创建不同的类型， 在不同层级上暴露出不同的命名类型， 且模块对象上还带有一些属性。
+                </p>
+                <p>阅读这篇指定后，你就会了解如果书写复杂的暴露出友好API的声明文件。 这篇指定针对于模块（UMD）库，因为它们的选择具有更高的可变性。
+                </p>
+                <h2>核心概念</h2>
+                <p>如果你理解了一些关于TypeScript是如何工作的核心概念， 那么你就能够为任何结构书写声明文件。
+                </p>
+                <h3>类型</h3>
+                <p>如果你正在阅读这篇指南，你可能已经大概了解TypeScript里的类型指是什么。 明确一下，
+                    <em>类型</em>通过以下方式引入：</p>
+                <ul>
+                    <li>类型别名声明（<code>type sn = number | string;</code>）</li>
+                    <li>接口声明（<code>interface I { x: number[]; }</code>）</li>
+                    <li>类声明（<code>class C { }</code>）</li>
+                    <li>枚举声明（<code>enum E { A, B, C }</code>）</li>
+                    <li>指向某个类型的<code>import</code>声明</li>
+                </ul>
+                <p>以上每种声明形式都会创建一个新的类型名称。</p>
+                <h3>值</h3>
+                <p>与类型相比，你可能已经理解了什么是值。 值是运行时名字，可以在表达式里引用。 比如
+                    <code>let x = 5;</code>创建一个名为<code>x</code>的值。</p>
+                <p>同样，以下方式能够创建值：</p>
+                <ul>
+                    <li><code>let</code>，<code>const</code>，和<code>var</code>声明</li>
+                    <li>包含值的<code>namespace</code>或<code>module</code>声明</li>
+                    <li><code>enum</code>声明</li>
+                    <li><code>class</code>声明</li>
+                    <li>指向值的<code>import</code>声明</li>
+                    <li><code>function</code>声明</li>
+                </ul>
+                <h3>命名空间</h3>
+                <p>类型可以存在于<em>命名空间</em>里。 比如，有这样的声明
+                    <code>let x: A.B.C</code>， 我们就认为
+                    <code>C</code>类型来自<code>A.B</code>命名空间。</p>
+                <p>这个区别虽细微但很重要 -- 这里，<code>A.B</code>不是必需的类型或值。</p>
+                <h2>简单的组合：一个名字，多种意义</h2>
+                <p>一个给定的名字<code>A</code>，我们可以找出三种不同的意义：一个类型，一个值或一个命名空间。 要如何去解析这个名字要看它所在的上下文是怎样的。 比如，在声明
+                    <code>let m: A.A = A;</code>，
+                    <code>A</code>首先被当做命名空间，然后做为类型名，最后是值。 这些意义最终可能会指向完全不同的声明！
+                </p>
+                <p>这看上去另人迷惑，但是只要我们不过度的重载这还是很方便的。 下面让我们来看看一些有用的组合行为。
+                </p>
+                <h3>内置组合</h3>
+                <p>眼尖的读者可能会注意到，比如，<code>class</code>同时出现在<em>类型</em>和<em>值</em>列表里。
+                    <code>class C { }</code>声明创建了两个东西：
+                    <em>类型</em><code>C</code>指向类的实例结构，
+                    <em>值</em><code>C</code>指向类构造函数。 枚举声明拥有相似的行为。
+                </p>
+                <h3>用户组合</h3>
+                <p>假设我们写了模块文件<code>foo.d.ts</code>:</p>
+                <pre><code class="language-ts">export var SomeVar: { a: SomeType };
+export interface SomeType {
+  count: number;
+}
+</code></pre>
+                <p>这样使用它：</p>
+                <pre><code class="language-ts">import * as foo from './foo';
+let x: foo.SomeType = foo.SomeVar.a;
+console.log(x.count);
+</code></pre>
+                <p>这可以很好地工作，但是我们知道<code>SomeType</code>和<code>SomeVar</code>很相关 因此我们想让他们有相同的名字。 我们可以使用组合通过相同的名字
+                    <code>Bar</code>表示这两种不同的对象（值和对象）：</p>
+                <pre><code class="language-ts">export var Bar: { a: Bar };
+export interface Bar {
+  count: number;
+}
+</code></pre>
+                <p>这提供了解构使用的机会：</p>
+                <pre><code class="language-ts">import { Bar } from './foo';
+let x: Bar = Bar.a;
+console.log(x.count);
+</code></pre>
+                <p>再次地，这里我们使用<code>Bar</code>做为类型和值。 注意我们没有声明
+                    <code>Bar</code>值为<code>Bar</code>类型 -- 它们是独立的。</p>
+                <h2>高级组合</h2>
+                <p>有一些声明能够通过多个声明组合。 比如，
+                    <code>class C { }</code>和<code>interface C { }</code>可以同时存在并且都可以做为<code>C</code>类型的属性。</p>
+                <p>只要不产生冲突就是合法的。 一个普通的规则是值总是会和同名的其它值产生冲突除非它们在不同命名空间里， 类型冲突则发生在使用类型别名声明的情况下（
+                    <code>type s = string</code>）， 命名空间永远不会发生冲突。
+                </p>
+                <p>让我们看看如何使用。</p>
+                <h3>利用<code>interface</code>添加</h3>
+                <p>我们可以使用一个<code>interface</code>往别一个<code>interface</code>声明里添加额外成员：</p>
+                <pre><code class="language-ts">interface Foo {
+  x: number;
+}
+// ... elsewhere ...
+interface Foo {
+  y: number;
+}
+let a: Foo = ...;
+console.log(a.x + a.y); // OK
+</code></pre>
+                <p>这同样作用于类：</p>
+                <pre><code class="language-ts">class Foo {
+  x: number;
+}
+// ... elsewhere ...
+interface Foo {
+  y: number;
+}
+let a: Foo = ...;
+console.log(a.x + a.y); // OK
+</code></pre>
+                <p>注意我们不能使用接口往类型别名里添加成员（<code>type s = string;</code>）</p>
+                <h3>使用<code>namespace</code>添加</h3>
+                <p><code>namespace</code>声明可以用来添加新类型，值和命名空间，只要不出现冲突。</p>
+                <p>比如，我们可能添加静态成员到一个类：</p>
+                <pre><code class="language-ts">class C {
+}
+// ... elsewhere ...
+namespace C {
+  export let x: number;
+}
+let y = C.x; // OK
+</code></pre>
+                <p>注意在这个例子里，我们添加一个值到<code>C</code>的<em>静态</em>部分（它的构造函数）。 这里因为我们添加了一个
+                    <em>值</em>，且其它值的容器是另一个值 （类型包含于命名空间，命名空间包含于另外的命名空间）。
+                </p>
+                <p>我们还可以给类添加一个命名空间类型：</p>
+                <pre><code class="language-ts">class C {
+}
+// ... elsewhere ...
+namespace C {
+  export interface D { }
+}
+let y: C.D; // OK
+</code></pre>
+                <p>在这个例子里，直到我们写了<code>namespace</code>声明才有了命名空间<code>C</code>。 做为命名空间的
+                    <code>C</code>不会与类创建的值<code>C</code>或类型<code>C</code>相互冲突。</p>
+                <p>最后，我们可以进行不同的合并通过<code>namespace</code>声明。 Finally, we could perform many different merges using <code>namespace</code>                    declarations. This isn't a particularly realistic example, but shows all sorts of interesting behavior:</p>
+                <pre><code class="language-ts">namespace X {
+  export interface Y { }
+  export class Z { }
+}
+
+// ... elsewhere ...
+namespace X {
+  export var Y: number;
+  export namespace Z {
+    export class C { }
+  }
+}
+type X = string;
+</code></pre>
+                <p>在这个例子里，第一个代码块创建了以下名字与含义：</p>
+                <ul>
+                    <li>一个值<code>X</code>（因为<code>namespace</code>声明包含一个值，<code>Z</code>）</li>
+                    <li>一个命名空间<code>X</code>（因为<code>namespace</code>声明包含一个值，<code>Z</code>）</li>
+                    <li>在命名空间<code>X</code>里的类型<code>Y</code></li>
+                    <li>在命名空间<code>X</code>里的类型<code>Z</code>（类的实例结构）</li>
+                    <li>值<code>X</code>的一个属性值<code>Z</code>（类的构造函数）</li>
+                </ul>
+                <p>第二个代码块创建了以下名字与含义：</p>
+                <ul>
+                    <li>值<code>Y</code>（<code>number</code>类型），它是值<code>X</code>的一个属性</li>
+                    <li>一个命名空间<code>Z</code></li>
+                    <li>值<code>Z</code>，它是值<code>X</code>的一个属性</li>
+                    <li>在<code>X.Z</code>命名空间下的类型<code>C</code></li>
+                    <li>值<code>X.Z</code>的一个属性值<code>C</code></li>
+                    <li>类型<code>X</code></li>
+                </ul>
+                <h2>使用<code>export =</code>或<code>import</code></h2>
+                <p>一个重要的原则是<code>export</code>和<code>import</code>声明会导出或导入目标的<em>所有含义</em>。</p>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

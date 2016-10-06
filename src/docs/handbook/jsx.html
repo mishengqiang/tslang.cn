@@ -178,7 +178,7 @@ var myComponent = MyFactoryFunction();
 </code></pre>
                 <p>元素的实例类型很有趣，因为它必须赋值给<code>JSX.ElementClass</code>或抛出一个错误。 默认的
                     <code>JSX.ElementClass</code>为<code>{}</code>，但是它可以被扩展用来限制JSX的类型以符合相应的接口。</p>
-                <pre><code class="language-ts">declare namespace JSX JSX {
+                <pre><code class="language-ts">declare namespace JSX {
   interface ElementClass {
     render: any;
   }
@@ -293,7 +293,6 @@ class MyComponent extends React.Component&lt;Props, {}&gt; {
 &lt;MyComponent foo=&quot;bar&quot; /&gt;; // 正确
 &lt;MyComponent foo={0} /&gt;; // 错误
 </code></pre>
-
             </article>
         </div>
     </div>

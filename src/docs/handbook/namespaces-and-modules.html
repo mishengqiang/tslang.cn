@@ -49,12 +49,13 @@
                 <h1 class="post-title">命名空间和模块</h1>
             </header>
             <article class="post-content">
+                <p></p>
                 <blockquote>
                     <p><strong>关于术语的一点说明:</strong> 请务必注意一点，TypeScript 1.5里术语名已经发生了变化。 “内部模块”现在称做“命名空间”。 “外部模块”现在则简称为“模块”，这是为了与
                         <a href="http://www.ecma-international.org/ecma-262/6.0/">ECMAScript 2015</a>里的术语保持一致，(也就是说 <code>module X {</code>                        相当于现在推荐的写法 <code>namespace X {</code>)。</p>
                 </blockquote>
                 <h1>介绍</h1>
-                <p>这篇文章将概括介绍在TypeScript里使用模块与命名空间来组织代码的方法。 我们也会谈及命名空间和模块的高级使用场景，和在使用它们的过程中常见的陷井。
+                <p>这篇文章将概括介绍在TypeScript里使用模块与命名空间来组织代码的方法。 我们也会谈及命名空间和模块的高级使用场景，和在使用它们的过程中常见的陷阱。
                 </p>
                 <p>查看<a href="./Modules.md">模块</a>章节了解关于模块的更多信息。 查看
                     <a href="./Namespaces.md">命名空间</a>章节了解关于命名空间的更多信息。</p>
@@ -71,8 +72,8 @@
                 <p>对于Node.js应用来说，模块是默认并推荐的组织代码的方式。</p>
                 <p>从ECMAScript 2015开始，模块成为了语言内置的部分，应该会被所有正常的解释引擎所支持。 因此，对于新项目来说推荐使用模块做为组织代码的方式。
                 </p>
-                <h1>命名空间和模块的陷井</h1>
-                <p>这部分我们会描述常见的命名空间和模块的使用陷井和如何去避免它们。</p>
+                <h1>命名空间和模块的陷阱</h1>
+                <p>这部分我们会描述常见的命名空间和模块的使用陷阱和如何去避免它们。</p>
                 <h2>对模块使用<code>/// &lt;reference&gt;</code></h2>
                 <p>一个常见的错误是使用<code>/// &lt;reference&gt;</code>引用模块文件，应该使用<code>import</code>。 要理解这之间的区别，我们首先应该弄清编译器是如何根据
                     <code>import</code>路径（例如，<code>import x from &quot;...&quot;;</code>或<code>import x = require(&quot;...&quot;)</code>里面的<code>...</code>，等等）来定位模块的类型信息的。</p>
@@ -133,7 +134,6 @@ let t = new shapes.Triangle();
                 <h2>模块的取舍</h2>
                 <p>就像每个JS文件对应一个模块一样，TypeScript里模块文件与生成的JS文件也是一一对应的。 这会产生一个效果，就是无法使用
                     <code>--outFile</code>来让编译器合并多个模块文件为一个JavaScript文件。</p>
-
             </article>
         </div>
     </div>

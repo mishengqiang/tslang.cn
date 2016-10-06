@@ -201,7 +201,7 @@ namespace Animals {
     export class Dog { }
 }
 </code></pre>
-                <p>除了这些合并外，你还需要了解非导出成员是如何处理的。 非导出成员仅在其原始存在于的命名空间（未合并的）之内可见。这就是说合并之后，从其它命名空间合并进来的成员无法访问非导出成员。
+                <p>除了这些合并外，你还需要了解非导出成员是如何处理的。 非导出成员仅在其原有的（合并前的）命名空间内可见。这就是说合并之后，从其它命名空间合并进来的成员无法访问非导出成员。
                 </p>
                 <p>下例提供了更清晰的说明：</p>
                 <pre><code class="language-ts">namespace Animal {
@@ -329,7 +329,6 @@ Array.prototype.toObservable = function () {
 }
 </code></pre>
                 <p>全局扩展与模块扩展的行为和限制是相同的。</p>
-
             </article>
         </div>
     </div>

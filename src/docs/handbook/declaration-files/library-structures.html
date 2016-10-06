@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>结构 · 声明文件 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">结构</h1>
+            </header>
+            <article class="post-content">
+                <h1>概述</h1>
+                <p>一般来讲，你<em>组织</em>声明文件的方式取决于库是如何被使用的。 在JavaScript里提供了很多库的使用方法，这就需要你书写声明文件去匹配它们。 这篇指南涵盖了如何识别常见库的模式，与怎么样书写符合相应模式的声明文件。
+                </p>
+                <p>针对每种主要的库的组织模式，在<a href="templates.html">模版</a>一节都有对应的文件。 你可以利用它们帮助你快速上手。
+                </p>
+                <h1>识别库的类型</h1>
+                <p>首先，我们先看一下TypeScript声明文件能够表示的库的类型。 这里会简单展示每种类型的库的使用方式，如何去书写，还有一些真实案例。
+                </p>
+                <p>识别库的类型是书写声明文件的第一步。 我们将会给出一些提示，关于怎样通过库的
+                    <em>使用方法</em>及其<em>源码</em>来识别库的类型。 根据库的文档及组织结构不同，这两种方式可能一个会比另外的那个简单一些。 我们推荐你使用任意你喜欢的方式。
+                </p>
+                <h2>全局库</h2>
+                <p><em>全局</em>库是指能在全局命名空间下访问的（例如：不需要使用任何形式的<code>import</code>）。 许多库都是简单的暴露出一个或多个全局变量。 比如，如果你使用过
+                    <a href="https://jquery.com/">jQuery</a>，<code>$</code>变量可以被够简单的引用：</p>
+                <pre><code class="language-ts">$(() =&gt; { console.log('hello!'); } );
+</code></pre>
+                <p>你经常会在全局库的指南文档上看到如何在HTML里用脚本标签引用库：</p>
+                <pre><code class="language-html">&lt;script src=&quot;http://a.great.cdn.for/someLib.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+                <p>目前，大多数流行的全局访问型库实际上都以UMD库的形式进行书写（见后文）。 UMD库的文档很难与全局库文档两者之间难以区分。 在书写全局声明文件前，一定要确认一下库是否真的不是UMD。
+                </p>
+                <h3>从代码上识别全局库</h3>
+                <p>全局库的代码通常都十分简单。 一个全局的“Hello, world”库可能是这样的：</p>
+                <pre><code class="language-js">function createGreeting(s) {
+    return &quot;Hello, &quot; + s;
+}
+</code></pre>
+                <p>或这样：</p>
+                <pre><code class="language-js">window.createGreeting = function(s) {
+    return &quot;Hello, &quot; + s;
+}
+</code></pre>
+                <p>当你查看全局库的源代码时，你通常会看到：</p>
+                <ul>
+                    <li>顶级的<code>var</code>语句或<code>function</code>声明</li>
+                    <li>一个或多个赋值语句到<code>window.someName</code></li>
+                    <li>假设DOM原始值像<code>document</code>或<code>window</code>是存在的</li>
+                </ul>
+                <p>你<em>不会</em>看到：</p>
+                <ul>
+                    <li>检查是否使用或如何使用模块加载器，比如<code>require</code>或<code>define</code></li>
+                    <li>CommonJS/Node.js风格的导入如<code>var fs = require(&quot;fs&quot;);</code></li>
+                    <li><code>define(...)</code>调用</li>
+                    <li>文档里说明了如果<code>require</code>或导入这个库</li>
+                </ul>
+                <h3>全局库的例子</h3>
+                <p>由于把一个全局库转变成UMD库是非常容易的，所以很少流行的库还再使用全局的风格。 然而，小型的且需要DOM（或
+                    <em>没有</em>依赖）的库可能还是全局类型的。</p>
+                <h3>全局库模版</h3>
+                <p>模版文件<a href="templates/global-d-ts.html"><code>global.d.ts</code></a>定义了<code>myLib</code>库作为例子。 一定要阅读
+                    <a href="#preventing-name-conflicts">&quot;防止命名冲突&quot;补充说明</a>。</p>
+                <h2>模块化库</h2>
+                <p>一些库只能工作在模块加载器的环境下。 比如，像
+                    <code>express</code>只能在Node.js里工作所以必须使用CommonJS的<code>require</code>函数加载。</p>
+                <p>ECMAScript 2015（也就是ES2015，ECMAScript 6或ES6），CommonJS和RequireJS具有相似的<em>导入</em>一个<em>模块</em>的表示方法。 例如，对于JavaScript
+                    CommonJS （Node.js），有下面的代码</p>
+                <pre><code class="language-ts">var fs = require(&quot;fs&quot;);
+</code></pre>
+                <p>对于TypeScript或ES6，<code>import</code>关键字也具有相同的作用：</p>
+                <pre><code class="language-ts">import fs = require(&quot;fs&quot;);
+</code></pre>
+                <p>你通常会在模块化库的文档里看到如下说明：</p>
+                <pre><code class="language-js">var someLib = require('someLib');
+</code></pre>
+                <p>或</p>
+                <pre><code class="language-ts">define(..., ['someLib'], function(someLib) {
+
+});
+</code></pre>
+                <p>与全局模块一样，你也可能会在UMD模块的文档里看到这些例子，因此要仔细查看源码和文档。</p>
+                <h3>从代码上识别模块化库</h3>
+                <p>模块库至少会包含下列具有代表性的条目之一：</p>
+                <ul>
+                    <li>无条件的调用<code>require</code>或<code>define</code></li>
+                    <li>像<code>import * as a from 'b';</code> or <code>export c;</code>这样的声明</li>
+                    <li>赋值给<code>exports</code>或<code>module.exports</code></li>
+                </ul>
+                <p>它们极少包含：</p>
+                <ul>
+                    <li>对<code>window</code>或<code>global</code>的赋值</li>
+                </ul>
+                <h3>模块化库的例子</h3>
+                <p>许多流行的Node.js库都是这种模块化的，例如<a href="http://expressjs.com/"><code>express</code></a>，<a href="http://gulpjs.com/"><code>gulp</code></a>和
+                    <a
+                        href="https://github.com/request/request"><code>request</code></a>。</p>
+                <h2><em>UMD</em></h2>
+                <p><em>UMD</em>模块是指那些既可以作为模块使用（通过导入）又可以作为全局（在没有模块加载器的环境里）使用的模块。 许多流行的库，比如
+                    <a href="http://momentjs.com/">Moment.js</a>，就是这样的形式。 比如，在Node.js或RequireJS里，你可以这样写：
+                </p>
+                <pre><code class="language-ts">import moment = require(&quot;moment&quot;);
+console.log(moment.format());
+</code></pre>
+                <p>然而在纯净的浏览器环境里你也可以这样写：</p>
+                <pre><code class="language-ts">console.log(moment.format());
+</code></pre>
+                <h3>识别UMD库</h3>
+                <p><a href="https://github.com/umdjs/umd">UMD模块</a>会检查是否存在模块加载器环境。 这是非常形容观察到的模块，它们会像下面这样：
+                </p>
+                <pre><code class="language-js">(function (root, factory) {
+    if (typeof define === &quot;function&quot; &amp;&amp; define.amd) {
+        define([&quot;libName&quot;], factory);
+    } else if (typeof module === &quot;object&quot; &amp;&amp; module.exports) {
+        module.exports = factory(require(&quot;libName&quot;));
+    } else {
+        root.returnExports = factory(root.libName);
+    }
+}(this, function (b) {
+</code></pre>
+                <p>如果你在库的源码里看到了<code>typeof define</code>，<code>typeof window</code>，或<code>typeof module</code>这样的测试，尤其是在文件的顶端，那么它几乎就是一个UMD库。</p>
+                <p>UMD库的文档里经常会包含通过<code>require</code>“在Node.js里使用”例子， 和“在浏览器里使用”的例子，展示如何使用
+                    <code>&lt;script&gt;</code>标签去加载脚本。</p>
+                <h3>UMD库的例子</h3>
+                <p>大多数流行的库现在都能够被当成UMD包。 比如
+                    <a href="https://jquery.com/">jQuery</a>,<a href="http://momentjs.com/">Moment.js</a>,<a href="https://lodash.com/">lodash</a>和许多其它的。</p>
+                <h3>模版</h3>
+                <p>针对模块有三种可用的模块，
+                    <a href="templates/module-d-ts.html"><code>module.d.ts</code></a>, <a href="templates/module-class-d-ts.html"><code>module-class.d.ts</code></a>                    and <a href="templates/module-function-d-ts.html"><code>module-function.d.ts</code></a>.</p>
+                <p>使用<a href="templates/module-function-d-ts.html"><code>module-function.d.ts</code></a>，如果模块能够作为函数<em>调用</em>。</p>
+                <pre><code class="language-ts">var x = require(&quot;foo&quot;);
+// Note: calling 'x' as a function
+var y = x(42);
+</code></pre>
+                <p>一定要阅读<a href="#the-impact-of-es6-on-module-call-signatures">补充说明： “ES6模块调用签名的影响”</a></p>
+                <p>使用<a href="templates/module-class-d-ts.html"><code>module-class.d.ts</code></a>如果模块能够使用<code>new</code>来<em>构造</em>：</p>
+                <pre><code class="language-ts">var x = require(&quot;bar&quot;);
+// Note: using 'new' operator on the imported variable
+var y = new x(&quot;hello&quot;);
+</code></pre>
+                <p>相同的<a href="#the-impact-of-es6-on-module-plugins">补充说明</a>作用于这些模块。</p>
+                <p>如果模块不能被调用或构造，使用<a href="templates/module-d-ts.html"><code>module.d.ts</code></a>文件。</p>
+                <h2><em>模块插件</em>或<em>UMD插件</em></h2>
+                <p>一个<em>模块插件</em>可以改变一个模块的结构（UMD或模块）。 例如，在Moment.js里，
+                    <code>moment-range</code>添加了新的<code>range</code>方法到<code>monent</code>对象。</p>
+                <p>对于声明文件的目标，我们会写相同的代码不论被改变的模块是一个纯粹的模块还是UMD模块。</p>
+                <h3>模版</h3>
+                <p>使用<a href="templates/module-plugin-d-ts.html"><code>module-plugin.d.ts</code></a>模版。</p>
+                <h2><em>全局插件</em></h2>
+                <p>一个<em>全局插件</em>是全局代码，它们会改变全局对象的结构。 对于
+                    <em>全局修改的模块</em>，在运行时存在冲突的可能。</p>
+                <p>比如，一些库往<code>Array.prototype</code>或<code>String.prototype</code>里添加新的方法。</p>
+                <h3>识别全局插件</h3>
+                <p>全局通常很容易地从它们的文档识别出来。</p>
+                <p>你会看到像下面这样的例子：</p>
+                <pre><code class="language-ts">var x = &quot;hello, world&quot;;
+// Creates new methods on built-in types
+console.log(x.startsWithHello());
+
+var y = [1, 2, 3];
+// Creates new methods on built-in types
+console.log(y.reverseAndSort());
+</code></pre>
+                <h3>模版</h3>
+                <p>使用<a href="templates/global-plugin-d-ts.html"><code>global-plugin.d.ts</code></a>模版。</p>
+                <h2><em>全局修改的模块</em></h2>
+                <p>当一个<em>全局修改的模块</em>被导入的时候，它们会改变全局作用域里的值。 比如，存在一些库它们添加新的成员到
+                    <code>String.prototype</code>当导入它们的时候。 这种模式很危险，因为可能造成运行时的冲突， 但是我们仍然可以为它们书写声明文件。
+                </p>
+                <h3>识别全局修改的模块</h3>
+                <p>全局修改的模块通常可以很容易地从它们的文档识别出来。 通常来讲，它们与全局插件相似，但是需要
+                    <code>require</code>调用来激活它们的效果。</p>
+                <p>你可能会看到像下面这样的文档:</p>
+                <pre><code class="language-ts">// 'require' call that doesn't use its return value
+var unused = require(&quot;magic-string-time&quot;);
+/* or */
+require(&quot;magic-string-time&quot;);
+
+var x = &quot;hello, world&quot;;
+// Creates new methods on built-in types
+console.log(x.startsWithHello());
+
+var y = [1, 2, 3];
+// Creates new methods on built-in types
+console.log(y.reverseAndSort());
+</code></pre>
+                <h3>模版</h3>
+                <p>使用<a href="templates/global-modifying-module-d-ts.html"><code>global-modifying-module.d.ts</code></a>模版。</p>
+                <h1>
+                    <a name="consuming-dependencies"></a>使用依赖</h1>
+                <p>可能会有以下几种依赖。</p>
+                <h2>依赖全局库</h2>
+                <p>如果你的库依赖于某个全局库，使用<code>/// &lt;reference types=&quot;...&quot; /&gt;</code>指令：</p>
+                <pre><code class="language-ts">/// &lt;reference types=&quot;someLib&quot; /&gt;
+
+function getThing(): someLib.thing;
+</code></pre>
+                <h2>依赖模块</h2>
+                <p>如果你的库依赖于模块，使用<code>import</code>语句：</p>
+                <pre><code class="language-ts">import * as moment from &quot;moment&quot;;
+
+function getThing(): moment;
+</code></pre>
+                <h2>依赖UMD库</h2>
+                <h3>从全局库</h3>
+                <p>如果你的全局库依赖于某个UMD模块，使用<code>/// &lt;reference types</code>指令：</p>
+                <pre><code class="language-ts">/// &lt;reference types=&quot;moment&quot; /&gt;
+
+function getThing(): moment;
+</code></pre>
+                <h3>从一个模块或UMD库</h3>
+                <p>如果你的模块或UMD库依赖于一个UMD库，使用<code>import</code>语句：</p>
+                <pre><code class="language-ts">import * as someLib from 'someLib';
+</code></pre>
+                <p><em>不要</em>使用<code>/// &lt;reference</code>指令去声明UMD库的依赖！</p>
+                <h1>补充说明</h1>
+                <h2>
+                    <a name="preventing-name-conflicts"></a>防止命名冲突</h2>
+                <p>注意，在书写全局声明文件时，允许在全局作用域里定义很多类型。 我们十分不建义这样做，当一个工程里有许多声明文件时，它会导致无法处理的命名冲突。
+                </p>
+                <p>一个简单的规则是使用库定义的全局变量名来声明命名空间类型。 比如，库定义了一个全局的值
+                    <code>cats</code>，你可以这样写</p>
+                <pre><code class="language-ts">declare namespace cats {
+    interface KittySettings { }
+}
+</code></pre>
+                <p><em>不要</em></p>
+                <pre><code class="language-ts">// at top-level
+interface CatsKittySettings { }
+</code></pre>
+                <p>这样也保证了库在转换成UMD的时候没有任何的破坏式改变，对于声明文件用户来说。</p>
+                <h2>
+                    <a name="the-impact-of-es6-on-module-plugins"></a>ES6模块插件的影响</h2>
+                <p>一些插件添加或修改已存在的顶层模块的导出部分。 当然这在CommonJS和其它加载器里是允许的，ES模块被当作是不可改变的因此这种模式就不可行了。 因为TypeScript是能不预知加载器类型的，所以没没在编译时保证，但是开发者如果要转到ES6模块加载器上应该注意这一点。
+                </p>
+                <h2>
+                    <a name="the-impact-of-es6-on-module-call-signatures"></a>ES6模块调用签名的影响</h2>
+                <p>很多流行库，比如Express，暴露出自己作为可以调用的函数。 比如，典型的Express使用方法如下：
+                </p>
+                <pre><code class="language-ts">import exp = require(&quot;express&quot;);
+var app = exp();
+</code></pre>
+                <p>在ES6模块加载器里，顶层的对象（这里以<code>exp</code>导入）只能具有属性； 顶层的模块对象
+                    <em>永远不能</em>被调用。 十分常见的解决方法是定义一个
+                    <code>default</code>导出到一个可调用的/可构造的对象； 一会模块加载器助手工具能够自己探测到这种情况并且使用
+                    <code>default</code>导出来替换顶层对象。</p>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

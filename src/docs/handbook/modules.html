@@ -49,6 +49,7 @@
                 <h1 class="post-title">模块</h1>
             </header>
             <article class="post-content">
+                <p></p>
                 <blockquote>
                     <p><strong>关于术语的一点说明:</strong> 请务必注意一点，TypeScript 1.5里术语名已经发生了变化。 “内部模块”现在称做“命名空间”。 “外部模块”现在则简称为“模块”，这是为了与
                         <a href="http://www.ecma-international.org/ecma-262/6.0/">ECMAScript 2015</a>里的术语保持一致，(也就是说 <code>module X {</code>                        相当于现在推荐的写法 <code>namespace X {</code>)。</p>
@@ -62,7 +63,8 @@
                 <p>模块使用模块加载器去导入其它的模块。 在运行时，模块加载器的作用是在执行此模块代码前去查找并执行这个模块的所有依赖。 大家最熟知的JavaScript模块加载器是服务于Node.js的
                     <a href="https://en.wikipedia.org/wiki/CommonJS">CommonJS</a>和服务于Web应用的<a href="http://requirejs.org/">Require.js</a>。</p>
                 <p>TypeScript与ECMAScript 2015一样，任何包含顶级<code>import</code>或者<code>export</code>的文件都被当成一个模块。</p>
-                <h1><a name="export"></a>导出</h1>
+                <h1>
+                    <a name="export"></a>导出</h1>
                 <h2>导出声明</h2>
                 <p>任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加<code>export</code>关键字来导出。</p>
                 <h5>Validation.ts</h5>
@@ -108,7 +110,8 @@ export {ZipCodeValidator as RegExpBasedZipCodeValidator} from &quot;./ZipCodeVal
 export * from &quot;./LettersOnlyValidator&quot;; // exports class LettersOnlyValidator
 export * from &quot;./ZipCodeValidator&quot;;  // exports class ZipCodeValidator
 </code></pre>
-                <h1><a name="import"></a>导入</h1>
+                <h1>
+                    <a name="import"></a>导入</h1>
                 <p>模块的导入操作与导出一样简单。 可以使用以下
                     <code>import</code>形式之一来导入其它模块中的导出内容。</p>
                 <h2>导入一个模块中的某个导出内容</h2>
@@ -346,31 +349,31 @@ if (needZipValidation) {
                 <h5>示例：require.js里的动态模块加载</h5>
                 <pre><code class="language-ts">declare function require(moduleNames: string[], onLoad: (...args: any[]) =&gt; void): void;
 
-import { ZipCodeValidator as Zip } from &quot;./ZipCodeValidator&quot;;
+import  * as Zip from &quot;./ZipCodeValidator&quot;;
 
 if (needZipValidation) {
     require([&quot;./ZipCodeValidator&quot;], (ZipCodeValidator: typeof Zip) =&gt; {
-        let validator = new ZipCodeValidator();
+        let validator = new ZipCodeValidator.ZipCodeValidator();
         if (validator.isAcceptable(&quot;...&quot;)) { /* ... */ }
     });
 }
 </code></pre>
                 <h5>示例：System.js里的动态模块加载</h5>
-                <pre><code class="language-ts">declare let System: any;
+                <pre><code class="language-ts">declare const System: any;
 
 import { ZipCodeValidator as Zip } from &quot;./ZipCodeValidator&quot;;
 
 if (needZipValidation) {
     System.import(&quot;./ZipCodeValidator&quot;).then((ZipCodeValidator: typeof Zip) =&gt; {
-        let x = new ZipCodeValidator();
+        var x = new ZipCodeValidator();
         if (x.isAcceptable(&quot;...&quot;)) { /* ... */ }
     });
 }
 </code></pre>
                 <h1>使用其它的JavaScript库</h1>
-                <p>为了描述不是用TypeScript编写的类库的类型，我们需要声明类库导出的API。</p>
-                <p>我们叫它声明因为它不是外部程序的具体实现。 通常会在
-                    <code>.d.ts</code>里写这些定义。 如果你熟悉C/C++，你可以把它们当做
+                <p>要想描述非TypeScript编写的类库的类型，我们需要声明类库所暴露出的API。</p>
+                <p>我们叫它声明因为它不是“外部程序”的具体实现。 它们通常是在
+                    <code>.d.ts</code>文件里定义的。 如果你熟悉C/C++，你可以把它们当做
                     <code>.h</code>文件。 让我们看一些例子。
                 </p>
                 <h2>外部模块</h2>
@@ -399,6 +402,53 @@ declare module &quot;path&quot; {
                 <pre><code class="language-ts">/// &lt;reference path=&quot;node.d.ts&quot;/&gt;
 import * as URL from &quot;url&quot;;
 let myUrl = URL.parse(&quot;http://www.typescriptlang.org&quot;);
+</code></pre>
+                <h3>外部模块简写</h3>
+                <p>假如你不想在使用一个新模块之前花时间去编写声明，你可以采用声明的简写形式以便能够快速使用它。</p>
+                <h5>declarations.d.ts</h5>
+                <pre><code class="language-ts">declare module &quot;hot-new-module&quot;;
+</code></pre>
+                <p>简写模块里所有导出的类型将是<code>any</code>。</p>
+                <pre><code class="language-ts">import x, {y} from &quot;hot-new-module&quot;;
+x(y);
+</code></pre>
+                <h3>模块声明通配符</h3>
+                <p>某些模块加载器如<a href="https://github.com/systemjs/systemjs/blob/master/docs/overview.md#plugin-syntax">SystemJS</a>                    和
+                    <a href="https://github.com/amdjs/amdjs-api/blob/master/LoaderPlugins.md">AMD</a>支持导入非JavaScript内容。 它们通常会使用一个前缀或后缀来表示特殊的加载语法。
+                    模块声明通配符可以用来表示这些情况。
+                </p>
+                <pre><code class="language-ts">declare module &quot;*!text&quot; {
+    const content: string;
+    export default content;
+}
+// Some do it the other way around.
+declare module &quot;json!*&quot; {
+    const value: any;
+    export default value;
+}
+</code></pre>
+                <p>现在你可以就导入匹配<code>&quot;*!text&quot;</code>或<code>&quot;json!*&quot;</code>的内容了。</p>
+                <pre><code class="language-ts">import fileContent from &quot;./xyz.txt!text&quot;;
+import data from &quot;json!http://example.com/data.json&quot;;
+console.log(data, fileContent);
+</code></pre>
+                <h3>UMD模块</h3>
+                <p>有些模块被设计成兼容多个模块加载器，或者不使用模块加载器（全局变量）。 它们以
+                    <a href="https://github.com/umdjs/umd">UMD</a>或<a href="http://isomorphic.net">Isomorphic</a>模块为代表。 这些库可以通过导入的形式或全局变量的形式访问。
+                    例如：
+                </p>
+                <h5>math-lib.d.ts</h5>
+                <pre><code class="language-ts">export const isPrime(x: number): boolean;
+export as namespace mathLib;
+</code></pre>
+                <p>之后，这个库可以在某个模块里通过导入来使用：</p>
+                <pre><code class="language-ts">import { isPrime } from &quot;math-lib&quot;;
+isPrime(2);
+mathLib.isPrime(2); // ERROR: can't use the global definition from inside a module
+</code></pre>
+                <p>它同样可以通过全局变量的形式使用，但只能在某个脚本里。 （脚本是指一个不带有导入或导出的文件。）
+                </p>
+                <pre><code class="language-ts">mathLib.isPrime(2);
 </code></pre>
                 <h1>创建模块结构指导</h1>
                 <h2>尽可能地在顶层导出</h2>
@@ -592,7 +642,6 @@ test(c, &quot;001+010=&quot;); // prints 3
                     <li>文件只有一个<code>export class</code>或<code>export function</code> （考虑使用<code>export default</code>）</li>
                     <li>多个文件的顶层具有同样的<code>export namespace Foo {</code> （不要以为这些会合并到一个<code>Foo</code>中！）</li>
                 </ul>
-
             </article>
         </div>
     </div>

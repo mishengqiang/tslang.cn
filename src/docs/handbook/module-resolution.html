@@ -49,6 +49,7 @@
                 <h1 class="post-title">模块解析</h1>
             </header>
             <article class="post-content">
+                <p></p>
                 <blockquote>
                     <p>这节假设你已经了解了模块的一些基本知识 请阅读
                         <a href="./Modules.md">模块</a>文档了解更多信息。</p>
@@ -96,7 +97,7 @@
                     <li><code>/root/src/folder/moduleB.ts</code></li>
                     <li><code>/root/src/folder/moduleB.d.ts</code></li>
                 </ol>
-                <p>对了非相对模块的导入，编译器则会从包含导入文件的目录开始依次向上级目录遍历，尝试定位匹配的声明文件。</p>
+                <p>对于非相对模块的导入，编译器则会从包含导入文件的目录开始依次向上级目录遍历，尝试定位匹配的声明文件。</p>
                 <p>比如：</p>
                 <p>有一个对<code>moduleB</code>的非相对导入<code>import { b } from &quot;moduleB&quot;</code>，它是在<code>/root/src/folder/A.ts</code>文件里，会以如下的方式来定位<code>&quot;moduleB&quot;</code>：</p>
                 <ol>
@@ -226,7 +227,6 @@ import * as B from &quot;moduleB&quot; // Error TS2307: Cannot find module 'modu
                 <p>有些是被<code>tsconfig.json</code>自动加入的。 它不会涉及到上面讨论的模块解析。 如果编译器识别出一个文件是模块导入目标，它就会加到编译列表里，不管它是否被排除了。
                 </p>
                 <p>因此，要从编译列表中排除一个文件，你需要在排除它的同时，还要排除所有对它进行<code>import</code>或使用了<code>/// &lt;reference path=&quot;...&quot; /&gt;</code>指令的文件。</p>
-
             </article>
         </div>
     </div>

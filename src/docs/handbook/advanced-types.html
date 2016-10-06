@@ -50,9 +50,9 @@
             </header>
             <article class="post-content">
                 <h1>联合类型</h1>
-                <p>偶尔你会遇到这种情况，一个代码库希望传入<code>number</code>或<code>string</code>类型的参数。 例如下面的函数：
-                </p>
-                <pre><code class="language-ts">/**
+<p>偶尔你会遇到这种情况，一个代码库希望传入<code>number</code>或<code>string</code>类型的参数。
+例如下面的函数：</p>
+<pre><code class="language-ts">/**
  * Takes a string and adds &quot;padding&quot; to the left.
  * If 'padding' is a string, then 'padding' is appended to the left side.
  * If 'padding' is a number, then that number of spaces is added to the left side.
@@ -64,20 +64,22 @@ function padLeft(value: string, padding: any) {
     if (typeof padding === &quot;string&quot;) {
         return padding + value;
     }
-    throw new Error(`Expected string or number, got '$padding}'.`);
+    throw new Error(`Expected string or number, got '${padding}'.`);
 }
 
 padLeft(&quot;Hello world&quot;, 4); // returns &quot;    Hello world&quot;
 </code></pre>
-                <p><code>padLeft</code>存在一个问题，<code>padding</code>参数的类型指定成了<code>any</code>。 这就是说我们可以传入一个既不是
-                    <code>number</code>也不是<code>string</code>类型的参数，但是TypeScript却不报错。</p>
-                <pre><code class="language-ts">let indentedString = padLeft(&quot;Hello world&quot;, true); // 编译阶段通过，运行时报错
+<p><code>padLeft</code>存在一个问题，<code>padding</code>参数的类型指定成了<code>any</code>。
+这就是说我们可以传入一个既不是<code>number</code>也不是<code>string</code>类型的参数，但是TypeScript却不报错。</p>
+<pre><code class="language-ts">let indentedString = padLeft(&quot;Hello world&quot;, true); // 编译阶段通过，运行时报错
 </code></pre>
-                <p>在传统的面向对象语言里，我们可能会将这两种类型抽象成有层级的类型。 这么做显然是非常清晰的，但同时也存在了过度设计。
-                    <code>padLeft</code>原始版本的好处之一是允许我们传入原始类型。 这做的话使用起来既方便又不过于繁锁。 如果我们就是想使用已经存在的函数的话，这种新的方式就不适用了。
-                </p>
-                <p>代替<code>any</code>， 我们可以使用<em>联合类型</em>做为<code>padding</code>的参数：</p>
-                <pre><code class="language-ts">/**
+<p>在传统的面向对象语言里，我们可能会将这两种类型抽象成有层级的类型。
+这么做显然是非常清晰的，但同时也存在了过度设计。
+<code>padLeft</code>原始版本的好处之一是允许我们传入原始类型。
+这做的话使用起来既方便又不过于繁锁。
+如果我们就是想使用已经存在的函数的话，这种新的方式就不适用了。</p>
+<p>代替<code>any</code>， 我们可以使用<em>联合类型</em>做为<code>padding</code>的参数：</p>
+<pre><code class="language-ts">/**
  * Takes a string and adds &quot;padding&quot; to the left.
  * If 'padding' is a string, then 'padding' is appended to the left side.
  * If 'padding' is a number, then that number of spaces is added to the left side.
@@ -88,10 +90,10 @@ function padLeft(value: string, padding: string | number) {
 
 let indentedString = padLeft(&quot;Hello world&quot;, true); // errors during compilation
 </code></pre>
-                <p>联合类型表示一个值可以是几种类型之一。 我们用竖线（
-                    <code>|</code>）分隔每个类型，所以<code>number | string | boolean</code>表示一个值可以是<code>number</code>，<code>string</code>，或<code>boolean</code>。</p>
-                <p>如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员。</p>
-                <pre><code class="language-ts">interface Bird {
+<p>联合类型表示一个值可以是几种类型之一。
+我们用竖线（<code>|</code>）分隔每个类型，所以<code>number | string | boolean</code>表示一个值可以是<code>number</code>，<code>string</code>，或<code>boolean</code>。</p>
+<p>如果一个值是联合类型，我们只能访问此联合类型的所有类型里共有的成员。</p>
+<pre><code class="language-ts">interface Bird {
     fly();
     layEggs();
 }
@@ -109,16 +111,17 @@ let pet = getSmallPet();
 pet.layEggs(); // okay
 pet.swim();    // errors
 </code></pre>
-                <p>这里的联合类型可能有点复杂，但是你很容易就习惯了。 如果一个值类型是
-                    <code>A | B</code>，我们只能<em>确定</em>它具有成员同时存在于<code>A</code><em>和</em><code>B</code>里。 这个例子里，
-                    <code>Bird</code>具有一个<code>fly</code>成员。 我们不能确定一个
-                    <code>Bird | Fish</code>类型的变量是否有<code>fly</code>方法。 如果变量在运行时是
-                    <code>Fish</code>类型，那么调用<code>pet.fly()</code>就出错了。</p>
-                <h1>类型保护与区分类型</h1>
-                <p>联合类型非常适合这样的情形，可接收的值有不同的类型。 当我们想明确地知道是否拿到
-                    <code>Fish</code>时会怎么做？ JavaScript里常用来区分2个可能值的方法是检查它们是否存在。 像之前提到的，我们只能访问联合类型的所有类型中共有的成员。
-                </p>
-                <pre><code class="language-ts">let pet = getSmallPet();
+<p>这里的联合类型可能有点复杂，但是你很容易就习惯了。
+如果一个值类型是<code>A | B</code>，我们只能<em>确定</em>它具有成员同时存在于<code>A</code><em>和</em><code>B</code>里。
+这个例子里，<code>Bird</code>具有一个<code>fly</code>成员。
+我们不能确定一个<code>Bird | Fish</code>类型的变量是否有<code>fly</code>方法。
+如果变量在运行时是<code>Fish</code>类型，那么调用<code>pet.fly()</code>就出错了。</p>
+<h1>类型保护与区分类型</h1>
+<p>联合类型非常适合这样的情形，可接收的值有不同的类型。
+当我们想明确地知道是否拿到<code>Fish</code>时会怎么做？
+JavaScript里常用来区分2个可能值的方法是检查它们是否存在。
+像之前提到的，我们只能访问联合类型的所有类型中共有的成员。</p>
+<pre><code class="language-ts">let pet = getSmallPet();
 
 // 每一个成员访问都会报错
 if (pet.swim) {
@@ -128,8 +131,8 @@ else if (pet.fly) {
     pet.fly();
 }
 </code></pre>
-                <p>为了让这断代码工作，我们要使用类型断言：</p>
-                <pre><code class="language-ts">let pet = getSmallPet();
+<p>为了让这段代码工作，我们要使用类型断言：</p>
+<pre><code class="language-ts">let pet = getSmallPet();
 
 if ((&lt;Fish&gt;pet).swim) {
     (&lt;Fish&gt;pet).swim();
@@ -138,19 +141,20 @@ else {
     (&lt;Bird&gt;pet).fly();
 }
 </code></pre>
-                <h2>用户自定义的类型保护</h2>
-                <p>可以注意到我们使用了多次类型断言。 如果我们只要检查过一次类型，就能够在后面的每个分支里清楚
-                    <code>pet</code>的类型的话就好了。</p>
-                <p>TypeScript里的<em>类型保护</em>机制让它成为了现实。 类型保护就是一些表达式，它们会在运行时检查以确保在某个作用域里的类型。 要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个
-                    <em>类型断言</em>：</p>
-                <pre><code class="language-ts">function isFish(pet: Fish | Bird): pet is Fish {
+<h2>用户自定义的类型保护</h2>
+<p>可以注意到我们使用了多次类型断言。
+如果我们只要检查过一次类型，就能够在后面的每个分支里清楚<code>pet</code>的类型的话就好了。</p>
+<p>TypeScript里的<em>类型保护</em>机制让它成为了现实。
+类型保护就是一些表达式，它们会在运行时检查以确保在某个作用域里的类型。
+要定义一个类型保护，我们只要简单地定义一个函数，它的返回值是一个<em>类型断言</em>：</p>
+<pre><code class="language-ts">function isFish(pet: Fish | Bird): pet is Fish {
     return (&lt;Fish&gt;pet).swim !== undefined;
 }
 </code></pre>
-                <p>在这个例子里，<code>pet is Fish</code>就是类型断言。 一个断言是
-                    <code>parameterName is Type</code>这种形式，<code>parameterName</code>必须是来自于当前函数签名里的一个参数名。</p>
-                <p>每当使用一些变量调用<code>isFish</code>时，TypeScript会将变量缩减为那个具体的类型，只要这个类型与变量的原始类型是兼容的。</p>
-                <pre><code class="language-ts">// 'swim' 和 'fly' 调用都没有问题了
+<p>在这个例子里，<code>pet is Fish</code>就是类型断言。
+一个断言是<code>parameterName is Type</code>这种形式，<code>parameterName</code>必须是来自于当前函数签名里的一个参数名。</p>
+<p>每当使用一些变量调用<code>isFish</code>时，TypeScript会将变量缩减为那个具体的类型，只要这个类型与变量的原始类型是兼容的。</p>
+<pre><code class="language-ts">// 'swim' 和 'fly' 调用都没有问题了
 
 if (isFish(pet)) {
     pet.swim();
@@ -159,12 +163,12 @@ else {
     pet.fly();
 }
 </code></pre>
-                <p>注意TypeScript不仅知道在<code>if</code>分支里<code>pet</code>是<code>Fish</code>类型； 它还清楚在
-                    <code>else</code>分支里，一定<em>不是</em><code>Fish</code>类型，一定是<code>Bird</code>类型。</p>
-                <h2><code>typeof</code>类型保护</h2>
-                <p>我们还没有真正的讨论过如何使用联合类型来实现<code>padLeft</code>。 我们可以像下面这样利用类型断言来写：
-                </p>
-                <pre><code class="language-ts">function isNumber(x: any): x is number {
+<p>注意TypeScript不仅知道在<code>if</code>分支里<code>pet</code>是<code>Fish</code>类型；
+它还清楚在<code>else</code>分支里，一定<em>不是</em><code>Fish</code>类型，一定是<code>Bird</code>类型。</p>
+<h2><code>typeof</code>类型保护</h2>
+<p>我们还没有真正的讨论过如何使用联合类型来实现<code>padLeft</code>。
+我们可以像下面这样利用类型断言来写：</p>
+<pre><code class="language-ts">function isNumber(x: any): x is number {
     return typeof x === &quot;number&quot;;
 }
 
@@ -182,10 +186,10 @@ function padLeft(value: string, padding: string | number) {
     throw new Error(`Expected string or number, got '${padding}'.`);
 }
 </code></pre>
-                <p>然而，必须要定义一个函数来判断类型是否是原始类型，这太痛苦了。 幸运的是，现在我们不必将
-                    <code>typeof x === &quot;number&quot;</code>抽象成一个函数，因为TypeScript可以将它识别为一个类型保护。 也就是说我们可以直接在代码里检查类型了。
-                </p>
-                <pre><code class="language-ts">function padLeft(value: string, padding: string | number) {
+<p>然而，必须要定义一个函数来判断类型是否是原始类型，这太痛苦了。
+幸运的是，现在我们不必将<code>typeof x === &quot;number&quot;</code>抽象成一个函数，因为TypeScript可以将它识别为一个类型保护。
+也就是说我们可以直接在代码里检查类型了。</p>
+<pre><code class="language-ts">function padLeft(value: string, padding: string | number) {
     if (typeof padding === &quot;number&quot;) {
         return Array(padding + 1).join(&quot; &quot;) + value;
     }
@@ -195,14 +199,13 @@ function padLeft(value: string, padding: string | number) {
     throw new Error(`Expected string or number, got '${padding}'.`);
 }
 </code></pre>
-                <p>这些*<code>typeof</code>类型保护*只有2个形式能被识别：<code>typeof v === &quot;typename&quot;</code>和<code>typeof v !== &quot;typename&quot;</code>，<code>&quot;typename&quot;</code>必须是<code>&quot;number&quot;</code>，<code>&quot;string&quot;</code>，<code>&quot;boolean&quot;</code>或<code>&quot;symbol&quot;</code>。
-                    但是TypeScript并不会阻止你与其它字符串比较，或者将它们位置对换，且语言不会把它们识别为类型保护。
-                </p>
-                <h2><code>instanceof</code>类型保护</h2>
-                <p>如果你已经阅读了<code>typeof</code>类型保护并且对JavaScript里的<code>instanceof</code>操作符熟悉的话，你可能已经猜到了这节要讲的内容。</p>
-                <p><em><code>instanceof</code>类型保护</em>是通过其构造函数来细化其类型。 比如，我们借鉴一下之前字符串填充的例子：
-                </p>
-                <pre><code class="language-ts">interface Padder {
+<p>这些*<code>typeof</code>类型保护*只有2个形式能被识别：<code>typeof v === &quot;typename&quot;</code>和<code>typeof v !== &quot;typename&quot;</code>，<code>&quot;typename&quot;</code>必须是<code>&quot;number&quot;</code>，<code>&quot;string&quot;</code>，<code>&quot;boolean&quot;</code>或<code>&quot;symbol&quot;</code>。
+但是TypeScript并不会阻止你与其它字符串比较，或者将它们位置对换，且语言不会把它们识别为类型保护。</p>
+<h2><code>instanceof</code>类型保护</h2>
+<p>如果你已经阅读了<code>typeof</code>类型保护并且对JavaScript里的<code>instanceof</code>操作符熟悉的话，你可能已经猜到了这节要讲的内容。</p>
+<p><em><code>instanceof</code>类型保护</em>是通过其构造函数来细化其类型。
+比如，我们借鉴一下之前字符串填充的例子：</p>
+<pre><code class="language-ts">interface Padder {
     getPaddingString(): string
 }
 
@@ -236,17 +239,18 @@ if (padder instanceof StringPadder) {
     padder; // 类型细化为'StringPadder'
 }
 </code></pre>
-                <p><code>instanceof</code>的右侧要求为一个构造函数，TypeScript将细化为：</p>
-                <ol>
-                    <li>这个函数的<code>prototype</code>属性，如果它的类型不为<code>any</code>的话</li>
-                    <li>类型中构造签名所返回的类型的联合，顺序保持一至。</li>
-                </ol>
-                <h1>交叉类型</h1>
-                <p>交叉类型与联合类型密切相关，但是用法却完全不同。 一个交叉类型，例如
-                    <code>Person &amp; Serializable &amp; Loggable</code>，同时是<code>Person</code><em>和</em><code>Serializable</code><em>和</em><code>Loggable</code>。
-                    就是说这个类型的对象同时拥有这三种类型的成员。 实际应用中，你大多会在混入中见到交叉类型。 下面是一个混入的例子：
-                </p>
-                <pre><code class="language-ts">function extend&lt;T, U&gt;(first: T, second: U): T &amp; U {
+<p><code>instanceof</code>的右侧要求为一个构造函数，TypeScript将细化为：</p>
+<ol>
+<li>这个函数的<code>prototype</code>属性，如果它的类型不为<code>any</code>的话</li>
+<li>类型中构造签名所返回的类型的联合，顺序保持一至。</li>
+</ol>
+<h1>交叉类型</h1>
+<p>交叉类型与联合类型密切相关，但是用法却完全不同。
+一个交叉类型，例如<code>Person &amp; Serializable &amp; Loggable</code>，同时是<code>Person</code><em>和</em><code>Serializable</code><em>和</em><code>Loggable</code>。
+就是说这个类型的对象同时拥有这三种类型的成员。
+实际应用中，你大多会在混入中见到交叉类型。
+下面是一个混入的例子：</p>
+<pre><code class="language-ts">function extend&lt;T, U&gt;(first: T, second: U): T &amp; U {
     let result = &lt;T &amp; U&gt;{};
     for (let id in first) {
         (&lt;any&gt;result)[id] = (&lt;any&gt;first)[id];
@@ -274,10 +278,10 @@ var jim = extend(new Person(&quot;Jim&quot;), new ConsoleLogger());
 var n = jim.name;
 jim.log();
 </code></pre>
-                <h1>类型别名</h1>
-                <p>类型别名会给一个类型起个新名字。 类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。
-                </p>
-                <pre><code class="language-ts">type Name = string;
+<h1>类型别名</h1>
+<p>类型别名会给一个类型起个新名字。
+类型别名有时和接口很像，但是可以作用于原始值，联合类型，元组以及其它任何你需要手写的类型。</p>
+<pre><code class="language-ts">type Name = string;
 type NameResolver = () =&gt; string;
 type NameOrResolver = Name | NameResolver;
 function getName(n: NameOrResolver): Name {
@@ -289,31 +293,31 @@ function getName(n: NameOrResolver): Name {
     }
 }
 </code></pre>
-                <p>起别名不会新建一个类型 - 它创建了一个新<em>名字</em>来引用那个类型。 给原始类型起别名通常没什么用，尽管可以做为文档的一种形式使用。
-                </p>
-                <p>同接口一样，类型别名也可以是泛型 - 我们可以添加类型参数并且在别名声明的右侧传入：</p>
-                <pre><code class="language-ts">type Container&lt;T&gt; = { value: T };
+<p>起别名不会新建一个类型 - 它创建了一个新<em>名字</em>来引用那个类型。
+给原始类型起别名通常没什么用，尽管可以做为文档的一种形式使用。</p>
+<p>同接口一样，类型别名也可以是泛型 - 我们可以添加类型参数并且在别名声明的右侧传入：</p>
+<pre><code class="language-ts">type Container&lt;T&gt; = { value: T };
 </code></pre>
-                <p>我们也可以使用类型别名来在属性里引用自己：</p>
-                <pre><code class="language-ts">type Tree&lt;T&gt; = {
+<p>我们也可以使用类型别名来在属性里引用自己：</p>
+<pre><code class="language-ts">type Tree&lt;T&gt; = {
     value: T;
     left: Tree&lt;T&gt;;
     right: Tree&lt;T&gt;;
 }
 </code></pre>
-                <p>然而，类型别名不可能出现在声明右侧以外的地方：</p>
-                <pre><code class="language-ts">type Yikes = Array&lt;Yikes&gt;; // 错误
+<p>然而，类型别名不能够出现在声名语句的右侧：</p>
+<pre><code class="language-ts">type Yikes = Array&lt;Yikes&gt;; // 错误
 </code></pre>
-                <h2>接口 vs. 类型别名</h2>
-                <p>像我们提到的，类型别名可以像接口一样；然而，仍有一些细微差别。</p>
-                <p>一个重要区别是类型别名不能被<code>extends</code>和<code>implements</code>也不能去<code>extends</code>和<code>implements</code>其它类型。
-                    因为
-                    <a href="https://en.wikipedia.org/wiki/Open/closed_principle">软件中的对象应该对于扩展是开放的，但是对于修改是封闭的</a>，你应该尽量去使用接口代替类型别名。</p>
-                <p>另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。</p>
-                <h1>字符串字面量类型</h1>
-                <p>字符串字面量类型允许你指定字符串必须的固定值。 在实际应用中，字符串字面量类型可以与联合类型，类型保护和类型别名很好的配合。 通过结合使用这些特性，你可以实现类似枚举类型的字符串。
-                </p>
-                <pre><code class="language-ts">type Easing = &quot;ease-in&quot; | &quot;ease-out&quot; | &quot;ease-in-out&quot;;
+<h2>接口 vs. 类型别名</h2>
+<p>像我们提到的，类型别名可以像接口一样；然而，仍有一些细微差别。</p>
+<p>一个重要区别是类型别名不能被<code>extends</code>和<code>implements</code>也不能去<code>extends</code>和<code>implements</code>其它类型。
+因为<a href="https://en.wikipedia.org/wiki/Open/closed_principle">软件中的对象应该对于扩展是开放的，但是对于修改是封闭的</a>，你应该尽量去使用接口代替类型别名。</p>
+<p>另一方面，如果你无法通过接口来描述一个类型并且需要使用联合类型或元组类型，这时通常会使用类型别名。</p>
+<h1>字符串字面量类型</h1>
+<p>字符串字面量类型允许你指定字符串必须的固定值。
+在实际应用中，字符串字面量类型可以与联合类型，类型保护和类型别名很好的配合。
+通过结合使用这些特性，你可以实现类似枚举类型的字符串。</p>
+<pre><code class="language-ts">type Easing = &quot;ease-in&quot; | &quot;ease-out&quot; | &quot;ease-in-out&quot;;
 class UIElement {
     animate(dx: number, dy: number, easing: Easing) {
         if (easing === &quot;ease-in&quot;) {
@@ -333,22 +337,23 @@ let button = new UIElement();
 button.animate(0, 0, &quot;ease-in&quot;);
 button.animate(0, 0, &quot;uneasy&quot;); // error: &quot;uneasy&quot; is not allowed here
 </code></pre>
-                <p>你只能从三种允许的字符中选择其一来做为参数传递，传入其它值则会产生错误。</p>
-                <pre><code class="language-text">Argument of type '&quot;uneasy&quot;' is not assignable to parameter of type '&quot;ease-in&quot; | &quot;ease-out&quot; | &quot;ease-in-out&quot;'
+<p>你只能从三种允许的字符中选择其一来做为参数传递，传入其它值则会产生错误。</p>
+<pre><code class="language-text">Argument of type '&quot;uneasy&quot;' is not assignable to parameter of type '&quot;ease-in&quot; | &quot;ease-out&quot; | &quot;ease-in-out&quot;'
 </code></pre>
-                <p>字符串字面量类型还可以用于区分函数重载：</p>
-                <pre><code class="language-ts">function createElement(tagName: &quot;img&quot;): HTMLImageElement;
+<p>字符串字面量类型还可以用于区分函数重载：</p>
+<pre><code class="language-ts">function createElement(tagName: &quot;img&quot;): HTMLImageElement;
 function createElement(tagName: &quot;input&quot;): HTMLInputElement;
 // ... more overloads ...
 function createElement(tagName: string): Element {
     // ... code goes here ...
 }
 </code></pre>
-                <h1>多态的<code>this</code>类型</h1>
-                <p>多态的<code>this</code>类型表示的是某个包含类或接口的<em>子类型</em>。 这被称做
-                    <em>F</em>-bounded多态性。 它能很容易的表现连贯接口间的继承，比如。 在计算器的例子里，在每个操作之后都返回
-                    <code>this</code>类型：</p>
-                <pre><code class="language-ts">class BasicCalculator {
+<h1>多态的<code>this</code>类型</h1>
+<p>多态的<code>this</code>类型表示的是某个包含类或接口的<em>子类型</em>。
+这被称做<em>F</em>-bounded多态性。
+它能很容易的表现连贯接口间的继承，比如。
+在计算器的例子里，在每个操作之后都返回<code>this</code>类型：</p>
+<pre><code class="language-ts">class BasicCalculator {
     public constructor(protected value: number = 0) { }
     public currentValue(): number {
         return this.value;
@@ -369,8 +374,8 @@ let v = new BasicCalculator(2)
             .add(1)
             .currentValue();
 </code></pre>
-                <p>由于这个类使用了<code>this</code>类型，你可以继承它，新的类可以直接使用之前的方法，不需要做任何的改变。</p>
-                <pre><code class="language-ts">class ScientificCalculator extends BasicCalculator {
+<p>由于这个类使用了<code>this</code>类型，你可以继承它，新的类可以直接使用之前的方法，不需要做任何的改变。</p>
+<pre><code class="language-ts">class ScientificCalculator extends BasicCalculator {
     public constructor(value = 0) {
         super(value);
     }
@@ -387,10 +392,9 @@ let v = new ScientificCalculator(2)
         .add(1)
         .currentValue();
 </code></pre>
-                <p>如果没有<code>this</code>类型，<code>ScientificCalculator</code>就不能够在继承<code>BasicCalculator</code>的同时还保持接口的连贯性。
-                    <code>multiply</code>将会返回<code>BasicCalculator</code>，它并没有<code>sin</code>方法。 然而，使用
-                    <code>this</code>类型，<code>multiply</code>会返回<code>this</code>，在这里就是<code>ScientificCalculator</code>。</p>
-
+<p>如果没有<code>this</code>类型，<code>ScientificCalculator</code>就不能够在继承<code>BasicCalculator</code>的同时还保持接口的连贯性。
+<code>multiply</code>将会返回<code>BasicCalculator</code>，它并没有<code>sin</code>方法。
+然而，使用<code>this</code>类型，<code>multiply</code>会返回<code>this</code>，在这里就是<code>ScientificCalculator</code>。</p>
             </article>
         </div>
     </div>
