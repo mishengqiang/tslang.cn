@@ -2,34 +2,34 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>规范 · 声明文件 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
-    <!-- inject:css -->
-    <!-- endinject -->
-    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
-    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
-    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
-    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
-    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
-    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
-    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
-    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
-    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
-    <link rel="manifest" href="/assets/images/icons/manifest.json">
-    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
-    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
-    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
-    <meta name="theme-color" content="#ffffff">
-    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
-    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>规范 · 声明文件 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+	<!-- inject:css -->
+	<!-- endinject -->
+	<link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+	<link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+	<link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+	<link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+	<link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+	<link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+	<link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+	<link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+	<link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+	<link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+	<link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+	<link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+	<link rel="manifest" href="/assets/images/icons/manifest.json">
+	<link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+	<link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+	<meta name="msapplication-TileColor" content="#da532c">
+	<meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+	<meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+	<meta name="theme-color" content="#ffffff">
+	<!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+	<!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
 </head>
 
 <body>
@@ -39,87 +39,87 @@
 <!-- inject:message:html -->
 <!-- endinject -->
 <div id="content" class="container-fluid fill docs-container">
-    <div class="container">
-        <div class="col-md-3 toc-container">
-            <!-- inject:docs-nav:html -->
-            <!-- endinject -->
-        </div>
-        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
-            <header class="post-header">
-                <h1 class="post-title">规范</h1>
-            </header>
-            <article class="post-content">
-                <h1>普通类型</h1>
-                <h2><code>Number</code>，<code>String</code>，<code>Boolean</code>和<code>Object</code></h2>
-                <p><em>不要</em>使用如下类型<code>Number</code>，<code>String</code>，<code>Boolean</code>或<code>Object</code>。 这些类型指的是非原始的装盒对象，它们几乎没在JavaScript代码里正确地使用过。
-                </p>
-                <pre><code class="language-ts">/* 错误 */
+	<div class="container">
+		<div class="col-md-3 toc-container">
+			<!-- inject:docs-nav:html -->
+			<!-- endinject -->
+		</div>
+		<div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+			<header class="post-header">
+				<h1 class="post-title">规范</h1>
+			</header>
+			<article class="post-content">
+				<h1>普通类型</h1>
+				<h2><code>Number</code>，<code>String</code>，<code>Boolean</code>和<code>Object</code></h2>
+				<p><em>不要</em>使用如下类型<code>Number</code>，<code>String</code>，<code>Boolean</code>或<code>Object</code>。 这些类型指的是非原始的装盒对象，它们几乎没在JavaScript代码里正确地使用过。
+				</p>
+				<pre><code class="language-ts">/* 错误 */
 function reverse(s: String): String;
 </code></pre>
-                <p><em>应该</em>使用类型<code>number</code>，<code>string</code>，and <code>boolean</code>。</p>
-                <pre><code class="language-ts">/* OK */
+				<p><em>应该</em>使用类型<code>number</code>，<code>string</code>，and <code>boolean</code>。</p>
+				<pre><code class="language-ts">/* OK */
 function reverse(s: string): string;
 </code></pre>
-                <p>如果你就要使用<code>Object</code>类型，考虑使用<code>any</code>代替。 目前在TypeScript里无法指定一个对象“不是一个原始值”。
-                </p>
-                <!--(Revisit if/when #1809 is implemented)-->
-                <h2>泛型</h2>
-                <p><em>不要</em>定义一个从来没使用过其类型参数的泛型类型。 了解详情
-                    <a href="https://github.com/Microsoft/TypeScript/wiki/FAQ#why-doesnt-type-inference-work-on-this-interface-interface-foot---">TypeScript FAQ page</a>。</p>
-                <!-- TODO: More -->
-                <h1>回调函数类型</h1>
-                <h2>回调函数返回值类型</h2>
-                <!-- TODO: Reword; these examples make no sense in the context of a declaration file -->
-                <p><em>不要</em>为返回值被忽略的回调函数设置一个<code>any</code>类型的返回值类型：</p>
-                <pre><code class="language-ts">/* 错误 */
+				<p>如果你就要使用<code>Object</code>类型，考虑使用<code>any</code>代替。 目前在TypeScript里无法指定一个对象“不是一个原始值”。
+				</p>
+				<!--(Revisit if/when #1809 is implemented)-->
+				<h2>泛型</h2>
+				<p><em>不要</em>定义一个从来没使用过其类型参数的泛型类型。 了解详情
+					<a href="https://github.com/Microsoft/TypeScript/wiki/FAQ#why-doesnt-type-inference-work-on-this-interface-interface-foot---">TypeScript FAQ page</a>。</p>
+				<!-- TODO: More -->
+				<h1>回调函数类型</h1>
+				<h2>回调函数返回值类型</h2>
+				<!-- TODO: Reword; these examples make no sense in the context of a declaration file -->
+				<p><em>不要</em>为返回值被忽略的回调函数设置一个<code>any</code>类型的返回值类型：</p>
+				<pre><code class="language-ts">/* 错误 */
 function fn(x: () =&gt; any) {
     x();
 }
 </code></pre>
-                <p><em>应该</em>给返回值被忽略的回调函数设置<code>void</code>类型的返回值类型：</p>
-                <pre><code class="language-ts">/* OK */
+				<p><em>应该</em>给返回值被忽略的回调函数设置<code>void</code>类型的返回值类型：</p>
+				<pre><code class="language-ts">/* OK */
 function fn(x: () =&gt; void) {
     x();
 }
 </code></pre>
-                <p><em>为什么</em>：使用<code>void</code>相对安全，因为它防止了你不小心使用<code>x</code>的返回值：</p>
-                <pre><code class="language-ts">function fn(x: () =&gt; void) {
+				<p><em>为什么</em>：使用<code>void</code>相对安全，因为它防止了你不小心使用<code>x</code>的返回值：</p>
+				<pre><code class="language-ts">function fn(x: () =&gt; void) {
     var k = x(); // oops! meant to do something else
     k.doSomething(); // error, but would be OK if the return type had been 'any'
 }
 </code></pre>
-                <h2>回调函数里的可选参数</h2>
-                <p><em>不要</em>在回调函数里使用可选参数除非你真的要这么做：</p>
-                <pre><code class="language-ts">/* 错误 */
+				<h2>回调函数里的可选参数</h2>
+				<p><em>不要</em>在回调函数里使用可选参数除非你真的要这么做：</p>
+				<pre><code class="language-ts">/* 错误 */
 interface Fetcher {
     getObject(done: (data: any, elapsedTime?: number) =&gt; void): void;
 }
 </code></pre>
-                <p>这里有一种特殊的意义：<code>done</code>回调函数可能以1个参数或2个参数调用。 代码大概的意思是说这个回调函数不在乎是否有
-                    <code>elapsedTime</code>参数， 但是不需要把这个参数当成可选参数来达到此目的 -- 因为总是允许提供一个接收较少参数的回调函数。
-                </p>
-                <p><em>应该</em>写出回调函数的非可选参数：</p>
-                <pre><code class="language-ts">/* OK */
+				<p>这里有一种特殊的意义：<code>done</code>回调函数可能以1个参数或2个参数调用。 代码大概的意思是说这个回调函数不在乎是否有
+					<code>elapsedTime</code>参数， 但是不需要把这个参数当成可选参数来达到此目的 -- 因为总是允许提供一个接收较少参数的回调函数。
+				</p>
+				<p><em>应该</em>写出回调函数的非可选参数：</p>
+				<pre><code class="language-ts">/* OK */
 interface Fetcher {
     getObject(done: (data: any, elapsedTime: number) =&gt; void): void;
 }
 </code></pre>
-                <h2>重载与回调函数</h2>
-                <p><em>不要</em>因为回调函数参数个数不同而写不同的重载：</p>
-                <pre><code class="language-ts">/* 错误 */
+				<h2>重载与回调函数</h2>
+				<p><em>不要</em>因为回调函数参数个数不同而写不同的重载：</p>
+				<pre><code class="language-ts">/* 错误 */
 declare function beforeAll(action: () =&gt; void, timeout?: number): void;
 declare function beforeAll(action: (done: DoneFn) =&gt; void, timeout?: number): void;
 </code></pre>
-                <p><em>应该</em>只使用最大参数个数写一个重载：</p>
-                <pre><code class="language-ts">/* OK */
+				<p><em>应该</em>只使用最大参数个数写一个重载：</p>
+				<pre><code class="language-ts">/* OK */
 declare function beforeAll(action: (done: DoneFn) =&gt; void, timeout?: number): void;
 </code></pre>
-                <p><em>为什么</em>：回调函数总是可以忽略某个参数的，因此没必要为参数少的情况写重载。 参数少的回调函数首先允许错误类型的函数被传入，因为它们匹配第一个重载。
-                </p>
-                <h1>函数重载</h1>
-                <h2>顺序</h2>
-                <p><em>不要</em>把一般的重载放在精确的重载前面：</p>
-                <pre><code class="language-ts">/* 错误 */
+				<p><em>为什么</em>：回调函数总是可以忽略某个参数的，因此没必要为参数少的情况写重载。 参数少的回调函数首先允许错误类型的函数被传入，因为它们匹配第一个重载。
+				</p>
+				<h1>函数重载</h1>
+				<h2>顺序</h2>
+				<p><em>不要</em>把一般的重载放在精确的重载前面：</p>
+				<pre><code class="language-ts">/* 错误 */
 declare function fn(x: any): any;
 declare function fn(x: HTMLElement): number;
 declare function fn(x: HTMLDivElement): string;
@@ -127,8 +127,8 @@ declare function fn(x: HTMLDivElement): string;
 var myElem: HTMLDivElement;
 var x = fn(myElem); // x: any, wat?
 </code></pre>
-                <p><em>应该</em>排序重载令精确的排在一般的之前：</p>
-                <pre><code class="language-ts">/* OK */
+				<p><em>应该</em>排序重载令精确的排在一般的之前：</p>
+				<pre><code class="language-ts">/* OK */
 declare function fn(x: HTMLDivElement): string;
 declare function fn(x: HTMLElement): number;
 declare function fn(x: any): any;
@@ -136,61 +136,61 @@ declare function fn(x: any): any;
 var myElem: HTMLDivElement;
 var x = fn(myElem); // x: string, :)
 </code></pre>
-                <p><em>为什么</em>：TypeScript会选择<em>第一个匹配到的重载</em>当解析函数调用的时候。 当前面的重载比后面的“普通”，那么后面的被隐藏了不会被调用。
-                </p>
-                <h2>使用可选参数</h2>
-                <p><em>不要</em>为仅在末尾参数不同时写不同的重载：</p>
-                <pre><code class="language-ts">/* 错误 */
-interface Moment {
-    diff(b: MomentComparable): number;
-    diff(b: MomentComparable, unitOfTime: string): number;
-    diff(b: MomentComparable, unitOfTime: string, round: boolean): number;
+				<p><em>为什么</em>：TypeScript会选择<em>第一个匹配到的重载</em>当解析函数调用的时候。 当前面的重载比后面的“普通”，那么后面的被隐藏了不会被调用。
+				</p>
+				<h2>使用可选参数</h2>
+				<p><em>不要</em>为仅在末尾参数不同时写不同的重载：</p>
+				<pre><code class="language-ts">/* 错误 */
+interface Example {
+    diff(one: string): number;
+    diff(one: string, two: string): number;
+    diff(one: string, two: string, three: boolean): number;
 }
 </code></pre>
-                <p><em>应该</em>尽可能使用可选参数：</p>
-                <pre><code class="language-ts">/* OK */
-interface Moment {
-    diff(b: MomentComparable, unitOfTime?: string, round?: boolean): number;
+				<p><em>应该</em>尽可能使用可选参数：</p>
+				<pre><code class="language-ts">/* OK */
+interface Example {
+    diff(one: string, two?: string, three?: boolean): number;
 }
 </code></pre>
-                <p>注意这在所有重载都有相同类型的返回值时会不好用。</p>
-                <p><em>为什么</em>：有两种生要的原因。</p>
-                <p>TypeScript解析签名兼容性时会查看是否某个目标签名能够使用源的参数调用，
-                    <em>且允许外来参数</em>。 下面的代码暴露出一个bug，当签名被正确的使用可选参数书写时：
-                </p>
-                <pre><code class="language-ts">function fn(x: (a: string, b: number, c: number) =&gt; void) { }
-var x: Moment;
+				<p>注意这在所有重载都有相同类型的返回值时会不好用。</p>
+				<p><em>为什么</em>：有两种生要的原因。</p>
+				<p>TypeScript解析签名兼容性时会查看是否某个目标签名能够使用源的参数调用，
+					<em>且允许外来参数</em>。 下面的代码暴露出一个bug，当签名被正确的使用可选参数书写时：
+				</p>
+				<pre><code class="language-ts">function fn(x: (a: string, b: number, c: number) =&gt; void) { }
+var x: Example;
 // When written with overloads, OK -- used first overload
 // When written with optionals, correctly an error
 fn(x.diff);
 </code></pre>
-                <p>第二个原因是当使用了TypeScript“严格检查null”特性时。 因为没有指定的参数在JavaScript里表示为
-                    <code>undefined</code>，通常显示地为可选参数传入一个<code>undefined</code>。 这段代码在严格null模式下可以工作：
-                </p>
-                <pre><code class="language-ts">var x: Moment;
+				<p>第二个原因是当使用了TypeScript“严格检查null”特性时。 因为没有指定的参数在JavaScript里表示为
+					<code>undefined</code>，通常显示地为可选参数传入一个<code>undefined</code>。 这段代码在严格null模式下可以工作：
+				</p>
+				<pre><code class="language-ts">var x: Example;
 // When written with overloads, incorrectly an error because of passing 'undefined' to 'string'
 // When written with optionals, correctly OK
-x.diff(something, someOtherThing ? undefined : &quot;hour&quot;);
+x.diff(&quot;something&quot;, true ? undefined : &quot;hour&quot;);
 </code></pre>
-                <h2>使用联合类型</h2>
-                <p><em>不要</em>为仅在某个位置上的参数类型不同的情况下定义重载：</p>
-                <pre><code class="language-ts">/* WRONG */
+				<h2>使用联合类型</h2>
+				<p><em>不要</em>为仅在某个位置上的参数类型不同的情况下定义重载：</p>
+				<pre><code class="language-ts">/* WRONG */
 interface Moment {
     utcOffset(): number;
     utcOffset(b: number): Moment;
     utcOffset(b: string): Moment;
 }
 </code></pre>
-                <p><em>应该</em>尽可能使用类型类型：</p>
-                <pre><code class="language-ts">/* OK */
+				<p><em>应该</em>尽可能使用类型类型：</p>
+				<pre><code class="language-ts">/* OK */
 interface Moment {
     utcOffset(): number;
     utcOffset(b: number|string): Moment;
 }
 </code></pre>
-                <p>注意我们没有让<code>b</code>成为可选的，因为签名的返回值类型不同。</p>
-                <p><em>为什么</em>：This is important for people who are &quot;passing through&quot; a value to your function:</p>
-                <pre><code class="language-ts">function fn(x: string): void;
+				<p>注意我们没有让<code>b</code>成为可选的，因为签名的返回值类型不同。</p>
+				<p><em>为什么</em>：This is important for people who are &quot;passing through&quot; a value to your function:</p>
+				<pre><code class="language-ts">function fn(x: string): void;
 function fn(x: number): void;
 function fn(x: number|string) {
     // When written with separate overloads, incorrectly an error
@@ -198,9 +198,9 @@ function fn(x: number|string) {
     return moment().utcOffset(x);
 }
 </code></pre>
-            </article>
-        </div>
-    </div>
+			</article>
+		</div>
+	</div>
 </div>
 <!-- inject:footer:html -->
 <!-- endinject -->
