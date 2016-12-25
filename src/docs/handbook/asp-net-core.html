@@ -49,7 +49,7 @@
                 <h1 class="post-title">ASP.NET Core</h1>
             </header>
             <article class="post-content">
-                <h1>安装</h1>
+                <h1>ASP.NET Core</h1>
                 <h2>安装 ASP.NET Core 和 TypeScript</h2>
                 <p>首先，若有必要请<a href="https://get.asp.net">安装 ASP.NET Core</a>。 这个快速上手指南使用的是 Visual Studio ，若要使用 ASP.NET Core
                     你需要有 Visual Studio 2015。</p>
@@ -124,7 +124,7 @@
     &quot;noImplicitAny&quot;: true,
     &quot;noEmitOnError&quot;: true,
     &quot;sourceMap&quot;: true,
-    &quot;target&quot;: &quot;es5&quot;,
+    &quot;target&quot;: &quot;es5&quot;
   },
   &quot;files&quot;: [
     &quot;./app.ts&quot;
@@ -213,7 +213,8 @@ gulp.task('default', function () {
                     <li>在输入框中键入一些内容，确认TypeScript代码命中断点，观察它是否能正确地工作。</li>
                 </ol>
                 <p><img src="../../assets/images/tutorials/aspnet/paused-demo.png" alt="Demo paused on breakpoint"></p>
-                <p>这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。接下来，我们引入Angular，写一个简单的Angular程序示例。</p>
+                <p>这就是你需要知道的在ASP.NET中使用TypeScript的基本知识了。 接下来，我们引入Angular，写一个简单的Angular程序示例。
+                </p>
                 <h1>添加 Angular 2</h1>
                 <h2>使用 NPM 下载所需的包</h2>
                 <p>在 <code>package.json</code> 文件的 <code>&quot;dependencies&quot;</code> 添加 Angular 2 和 SystemJS：</p>
@@ -222,32 +223,34 @@ gulp.task('default', function () {
     &quot;systemjs&quot;: &quot;0.19.24&quot;,
   },
 </code></pre>
-                <h2>安装 typings</h2>
-                <p>Angular 2 包含 es6-shim 以提供 Promise 支持，但 TypeScript 还需要它的类型文件。 打开一个 command prompt，切换到应用程序源文件目录中：</p>
-                <pre><code class="language-shell">cd C:\Users\&lt;you&gt;\Documents\Visual Studio 2015\Projects\&lt;app&gt;\src\&lt;app&gt;
-npm install -g typings
-typings install es6-shim --ambient
-</code></pre>
                 <h2>更新 tsconfig.json</h2>
-                <p>现在安装好了 Angular 2 及其依赖项，我们还需要启用 TypeScript 中实验性的装饰器支持并且引入 es6-shim 的类型文件。 将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。添加
-                    <code>&quot;experimentalDecorators&quot;: true, &quot;emitDecoratorMetadata&quot;: true</code> 选项到 <code>&quot;compilerOptions&quot;</code>                    选项段，添加 <code>&quot;./typings/main.d.ts&quot;</code> 到 <code>&quot;files&quot;</code> 选项段。 最后，我们还将要创建新的代码文件
-                    <code>&quot;./src/model.ts&quot;</code>、<code>&quot;./src/main.ts&quot;</code> ，也将它们添加到 <code>&quot;files&quot;</code>                    中，现在 tsconfig 看起来像这样：</p>
+                <p>现在安装好了Angular 2及其依赖项，我们需要启用TypeScript中实验性的装饰器支持。 我们还需要添加ES2015的声明，因为Angular使用core-js来支持像
+                    <code>Promise</code>的功能。 在未来，装饰器会成为默认设置，那时也就不再需要这些设置了。
+                </p>
+                <p>添加<code>&quot;experimentalDecorators&quot;: true, &quot;emitDecoratorMetadata&quot;: true</code>到<code>&quot;compilerOptions&quot;</code>部分。
+                    然后，再添加
+                    <code>&quot;lib&quot;: [&quot;es2015&quot;, &quot;es5&quot;, &quot;dom&quot;]</code>到<code>&quot;compilerOptions&quot;</code>，以引入ES2015的声明。
+                    最后，我们需要添加
+                    <code>&quot;./model.ts&quot;</code>到<code>&quot;files&quot;</code>里，我们接下来会创建它。 现在
+                    <code>tsconfig.json</code>看起来如下：</p>
                 <pre><code class="language-json">{
-  &quot;compilerOptions&quot;: {
-      &quot;noImplicitAny&quot;: true,
-      &quot;noEmitOnError&quot;: true,
-      &quot;sourceMap&quot;: true,
-      &quot;experimentalDecorators&quot;: true,
-      &quot;emitDecoratorMetadata&quot;: true,
-      &quot;target&quot;: &quot;es5&quot;
-  },
-  &quot;files&quot;: [
-      &quot;./app.ts&quot;,
-      &quot;./model.ts&quot;,
-      &quot;./main.ts&quot;,
-      &quot;../typings/main.d.ts&quot;
-  ],
-  &quot;compileOnSave&quot;: true
+    &quot;compilerOptions&quot;: {
+        &quot;noImplicitAny&quot;: true,
+        &quot;noEmitOnError&quot;: true,
+        &quot;sourceMap&quot;: true,
+        &quot;experimentalDecorators&quot;: true,
+        &quot;emitDecoratorMetadata&quot;: true,
+        &quot;target&quot;: &quot;es5&quot;,
+        &quot;lib&quot;: [
+            &quot;es2015&quot;, &quot;es5&quot;, &quot;dom&quot;
+        ]
+    },
+    &quot;files&quot;: [
+        &quot;./app.ts&quot;,
+        &quot;./model.ts&quot;,
+        &quot;./main.ts&quot;,
+    ],
+    &quot;compileOnSave&quot;: true
 }
 </code></pre>
                 <h2>将 Angular 添加到 gulp 构建中</h2>

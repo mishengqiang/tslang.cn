@@ -144,8 +144,8 @@ f(): called
                 <h2>装饰器求值</h2>
                 <p>类中不同声明上的装饰器将按以下规定的顺序应用：</p>
                 <ol>
-                    <li><em>参数装饰器</em>，其次是<em>方法</em>，<em>访问符</em>，或<em>属性装饰器</em>应用到每个实例成员。</li>
-                    <li><em>参数装饰器</em>，其次是<em>方法</em>，<em>访问符</em>，或<em>属性装饰器</em>应用到每个静态成员。</li>
+                    <li><em>参数装饰器</em>，然后依次是<em>方法装饰器</em>，<em>访问符装饰器</em>，或<em>属性装饰器</em>应用到每个实例成员。</li>
+                    <li><em>参数装饰器</em>，然后依次是<em>方法装饰器</em>，<em>访问符装饰器</em>，或<em>属性装饰器</em>应用到每个静态成员。</li>
                     <li><em>参数装饰器</em>应用到构造函数。</li>
                     <li><em>类装饰器</em>应用到类。</li>
                 </ol>
@@ -190,7 +190,7 @@ class Greeter {
                     <li>成员的<em>属性描述符</em>。</li>
                 </ol>
                 <blockquote>
-                    <p>注意  如果代码输出目标版本小于<code>ES5</code>，<em>Property Descriptor</em>将会是<code>undefined</code>。</p>
+                    <p>注意  如果代码输出目标版本小于<code>ES5</code>，<em>属性描述符</em>将会是<code>undefined</code>。</p>
                 </blockquote>
                 <p>如果方法装饰器返回一个值，它会被用作方法的<em>属性描述符</em>。</p>
                 <blockquote>
@@ -427,6 +427,7 @@ function validate&lt;T&gt;(target: any, propertyKey: string, descriptor: TypedPr
         if (!(value instanceof type)) {
             throw new TypeError(&quot;Invalid type.&quot;);
         }
+        set(value);
     }
 }
 </code></pre>

@@ -63,7 +63,7 @@
                         <tr>
                             <td><code>--allowJs</code></td>
                             <td><code>boolean</code></td>
-                            <td><code>true</code></td>
+                            <td><code>false</code></td>
                             <td>允许编译javascript文件。</td>
                         </tr>
                         <tr>
@@ -83,6 +83,12 @@
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
                             <td>不报告未使用的标签错误。</td>
+                        </tr>
+                        <tr>
+                            <td><code>--alwaysStrict</code></td>
+                            <td><code>boolean</code></td>
+                            <td><code>false</code></td>
+                            <td>以严格模式解析并为每个源文件生成<code>&quot;use strict&quot;</code>语句</td>
                         </tr>
                         <tr>
                             <td><code>--baseUrl</code></td>
@@ -136,7 +142,7 @@
                             <td><code>--experimentalDecorators</code><sup>[1]</sup></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>实验性启用ES7装饰器支持。</td>
+                            <td>启用实验性的ES装饰器。</td>
                         </tr>
                         <tr>
                             <td><code>--forceConsistentCasingInFileNames</code></td>
@@ -149,6 +155,12 @@
                             <td></td>
                             <td></td>
                             <td>打印帮助信息。</td>
+                        </tr>
+                        <tr>
+                            <td><code>--importHelpers</code></td>
+                            <td><code>string</code></td>
+                            <td></td>
+                            <td>从<a href="https://www.npmjs.com/package/tslib"><code>tslib</code></a>导入生成器工具函数（比如<code>__extends</code>，<code>__rest</code>等）</td>
                         </tr>
                         <tr>
                             <td><code>--inlineSourceMap</code></td>
@@ -178,19 +190,21 @@
                             <td><code>--jsx</code></td>
                             <td><code>string</code></td>
                             <td><code>&quot;Preserve&quot;</code></td>
-                            <td>在'.tsx'文件里支持JSX：'React' 或 'Preserve'。查看<a href="./jsx.html">JSX</a>。</td>
+                            <td>在<code>.tsx</code>文件里支持JSX：<code>&quot;React&quot;</code>或<code>&quot;Preserve&quot;</code>。查看
+                                <a
+                                    href="./jsx.html">JSX</a>。</td>
+                        </tr>
+                        <tr>
+                            <td><code>--jsxFactory</code></td>
+                            <td><code>string</code></td>
+                            <td><code>&quot;React.createElement&quot;</code></td>
+                            <td>指定生成目标为react JSX时，使用的JSX工厂函数，比如<code>React.createElement</code>或<code>h</code>。</td>
                         </tr>
                         <tr>
                             <td><code>--lib</code></td>
                             <td><code>string[]</code></td>
                             <td></td>
-                            <td>编译过程中需要引入的库文件的列表。</br>可能的值为： <br/>► <code>es5</code> <br/>► <code>es6</code> <br/>► <code>es2015</code>                                <br/>► <code>es7</code> <br/>► <code>es2016</code> <br/>► <code>es2017</code> <code>dom</code>                                <code>webworker</code> <code>scripthost</code> <br/>► <code>es2015.core</code> <br/>► <code>es2015.collection</code>                                <br/>► <code>es2015.generator</code> <br/>► <code>es2015.iterable</code> <br/>► <code>es2015.promise</code>                                <br/>► <code>es2015.proxy</code> <br/>► <code>es2015.reflect</code> <br/>► <code>es2015.symbol</code>                                <br/>► <code>es2015.symbol.wellknown</code> <br/>► <code>es2016.array.include</code> <br/>►
-                                <code>es2017.object</code> <br/>► <code>es2017.sharedmemory</code>
-                            <br/>
-                            注意：如果<code>--lib</code>没有指定默认库。默认库是<br/>
-                            ► For <code>--target ES5: dom,es5,scripthost</code></br> 
-                            ► For <code>--target ES6: dom,es6,dom.iterable,scripthost</code>
-                            </td>
+                            <td>编译过程中需要引入的库文件的列表。<br/>可能的值为： <br/>► <code>ES5</code> <br/>► <code>ES6</code> <br/>► <code>ES2015</code>                                <br/>► <code>ES7</code> <br/>► <code>ES2016</code> <br/>► <code>ES2017</code> <br/>► <code>DOM</code>                                <br/>► <code>DOM.Iterable</code> <br/>► <code>WebWorker</code> <br/>► <code>ScriptHost</code>                                <br/>► <code>ES2015.Core</code> <br/>► <code>ES2015.Collection</code> <br/>► <code>ES2015.Generator</code>                                <br/>► <code>ES2015.Iterable</code> <br/>► <code>ES2015.Promise</code> <br/>► <code>ES2015.Proxy</code>                                <br/>► <code>ES2015.Reflect</code> <br/>► <code>ES2015.Symbol</code> <br/>► <code>ES2015.Symbol.WellKnown</code>                                <br/>► <code>ES2016.Array.Include</code> <br/>► <code>ES2017.object</code> <br/>► <code>ES2017.SharedMemory</code>                                <br/><br/> 注意：如果<code>--lib</code>没有指定一个默认注入的库。默认注入的库为：<br/> ► 针对于<code>--target ES5</code>：<code>DOM，ES5，ScriptHost</code><br/>                                ► 针对于<code>--target ES6</code>：<code>DOM，ES6，DOM.Iterable，ScriptHost</code></td>
                         </tr>
                         <tr>
                             <td><code>--listEmittedFiles</code></td>
@@ -220,25 +234,25 @@
                             <td><code>--maxNodeModuleJsDepth</code></td>
                             <td><code>number</code></td>
                             <td><code>0</code></td>
-                            <td>node_modules下的最大依赖深度搜索并加载JavaScript文件。仅适用于使用<code>--allowJs</code>。</td>
+                            <td>node_modules依赖的最大搜索深度并加载JavaScript文件。仅适用于<code>--allowJs</code>。</td>
                         </tr>
                         <tr>
                             <td><code>--module</code><br/><code>-m</code></td>
                             <td><code>string</code></td>
-                            <td><code>target === 'ES6' ? 'ES6' : 'commonjs'</code></td>
-                            <td>指定生成哪个模块系统代码：'commonjs'，'amd'，'system'，或 'umd'或'es2015'。只有'amd'和'system'能和<code>--outFile</code>一起使用。当目标是ES5或以下的时候不能使用'es2015'。</td>
+                            <td><code>target === &quot;ES6&quot; ? &quot;ES6&quot; : &quot;commonjs&quot;</code></td>
+                            <td>指定生成哪个模块系统代码：<code>"None"</code>, <code>"CommonJS"</code>, <code>"AMD"</code>, <code>"System"</code>, <code>"UMD"</code>, <code>"ES6"</code>, or <code>"ES2015"</code>.<br>► Only <code>"AMD"</code> and <code>"System"</code>能和<code>--outFile</code>一起使用。<br>►当目标是<code>"ES5"</code>或以下的时候不能使用<code>"ES6"</code>和<code>"ES2015"</code>。</td>
                         </tr>
                         <tr>
                             <td><code>--moduleResolution</code></td>
                             <td><code>string</code></td>
-                            <td><code>module === 'amd' | 'system' | 'ES6' ? 'classic' : 'node'</code></td>
-                            <td>决定如何处理模块。或者是'node'对于Node.js/io.js，或者是'classic'（默认）。查看<a href="./module-resolution.html">模块解析文档</a>了解详情。</td>
+                            <td><code>module === "AMD" | "System" | "ES6" ? "Classic" : "Node"</code></td>
+                            <td>决定如何处理模块。或者是<code>&quot;Node&quot;</code>对于Node.js/io.js，或者是<code>&quot;Classic&quot;</code>（默认）。查看<a href="./module-resolution.html">模块解析</a>了解详情。</td>
                         </tr>
                         <tr>
                             <td><code>--newLine</code></td>
                             <td><code>string</code></td>
                             <td><em>(platform specific)</em></td>
-                            <td>当生成文件时指定行结束符：'CRLF'（dos）或 'LF' （unix）。</td>
+                            <td>当生成文件时指定行结束符：<code>&quot;crlf&quot;</code>（windows）或<code>&quot;lf&quot;</code>（unix）。</td>
                         </tr>
                         <tr>
                             <td><code>--noEmit</code></td>
@@ -268,7 +282,7 @@
                             <td><code>--noImplicitAny</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>在表达式和声明上有隐含的'any'类型时报错。</td>
+                            <td>在表达式和声明上有隐含的<code>any</code>类型时报错。</td>
                         </tr>
                         <tr>
                             <td><code>--noImplicitReturns</code></td>
@@ -292,7 +306,7 @@
                             <td><code>--noLib</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>不包含默认的库文件（lib.d.ts）。</td>
+                            <td>不包含默认的库文件（<code>lib.d.ts</code>）。</td>
                         </tr>
                         <tr>
                             <td><code>--noResolve</code></td>
@@ -360,7 +374,7 @@
                             <td><code>--reactNamespace</code></td>
                             <td><code>string</code></td>
                             <td><code>&quot;React&quot;</code></td>
-                            <td>当目标为生成'react' JSX时，指定<code>createElement</code>和<code>__spread</code>的调用对象</td>
+                            <td>当目标为生成<code>&quot;react&quot;</code> JSX时，指定<code>createElement</code>和<code>__spread</code>的调用对象</td>
                         </tr>
                         <tr>
                             <td><code>--removeComments</code></td>
@@ -378,25 +392,25 @@
                             <td><code>rootDirs</code><sup>[2]</sup></td>
                             <td><code>string[]</code></td>
                             <td></td>
-                            <td><i>根（root）</i>文件夹列表，联给了代表运行时表示工程结构的内容。查看<a href="./module-resolution.html#virtual-directories-with-rootdirs">模块解析文档</a>了解详情。</td>
-                        </tr>
-                        <tr>
-                            <td><code>--skipLibCheck</code></td>
-                            <td><code>boolean</code></td>
-                            <td><code>false</code></td>
-                            <td>不检查默认库文件（<code>lib.d.ts</code>）的正确性。</td>
+                            <td><i>根（root）</i>文件夹列表，表示运行时组合工程结构的内容。查看<a href="./module-resolution.html#virtual-directories-with-rootdirs">模块解析文档</a>了解详情。</td>
                         </tr>
                         <tr>
                             <td><code>--skipDefaultLibCheck</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>不检查用户定义的库文件（<code>*.d.ts</code>）的正确性。</td>
+                            <td>忽略<a href="./triple-slash-directives.html#-reference-no-default-libtrue">库的默认声明文件</a>的类型检查。</td>
+                        </tr>
+                        <tr>
+                            <td><code>--skipLibCheck</code></td>
+                            <td><code>boolean</code></td>
+                            <td><code>false</code></td>
+                            <td>忽略所有的声明文件（<code>*.d.ts</code>）的类型检查。</td>
                         </tr>
                         <tr>
                             <td><code>--sourceMap</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>生成相应的'.map'文件。</td>
+                            <td>生成相应的<code>.map</code>文件。</td>
                         </tr>
                         <tr>
                             <td><code>--sourceRoot</code></td>
@@ -432,7 +446,7 @@
                             <td><code>--target</code><br/><code>-t</code></td>
                             <td><code>string</code></td>
                             <td><code>&quot;ES5&quot;</code></td>
-                            <td>指定ECMAScript目标版本'ES3' (默认)，'ES5'，或'ES6'<sup>[1]</sup></td>
+                            <td>指定ECMAScript目标版本: <code>"ES3"</code> （默认），<code>"ES5"</code>, <code>"ES6"</code>/<code>"ES2015"</code>, <code>"ES2016"</code>, <code>"ES2017"</code>或<code>"ESNext"</code>. <br><br> Note: <code>"ESNext"</code> 最新的生成目标列表为<a href="https://github.com/tc39/proposals">ES proposed features</a>.</td>
                         </tr>
                         <tr>
                             <td><code>--traceResolution</code></td>
@@ -444,13 +458,13 @@
                             <td><code>--types</code></td>
                             <td><code>string[]</code></td>
                             <td></td>
-                            <td>要包含的类型声明文件名列表。</td>
+                            <td>要包含的类型声明文件名列表。查看<a href="./tsconfig-json.html#types-typeroots-and-types">@types，--typeRoots和--types</a>章节了解详细信息。</td>
                         </tr>
                         <tr>
                             <td><code>--typeRoots</code></td>
                             <td><code>string[]</code></td>
                             <td></td>
-                            <td>要包含的类型声明文件路径列表。</td>
+                            <td>要包含的类型声明文件路径列表。查看<a href="./tsconfig-json.html#types-typeroots-and-types">@types，--typeRoots和--types</a>章节了解详细信息。</td>
                         </tr>
                         <tr>
                             <td><code>--version</code><br/><code>-v</code></td>

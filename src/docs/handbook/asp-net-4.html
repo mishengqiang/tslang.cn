@@ -49,7 +49,7 @@
                 <h1 class="post-title">ASP.NET 4</h1>
             </header>
             <article class="post-content">
-                <h1>安装</h1>
+                <h1>ASP.NET 4</h1>
                 <h2>安装 TypeScript</h2>
                 <p>如果你使用的 Visual Studio 版本还不支持 TypeScript， 你可以安装 <a href="http://www.microsoft.com/en-us/download/details.aspx?id=48593">Visual Studio 2015</a>                    或者 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=48739">Visual Studio 2013</a>。 这个快速上手指南使用的是
                     Visual Studio 2015。</p>
@@ -116,7 +116,7 @@
                     <li>显式列出了 <code>&quot;files&quot;</code> 而不是依据 <code>&quot;excludes&quot;</code>选项。</li>
                     <li>设置 <code>&quot;compileOnSave&quot;: true</code>。</li>
                 </ol>
-                <p>当你写新代码时，设置 <code>&quot;noImplicitAny&quot;</code> 选项是个好主意 — 这可以确保你不会错写任何新的类型。 设置 <code>&quot;compileOnSave&quot;</code>                    选项可以确保你在运行web程序前自动编译保存变更后的代码。 更多信息请参见 <a href="../tsconfig.json.md">the tsconfig.json documentation</a>。</p>
+                <p>当你写新代码时，设置 <code>&quot;noImplicitAny&quot;</code> 选项是个好主意 — 这可以确保你不会错写任何新的类型。 设置 <code>&quot;compileOnSave&quot;</code>                    选项可以确保你在运行web程序前自动编译保存变更后的代码。 更多信息请参见 <a href="./tsconfig-json.html">the tsconfig.json documentation</a>。</p>
                 <h2>在视图中调用脚本</h2>
                 <ol>
                     <li>
@@ -173,9 +173,12 @@
                     </li>
                 </ol>
                 <h2>更新 tsconfig.json</h2>
-                <p>现在安装好了 Angular 2 及其依赖项， 我们还需要启用 TypeScript 中实验性的装饰器支持并且引入 es6-shim 的类型文件。 将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。添加
-                    <code>&quot;experimentalDecorators&quot;: true, &quot;emitDecoratorMetadata&quot;: true</code> 选项到 <code>&quot;compilerOptions&quot;</code>                    选项段， 添加 <code>&quot;./typings/main.d.ts&quot;</code> 到 <code>&quot;files&quot;</code> 选项段。 最后，我们还将要创建新的代码文件
-                    <code>&quot;./src/model.ts&quot;</code>、<code>&quot;./src/main.ts&quot;</code> ，也将它们添加到 <code>&quot;files&quot;</code>                    中，现在 tsconfig 看起来像这样：</p>
+                <p>现在安装好了 Angular 2 及其依赖项， 我们还需要启用 TypeScript 中实验性的装饰器支持并且引入 es6-shim 的类型文件。 将来的版本中，装饰器和 ES6 选项将成为默认选项，我们就可以不做此设置了。
+                    添加
+                    <code>&quot;experimentalDecorators&quot;: true, &quot;emitDecoratorMetadata&quot;: true</code>选项到<code>&quot;compilerOptions&quot;</code>，再添加<code>&quot;./typings/index.d.ts&quot;</code>到<code>&quot;files&quot;</code>。
+                    最后，我们要新建
+                    <code>&quot;./src/model.ts&quot;</code>文件，并且得把它加到<code>&quot;files&quot;</code>里。 现在
+                    <code>tsconfig.json</code>应该是这样：</p>
                 <pre><code class="language-json">{
   &quot;compilerOptions&quot;: {
     &quot;noImplicitAny&quot;: false,
@@ -190,7 +193,7 @@
     &quot;./src/app.ts&quot;,
     &quot;./src/model.ts&quot;,
     &quot;./src/main.ts&quot;,
-    &quot;./typings/main.d.ts&quot;
+    &quot;./typings/index.d.ts&quot;
   ]
 }
 </code></pre>
@@ -207,7 +210,7 @@
   &lt;Copy SourceFiles=&quot;@(NodeLib)&quot; DestinationFolder=&quot;$(MSBuildProjectDirectory)\Scripts&quot;/&gt;
 &lt;/Target&gt;
 </code></pre>
-                <p>现在，右击 project 选择重新加载项目。 此时应当能在 Solution Explorer 中看到 node_modules。</p>
+                <p>现在，在工程上右击选择重新加载项目。 此时应当能在解决方案资源管理器（Solution Explorer）中看到<code>node_modules</code>。</p>
                 <h2>用 TypeScript 写一个简单的 Angular 应用</h2>
                 <p>首先，将 <code>app.ts</code> 改成：</p>
                 <pre><code class="language-ts">import {Component} from &quot;angular2/core&quot;

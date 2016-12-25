@@ -202,7 +202,7 @@ function bar(x: string | number) {
 }
 </code></pre>
 				<p>而且，在<code>--strictNullChecks</code>模式中，基于控制流的分析包括，对类型不允许为<code>undefined</code>的局部变量有<em>明确赋值</em>的分析。</p>
-				<pre><code>function mumble(check: boolean) {
+				<pre><code class="language-typescript">function mumble(check: boolean) {
     let x: number; // 类型不允许为undefined
     x; // 错误，x是undefined
     if (check) {
@@ -297,7 +297,7 @@ function move1(direction: &quot;up&quot; | &quot;down&quot;) {
         case &quot;up&quot;:
             return 1;
         case &quot;down&quot;:
-            return -1; 
+            return -1;
     }
     return error(&quot;Should never get here&quot;);
 }
@@ -447,10 +447,11 @@ uiElement.addClickListener(h.onClickBad); // 错误！
 				<h4>示例</h4>
 				<p>例如，导入<code>&quot;jquery&quot;</code>模块在运行时会被转换为<code>&quot;node_modules/jquery/dist/jquery.slim.min.js&quot;</code>。</p>
 				<pre><code class="language-json">{
-  &quot;compilerOptions&quot;: {
-    &quot;baseUrl&quot;: &quot;./node_modules&quot;,
-    &quot;paths&quot;: {
-      &quot;jquery&quot;: [&quot;jquery/dist/jquery.slim.min&quot;]
+    &quot;compilerOptions&quot;: {
+        &quot;baseUrl&quot;: &quot;./node_modules&quot;,
+        &quot;paths&quot;: {
+        &quot;jquery&quot;: [&quot;jquery/dist/jquery.slim.min&quot;]
+        }
     }
 }
 </code></pre>
@@ -565,7 +566,7 @@ mathLib.isPrime(2); // 错误：无法在模块内部使用全局定义
             Singleton.instance = new Singleton();
         }
         return Singleton.instance;
-    } 
+    }
 }
 
 let e = new Singleton(); // 错误：Singleton的构造函数是私有的。
@@ -660,7 +661,7 @@ export function write(message: string, args: string[]) {
 					ES3/ES5/ES6。</p>
 				<h4>示例</h4>
 				<pre><code class="language-typescript">function foo(
-  bar: Bar, 
+  bar: Bar,
   baz: Baz, // 形参列表末尾添加逗号是没有问题的。
 ) {
   // 具体实现……

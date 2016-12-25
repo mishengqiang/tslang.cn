@@ -75,7 +75,7 @@ class MyComponent extends React.Component&lt;Props, {}&gt; {
 }
 
 &lt;MyComponent name=&quot;bar&quot; /&gt;; // 没问题
-&lt;MyComponent name={0} /&gt;; // 错误, `name` 不是一个数字
+&lt;MyComponent name={0} /&gt;; // 错误, `name` 不是一个字符串
 </code></pre>
                 <h3>使用其他 JSX 框架</h3>
                 <p>JSX 元素的名称和属性是根据 <code>JSX</code> 命名空间来检验的. 请查看 <a href="https://github.com/Microsoft/TypeScript/wiki/JSX">JSX</a>                    页面了解如何为自己的框架定义 <code>JSX</code> 命名空间.</p>
@@ -276,7 +276,7 @@ x = { foo: 1, baz: 2 };  // 错误, 多余的属性 `baz`
 var y: { foo: number, bar?: number };
 y = { foo: 1, baz: 2 };  // 错误, 多余或者拼错的属性 `baz`
 </code></pre>
-                <p>一个类型可以通过包含一个索引签名来现实指明未出现在类型中的属性是被允许的.</p>
+                <p>一个类型可以通过包含一个索引签名来显示指明未出现在类型中的属性是被允许的.</p>
                 <pre><code class="language-ts">var x: { foo: number, [x: string]: any };
 x = { foo: 1, baz: 2 };  // 现在 `baz` 匹配了索引签名
 </code></pre>
@@ -306,7 +306,7 @@ x = { foo: 1, baz: 2 };  // 现在 `baz` 匹配了索引签名
                 <h3>例子</h3>
                 <pre><code class="language-ts">var p: Promise&lt;number&gt; = /* ... */;
 async function fn(): Promise&lt;number&gt; {
-  var i = await p; // 暂停执行知道 'p' 得到结果. 'i' 的类型为 &quot;number&quot;
+  var i = await p; // 暂停执行直到 'p' 得到结果. 'i' 的类型为 &quot;number&quot;
   return 1 + i;
 }
 

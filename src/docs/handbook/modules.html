@@ -376,7 +376,7 @@ if (needZipValidation) {
                     <code>.d.ts</code>文件里定义的。 如果你熟悉C/C++，你可以把它们当做
                     <code>.h</code>文件。 让我们看一些例子。
                 </p>
-                <h2>外部模块</h2>
+                <h2 id="ambient-modules">外部模块</h2>
                 <p>在Node.js里大部分工作是通过加载一个或多个模块实现的。 我们可以使用顶级的
                     <code>export</code>声明来为每个模块都定义一个<code>.d.ts</code>文件，但最好还是写在一个大的<code>.d.ts</code>文件里。 我们使用与构造一个外部命名空间相似的方法，但是这里使用
                     <code>module</code>关键字并且把名字用引号括起来，方便之后<code>import</code>。 例如：
@@ -633,7 +633,7 @@ test(c, &quot;001+010=&quot;); // prints 3
                     然而，这对于模块来说却不是一个问题。 在一个模块里，没有理由两个对象拥有同一个名字。 从模块的使用角度来说，使用者会挑出他们用来引用模块的名字，所以也没有理由发生重名的情况。
                 </p>
                 <blockquote>
-                    <p>更多关于模块和命名空间的资料查看[命名空间和模块](./Namespaces and Modules.md)</p>
+                    <p>更多关于模块和命名空间的资料查看<a href="./namespaces-and-modules.html">命名空间和模块</a></p>
                 </blockquote>
                 <h2>危险信号</h2>
                 <p>以下均为模块结构上的危险信号。重新检查以确保你没有在对模块使用命名空间：</p>

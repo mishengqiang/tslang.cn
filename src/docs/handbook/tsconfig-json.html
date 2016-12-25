@@ -66,7 +66,7 @@
                 </ul>
                 <pre><code class="language-json">{
     &quot;compilerOptions&quot;: {
-        &quot;module&quot;: &quot;commonjs&quot;,
+        &quot;module&quot;: &quot;system&quot;,
         &quot;noImplicitAny&quot;: true,
         &quot;removeComments&quot;: true,
         &quot;preserveConstEnums&quot;: true,
@@ -95,7 +95,7 @@
                         <p>使用<code>&quot;include&quot;</code>和<code>&quot;exclude&quot;</code>属性</p>
                         <pre><code class="language-json">{
     &quot;compilerOptions&quot;: {
-        &quot;module&quot;: &quot;commonjs&quot;,
+        &quot;module&quot;: &quot;system&quot;,
         &quot;noImplicitAny&quot;: true,
         &quot;removeComments&quot;: true,
         &quot;preserveConstEnums&quot;: true,
@@ -114,7 +114,7 @@
                     </li>
                 </ul>
                 <h2>细节</h2>
-                <p><code>&quot;compilerOptions&quot;</code>可以被忽略，这时编译器会使用默认值。在这里查看完整的[编译器选项](./Compiler Options.md)列表。</p>
+                <p><code>&quot;compilerOptions&quot;</code>可以被忽略，这时编译器会使用默认值。在这里查看完整的<a href="./compiler-options.html">编译器选项</a>列表。</p>
                 <p><code>&quot;files&quot;</code>指定一个包含相对或绝对文件路径的列表。
                     <code>&quot;include&quot;</code>和<code>&quot;exclude&quot;</code>属性指定一个文件glob匹配模式列表。 支持的glob通配符有：
                 </p>
@@ -124,7 +124,8 @@
                     <li><code>**/</code> 递归匹配任意子目录</li>
                 </ul>
                 <p>如果一个glob模式里的某部分只包含<code>*</code>或<code>.*</code>，那么仅有支持的文件扩展名类型被包含在内（比如默认<code>.ts</code>，<code>.tsx</code>，和<code>.d.ts</code>，
-                    如果<code>allowJs</code>设置能<code>true</code>还包含<code>.js</code>和<code>.jsx</code>）。</p>
+                    如果
+                    <code>allowJs</code>设置能<code>true</code>还包含<code>.js</code>和<code>.jsx</code>）。</p>
                 <p>如果<code>&quot;files&quot;</code>和<code>&quot;include&quot;</code>都没有被指定，编译器默认包含当前目录和子目录下所有的TypeScript文件（<code>.ts</code>,
                     <code>.d.ts</code> 和 <code>.tsx</code>），排除在<code>&quot;exclude&quot;</code>里指定的文件。JS文件（<code>.js</code>和<code>.jsx</code>）也被包含进来如果<code>allowJs</code>被设置成<code>true</code>。
                     如果指定了
@@ -132,10 +133,70 @@
                     <code>&quot;outDir&quot;</code>指定的目录下的文件永远会被编译器排除，除非你明确地使用<code>&quot;files&quot;</code>将其包含进来（这时就算用<code>exclude</code>指定也没用）。</p>
                 <p>使用<code>&quot;include&quot;</code>引入的文件可以使用<code>&quot;exclude&quot;</code>属性过滤。 然而，通过
                     <code>&quot;files&quot;</code>属性明确指定的文件却总是会被包含在内，不管<code>&quot;exclude&quot;</code>如何设置。 如果没有特殊指定，
-                    <code>&quot;exclude&quot;</code>默认情况下会排除<code>node_modules</code>，<code>bower_components</code>，和<code>jspm_packages</code>目录。</p>
+                    <code>&quot;exclude&quot;</code>默认情况下会排除<code>node_modules</code>，<code>bower_components</code>，<code>jspm_packages</code>和<code>&lt;outDir&gt;</code>目录。</p>
                 <p>任何被<code>&quot;files&quot;或</code>&quot;include&quot;<code>指定的文件所引用的文件也会被包含进来。</code>A.ts<code>引用了</code>B.ts<code>，因此</code>B.ts<code>不能被排除，除非引用它的</code>A.ts<code>在</code>&quot;exclude&quot;`列表中。</p>
                 <p><code>tsconfig.json</code>文件可以是个空文件，那么所有默认的文件（如上面所述）都会以默认配置选项编译。</p>
                 <p>在命令行上指定的编译选项会覆盖在<code>tsconfig.json</code>文件里的相应选项。</p>
+                <h2 id="types-typeroots-and-types"><code>@types</code>，<code>typeRoots</code>和<code>types</code></h2>
+                <p>默认所有<em>可见的</em>&quot;<code>@types</code>&quot;包会在编译过程中被包含进来。
+                    <code>node_modules/@types</code>文件夹下以及它们子文件夹下的所有包都是<em>可见的</em>； 也就是说，
+                    <code>./node_modules/@types/</code>，<code>../node_modules/@types/</code>和<code>../../node_modules/@types/</code>等等。</p>
+                <p>如果指定了<code>typeRoots</code>，<em>只有</em><code>typeRoots</code>下面的包才会被包含进来。 比如：
+                </p>
+                <pre><code class="language-json">{
+   &quot;compilerOptions&quot;: {
+       &quot;typeRoots&quot; : [&quot;./typings&quot;]
+   }
+}
+</code></pre>
+                <p>这个配置文件会包含<em>所有</em><code>./typings</code>下面的包，而不包含<code>./node_modules/@types</code>里面的包。</p>
+                <p>如果指定了<code>types</code>，只有被列出来的包才会被包含进来。 比如：
+                </p>
+                <pre><code class="language-json">{
+   &quot;compilerOptions&quot;: {
+        &quot;types&quot; : [&quot;node&quot;, &quot;lodash&quot;, &quot;express&quot;]
+   }
+}
+</code></pre>
+                <p>这个<code>tsconfig.json</code>文件将<em>仅会</em>包含 <code>./node_modules/@types/node</code>，<code>./node_modules/@types/lodash</code>和<code>./node_modules/@types/express</code>。/@types/。
+                    <code>node_modules/@types/*</code>里面的其它包不会被引入进来。</p>
+                <p>指定<code>&quot;types&quot;: []</code>来禁用自动引入<code>@types</code>包。</p>
+                <p>注意，自动引入只在你使用了全局的声明（相反于模块）时是重要的。 如果你使用
+                    <code>import &quot;foo&quot;</code>语句，TypeScript仍然会查找<code>node_modules</code>和<code>node_modules/@types</code>文件夹来获取<code>foo</code>包。</p>
+                <h2>使用<code>extends</code>继承配置</h2>
+                <p><code>tsconfig.json</code>文件可以利用<code>extends</code>属性从另一个配置文件里继承配置。</p>
+                <p><code>extends</code>是<code>tsconfig.json</code>文件里的顶级属性（与<code>compilerOptions</code>，<code>files</code>，<code>include</code>，和<code>exclude</code>一样）。
+                    <code>extends</code>的值是一个字符串，包含指向另一个要继承文件的路径。</p>
+                <p>在原文件里的配置先被加载，然后被来至继承文件里的配置重写。 如果发现循环引用，则会报错。
+                </p>
+                <p>来至所继承配置文件的<code>files</code>，<code>include</code>和<code>exclude</code><em>覆盖</em>源配置文件的属性。</p>
+                <p>配置文件里的相对路径在解析时相对于它所在的文件。</p>
+                <p>比如：</p>
+                <p><code>configs/base.json</code>：</p>
+                <pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;noImplicitAny&quot;: true,
+    &quot;strictNullChecks&quot;: true
+  }
+}
+</code></pre>
+                <p><code>tsconfig.json</code>：</p>
+                <pre><code class="language-json">{
+  &quot;extends&quot;: &quot;./configs/base&quot;,
+  &quot;files&quot;: [
+    &quot;main.ts&quot;,
+    &quot;supplemental.ts&quot;
+  ]
+}
+</code></pre>
+                <p><code>tsconfig.nostrictnull.json</code>：</p>
+                <pre><code class="language-json">{
+  &quot;extends&quot;: &quot;./tsconfig&quot;,
+  &quot;compilerOptions&quot;: {
+    &quot;strictNullChecks&quot;: false
+  }
+}
+</code></pre>
                 <h2><code>compileOnSave</code></h2>
                 <p>在最顶层设置<code>compileOnSave</code>标记，可以让IDE在保存文件的时候根据<code>tsconfig.json</code>重新生成文件。</p>
                 <pre><code class="language-json">{

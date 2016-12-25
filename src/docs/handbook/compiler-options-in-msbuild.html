@@ -52,16 +52,17 @@
                 <h2>概述</h2>
                 <p>编译选项可以在使用MSBuild的项目里通过MSBuild属性指定。</p>
                 <h2>例子</h2>
-                <pre><code class="language-XML">&lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Debug'&quot;&gt;
-  &lt;TypeScriptRemoveComments&gt;false&lt;/TypeScriptRemoveComments&gt;
-  &lt;TypeScriptSourceMap&gt;true&lt;/TypeScriptSourceMap&gt;
-&lt;/PropertyGroup&gt;
-&lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Release'&quot;&gt;
-  &lt;TypeScriptRemoveComments&gt;true&lt;/TypeScriptRemoveComments&gt;
-  &lt;TypeScriptSourceMap&gt;false&lt;/TypeScriptSourceMap&gt;
-&lt;/PropertyGroup&gt;
-&lt;Import Project=&quot;$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets&quot;
-        Condition=&quot;Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')&quot; /&gt;
+                <pre><code class="language-XML">  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Debug'&quot;&gt;
+    &lt;TypeScriptRemoveComments&gt;false&lt;/TypeScriptRemoveComments&gt;
+    &lt;TypeScriptSourceMap&gt;true&lt;/TypeScriptSourceMap&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;PropertyGroup Condition=&quot;'$(Configuration)' == 'Release'&quot;&gt;
+    &lt;TypeScriptRemoveComments&gt;true&lt;/TypeScriptRemoveComments&gt;
+    &lt;TypeScriptSourceMap&gt;false&lt;/TypeScriptSourceMap&gt;
+  &lt;/PropertyGroup&gt;
+  &lt;Import
+      Project=&quot;$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets&quot;
+      Condition=&quot;Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets')&quot; /&gt;
 </code></pre>
                 <h2>映射</h2>
                 <table>
@@ -74,23 +75,48 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td><code>--allowJs</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--allowSyntheticDefaultImports</code></td>
+                            <td>TypeScriptAllowSyntheticDefaultImports</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--allowUnreachableCode</code></td>
+                            <td>TypeScriptAllowUnreachableCode</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--allowUnusedLabels</code></td>
+                            <td>TypeScriptAllowUnusedLabels</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--baseUrl</code></td>
+                            <td>TypeScriptBaseUrl</td>
+                            <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--charset</code></td>
+                            <td>TypeScriptCharset</td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td><code>--declaration</code></td>
                             <td>TypeScriptGeneratesDeclarations</td>
                             <td>布尔值</td>
                         </tr>
                         <tr>
-                            <td><code>--module</code></td>
-                            <td>TypeScriptModuleKind</td>
-                            <td><code>AMD</code>, <code>CommonJs</code>, <code>UMD</code> 或 <code>System</code></td>
+                            <td><code>--declarationDir</code></td>
+                            <td>TypeScriptDeclarationDir</td>
+                            <td>文件路径</td>
                         </tr>
                         <tr>
-                            <td><code>--target</code></td>
-                            <td>TypeScriptTarget</td>
-                            <td><code>ES3</code>, <code>ES5</code>, or <code>ES6</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>--charset</code></td>
-                            <td>TypeScriptCharset</td>
+                            <td><code>--diagnostics</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
                             <td></td>
                         </tr>
                         <tr>
@@ -104,9 +130,24 @@
                             <td>布尔值</td>
                         </tr>
                         <tr>
+                            <td><code>--experimentalAsyncFunctions</code></td>
+                            <td>TypeScriptExperimentalAsyncFunctions</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
                             <td><code>--experimentalDecorators</code></td>
                             <td>TypeScriptExperimentalDecorators</td>
                             <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--forceConsistentCasingInFileNames</code></td>
+                            <td>TypeScriptForceConsistentCasingInFileNames</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--help</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td><code>--inlineSourceMap</code></td>
@@ -119,9 +160,39 @@
                             <td>布尔值</td>
                         </tr>
                         <tr>
+                            <td><code>--init</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--isolatedModules</code></td>
+                            <td>TypeScriptIsolatedModules</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--jsx</code></td>
+                            <td>TypeScriptJSXEmit</td>
+                            <td><code>React</code>或<code>Preserve</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--lib</code></td>
+                            <td>TypeScriptLib</td>
+                            <td>逗号分隔的字符串列表</td>
+                        </tr>
+                        <tr>
+                            <td><code>--listEmittedFiles</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--listFiles</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td><code>--locale</code></td>
-                            <td><em>自动的</em></td>
-                            <td>自动设置成PreferredUILang的值</td>
+                            <td><em>automatic</em></td>
+                            <td>自动设置为PreferredUILang值</td>
                         </tr>
                         <tr>
                             <td><code>--mapRoot</code></td>
@@ -129,14 +200,24 @@
                             <td>文件路径</td>
                         </tr>
                         <tr>
-                            <td><code>--newLine</code></td>
-                            <td>TypeScriptNewLine</td>
-                            <td><code>CRLF</code> 或 <code>LF</code></td>
+                            <td><code>--module</code></td>
+                            <td>TypeScriptModuleKind</td>
+                            <td><code>AMD</code>，<code>CommonJs</code>，<code>UMD</code>，<code>System</code>或<code>ES6</code></td>
                         </tr>
                         <tr>
-                            <td><code>--noEmitOnError</code></td>
-                            <td>TypeScriptNoEmitOnError</td>
-                            <td>布尔值</td>
+                            <td><code>--moduleResolution</code></td>
+                            <td>TypeScriptModuleResolution</td>
+                            <td><code>Classic</code>或<code>Node</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--newLine</code></td>
+                            <td>TypeScriptNewLine</td>
+                            <td><code>CRLF</code>或<code>LF</code></td>
+                        </tr>
+                        <tr>
+                            <td><code>--noEmit</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
                         </tr>
                         <tr>
                             <td><code>--noEmitHelpers</code></td>
@@ -144,8 +225,33 @@
                             <td>布尔值</td>
                         </tr>
                         <tr>
+                            <td><code>--noEmitOnError</code></td>
+                            <td>TypeScriptNoEmitOnError</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noFallthroughCasesInSwitch</code></td>
+                            <td>TypeScriptNoFallthroughCasesInSwitch</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
                             <td><code>--noImplicitAny</code></td>
                             <td>TypeScriptNoImplicitAny</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noImplicitReturns</code></td>
+                            <td>TypeScriptNoImplicitReturns</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noImplicitThis</code></td>
+                            <td>TypeScriptNoImplicitThis</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--noImplicitUseStrict</code></td>
+                            <td>TypeScriptNoImplicitUseStrict</td>
                             <td>布尔值</td>
                         </tr>
                         <tr>
@@ -179,9 +285,34 @@
                             <td>文件路径</td>
                         </tr>
                         <tr>
+                            <td><code>--outFile</code></td>
+                            <td>TypeScriptOutFile</td>
+                            <td>文件路径</td>
+                        </tr>
+                        <tr>
+                            <td><code>--paths</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
                             <td><code>--preserveConstEnums</code></td>
                             <td>TypeScriptPreserveConstEnums</td>
                             <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--listEmittedFiles</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--pretty</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--reactNamespace</code></td>
+                            <td>TypeScriptReactNamespace</td>
+                            <td>字符串</td>
                         </tr>
                         <tr>
                             <td><code>--removeComments</code></td>
@@ -194,8 +325,18 @@
                             <td>文件路径</td>
                         </tr>
                         <tr>
-                            <td><code>--isolatedModules</code></td>
-                            <td>TypeScriptIsolatedModules</td>
+                            <td><code>--rootDirs</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td><code>--skipLibCheck</code></td>
+                            <td>TypeScriptSkipLibCheck</td>
+                            <td>布尔值</td>
+                        </tr>
+                        <tr>
+                            <td><code>--skipDefaultLibCheck</code></td>
+                            <td>TypeScriptSkipDefaultLibCheck</td>
                             <td>布尔值</td>
                         </tr>
                         <tr>
@@ -214,109 +355,44 @@
                             <td>布尔值</td>
                         </tr>
                         <tr>
-                            <td><code>--suppressImplicitAnyIndexErrors</code></td>
-                            <td>TypeScriptSuppressImplicitAnyIndexErrors</td>
-                            <td>布尔值</td>
-                        </tr>
-                        <tr>
                             <td><code>--suppressExcessPropertyErrors</code></td>
                             <td>TypeScriptSuppressExcessPropertyErrors</td>
                             <td>布尔值</td>
                         </tr>
                         <tr>
-                            <td><code>--moduleResolution</code></td>
-                            <td>TypeScriptModuleResolution</td>
-                            <td><code>Classic</code> or <code>Node</code></td>
-                        </tr>
-                        <tr>
-                            <td><code>--experimentalAsyncFunctions</code></td>
-                            <td>TypeScriptExperimentalAsyncFunctions</td>
+                            <td><code>--suppressImplicitAnyIndexErrors</code></td>
+                            <td>TypeScriptSuppressImplicitAnyIndexErrors</td>
                             <td>布尔值</td>
                         </tr>
                         <tr>
-                            <td><code>--jsx</code></td>
-                            <td>TypeScriptJSXEmit</td>
-                            <td><code>React</code> or <code>Preserve</code></td>
+                            <td><code>--target</code></td>
+                            <td>TypeScriptTarget</td>
+                            <td><code>ES3</code>，<code>ES5</code>，或<code>ES6</code></td>
                         </tr>
                         <tr>
-                            <td><code>--reactNamespace</code></td>
-                            <td>TypeScriptReactNamespace</td>
-                            <td>string</td>
+                            <td><code>--traceResolution</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td><code>--skipDefaultLibCheck</code></td>
-                            <td>TypeScriptSkipDefaultLibCheck</td>
-                            <td>布尔值</td>
+                            <td><code>--types</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
+                            <td></td>
                         </tr>
                         <tr>
-                            <td><code>--allowUnusedLabels</code></td>
-                            <td>TypeScriptAllowUnusedLabels</td>
-                            <td>布尔值</td>
-                        </tr>
-                        <tr>
-                            <td><code>--noImplicitReturns</code></td>
-                            <td>TypeScriptNoImplicitReturns</td>
-                            <td>布尔值</td>
-                        </tr>
-                        <tr>
-                            <td><code>--noFallthroughCasesInSwitch</code></td>
-                            <td>TypeScriptNoFallthroughCasesInSwitch</td>
-                            <td>布尔值</td>
-                        </tr>
-                        <tr>
-                            <td><code>--allowUnreachableCode</code></td>
-                            <td>TypeScriptAllowUnreachableCode</td>
-                            <td>布尔值</td>
-                        </tr>
-                        <tr>
-                            <td><code>--forceConsistentCasingInFileNames</code></td>
-                            <td>TypeScriptForceConsistentCasingInFileNames</td>
-                            <td>布尔值</td>
-                        </tr>
-                        <tr>
-                            <td><code>--allowSyntheticDefaultImports</code></td>
-                            <td>TypeScriptAllowSyntheticDefaultImports</td>
-                            <td>布尔值</td>
-                        </tr>
-                        <tr>
-                            <td><code>--noImplicitUseStrict</code></td>
-                            <td>TypeScriptNoImplicitUseStrict</td>
-                            <td>布尔值</td>
-                        </tr>
-                        <tr>
-                            <td><code>--project</code></td>
-                            <td><em>VS不支持</em></td>
+                            <td><code>--typeRoots</code></td>
+                            <td><em>MSBuild不支持此选项</em></td>
                             <td></td>
                         </tr>
                         <tr>
                             <td><code>--watch</code></td>
-                            <td><em>VS不支持</em></td>
+                            <td><em>MSBuild不支持此选项</em></td>
                             <td></td>
                         </tr>
                         <tr>
-                            <td><code>--diagnostics</code></td>
-                            <td><em>VS不支持</em></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><code>--listFiles</code></td>
-                            <td><em>VS不支持</em></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><code>--noEmit</code></td>
-                            <td><em>VS不支持</em></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><code>--allowJs</code></td>
-                            <td><em>VS不支持</em></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td><em>VS特有选项</em></td>
+                            <td><em>MSBuild only option</em></td>
                             <td>TypeScriptAdditionalFlags</td>
-                            <td><em>任意编译选项</em></td>
+                            <td><em>任何编译选项</em></td>
                         </tr>
                     </tbody>
                 </table>

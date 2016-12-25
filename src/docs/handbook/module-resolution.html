@@ -52,7 +52,7 @@
                 <p></p>
                 <blockquote>
                     <p>这节假设你已经了解了模块的一些基本知识 请阅读
-                        <a href="./Modules.md">模块</a>文档了解更多信息。</p>
+                        <a href="./modules.html">模块</a>文档了解更多信息。</p>
                 </blockquote>
                 <p><em>模块解析</em>就是指编译器所要依据的一个流程，用它来找出某个导入操作所引用的具体值。 假设有一个导入语句
                     <code>import { a } from &quot;moduleA&quot;</code>; 为了去检查任何对
@@ -62,7 +62,7 @@
                 <p>首先，编译器会尝试定位表示导入模块的文件。 编译会遵循下列二种策略之一：
                     <a href="#classic">Classic</a>或<a href="#node">Node</a>。 这些策略会告诉编译器到
                     <em>哪里</em>去查找<code>moduleA</code>。</p>
-                <p>如果它们失败了并且如果模块名是非相对的（且是在<code>&quot;moduleA&quot;</code>的情况下），编译器会尝试定位一个<a href="./Modules.md#ambient-modules">外部模块声明</a>。
+                <p>如果它们失败了并且如果模块名是非相对的（且是在<code>&quot;moduleA&quot;</code>的情况下），编译器会尝试定位一个<a href="./modules.html#ambient-modules">外部模块声明</a>。
                     我们接下来会讲到非相对导入。
                 </p>
                 <p>最后，如果编译器还是不能解析这个模块，它会记录一个错误。 在这种情况下，错误可能为
@@ -84,10 +84,13 @@
                 </ul>
                 <p>相对导入解析时是相对于导入它的文件来的，并且<em>不能</em>解析为一个外部模块声明。 你应该为你自己写的模块使用相对导入，这样能确保它们在运行时的相对位置。
                 </p>
+                <p>非相对模块的导入可以相对于<code>baseUrl</code>或通过下文会讲到的路径映射来进行解析。 它们还可以被解析能
+                    <a href="./modules.html#ambient-modules">外部模块声明</a>。 使用非相对路径来导入你的外部依赖。
+                </p>
                 <h2>模块解析策略</h2>
                 <p>共有两种可用的模块解析策略：<a href="#node">Node</a>和<a href="#classic">Classic</a>。 你可以使用
-                    <code>--moduleResolution</code>标记为指定使用哪个。 默认值为
-                    <a href="#node">Node</a>。</p>
+                    <code>--moduleResolution</code>标记指定使用哪种模块解析策略。 若未指定，那么在使用了
+                    <code>--module AMD | System | ES2015</code>时的默认值为<a href="#classic">Classic</a>，其它情况时则为<a href="#node">Node</a>。</p>
                 <h3>Classic</h3>
                 <p>这种策略以前是TypeScript默认的解析策略。 现在，它存在的理由主要是为了向后兼容。
                 </p>
@@ -202,6 +205,188 @@
                 </ol>
                 <p>不要被这里步骤的数量吓到 - TypeScript只是在步骤（8）和（15）向上跳了两次目录。 这并不比Node.js里的流程复杂。
                 </p>
+                <h2>附加的模块解析标记</h2>
+                <p>有时工程源码结构与输出结构不同。 通常是要经过一系统的构建步骤最后生成输出。 它们包括将
+                    <code>.ts</code>编译成<code>.js</code>，将不同位置的依赖拷贝至一个输出位置。 最终结果就是运行时的模块名与包含它们声明的源文件里的模块名不同。 或者最终输出文件里的模块路径与编译时的源文件路径不同了。
+                </p>
+                <p>TypeScript编译器有一些额外的标记用来<em>通知</em>编译器在源码编译成最终输出的过程中都发生了哪个转换。</p>
+                <p>有一点要特别注意的是编译器<em>不会</em>进行这些转换操作； 它只是利用这些信息来指导模块的导入。
+                </p>
+                <h3 id="base-url">Base URL</h3>
+                <p>在利用AMD模块加载器的应用里使用<code>baseUrl</code>是常见做法，它要求在运行时模块都被放到了一个文件夹里。 这些模块的源码可以在不同的目录下，但是构建脚本会将它们集中到一起。
+                </p>
+                <p>设置<code>baseUrl</code>来告诉编译器到哪里去查找模块。 所有非相对模块导入都会被当做相对于
+                    <code>baseUrl</code>。</p>
+                <p><em>baseUrl</em>的值由以下两者之一决定：</p>
+                <ul>
+                    <li>命令行中<em>baseUrl</em>的值（如果给定的路径是相对的，那么将相对于当前路径进行计算）</li>
+                    <li>‘tsconfig.json’里的<em>baseUrl</em>属性（如果给定的路径是相对的，那么将相对于‘tsconfig.json’路径进行计算）</li>
+                </ul>
+                <p>注意相对模块的导入不会被设置的<code>baseUrl</code>所影响，因为它们总是相对于导入它们的文件。</p>
+                <p>阅读更多关于<code>baseUrl</code>的信息<a href="http://requirejs.org/docs/api.html#config-baseUrl">RequireJS</a>和
+                    <a
+                        href="https://github.com/systemjs/systemjs/blob/master/docs/overview.md#baseurl">SystemJS</a>。</p>
+                <h3 id="path-mapping">路径映射</h3>
+                <p>有时模块不是直接放在<em>baseUrl</em>下面。 比如，充分
+                    <code>&quot;jquery&quot;</code>模块地导入，在运行时可能被解释为<code>&quot;node_modules\jquery\dist\jquery.slim.min.js&quot;</code>。
+                    加载器使用映射配置来将模块名映射到运行时的文件，查看
+                    <a href="http://requirejs.org/docs/api.html#config-paths">RequireJs documentation</a>和<a href="https://github.com/systemjs/systemjs/blob/master/docs/overview.md#map-config">SystemJS documentation</a>。</p>
+                <p>TypeScript编译器通过使用<code>tsconfig.json</code>文件里的<code>&quot;paths&quot;</code>来支持这样的声明映射。 下面是一个如何指定
+                    <code>jquery</code>的<code>&quot;paths&quot;</code>的例子。</p>
+                <pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;baseUrl&quot;: &quot;.&quot;, // This must be specified if &quot;paths&quot; is.
+    &quot;paths&quot;: {
+      &quot;jquery&quot;: [&quot;node_modules/jquery/dist/jquery&quot;]
+    }
+  }
+}
+</code></pre>
+                <p>通过<code>&quot;paths&quot;</code>我们还可以指定复杂的映射，包括指定多个回退位置。 假设在一个工程配置里，有一些模块位于一处，而其它的则在另个的位置。 构建过程会将它们集中至一处。
+                    工程结构可能如下：
+                </p>
+                <pre><code class="language-tree">projectRoot
+├── folder1
+│   ├── file1.ts (imports 'folder1/file2' and 'folder2/file3')
+│   └── file2.ts
+├── generated
+│   ├── folder1
+│   └── folder2
+│       └── file3.ts
+└── tsconfig.json
+</code></pre>
+                <p>相应的<code>tsconfig.json</code>文件如下：</p>
+                <pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;baseUrl&quot;: &quot;.&quot;,
+    &quot;paths&quot;: {
+      &quot;*&quot;: [
+        &quot;*&quot;,
+        &quot;generated/*&quot;
+      ]
+    }
+  }
+}
+</code></pre>
+                <p>它告诉编译器所有匹配<code>&quot;*&quot;</code>（所有的值）模式的模块导入会在以下两个位置查找：</p>
+                <ol>
+                    <li><code>&quot;*&quot;</code>： 表示名字不发生改变，所以映射为<code>&lt;moduleName&gt;</code> =&gt; <code>&lt;baseUrl&gt;\&lt;moduleName&gt;</code></li>
+                    <li><code>&quot;generated\*&quot;</code>表示模块名添加了“generated”前缀，所以映射为<code>&lt;moduleName&gt;</code> =&gt;
+                        <code>&lt;baseUrl&gt;\generated\&lt;moduleName&gt;</code></li>
+                </ol>
+                <p>按照这个逻辑，编译器将会如下尝试解析这两个导入：</p>
+                <ul>
+                    <li>导入'folder1/file2'
+                        <ol>
+                            <li>匹配'*'模式且通配符捕获到整个名字。</li>
+                            <li>尝试列表里的第一个替换：'*' -&gt; <code>folder1/file2</code>。</li>
+                            <li>替换结果为相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/folder1/file2.ts</code>。</li>
+                            <li>文件存在。完成。</li>
+                        </ol>
+                    </li>
+                    <li>导入'folder2/file3'
+                        <ol>
+                            <li>匹配'*'模式且通配符捕获到整个名字。</li>
+                            <li>尝试列表里的第一个替换：'*' -&gt; <code>folder2/file3</code>。</li>
+                            <li>替换结果为相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/folder2/file3.ts</code>。</li>
+                            <li>文件不存在，跳到第二个替换。</li>
+                            <li>第二个替换：'generated/*' -&gt; <code>generated/folder2/file3</code>。</li>
+                            <li>替换结果为相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/generated/folder2/file3.ts</code>。</li>
+                            <li>文件存在。完成。</li>
+                        </ol>
+                    </li>
+                </ul>
+                <h3 id="virtual-directories-with-rootdirs">利用<code>rootDirs</code>指定虚拟目录</h3>
+                <p>有时多个目录下的工程源文件在编译时会进行合并放在某个输出目录下。 这可以看做一些源目录创建了一个“虚拟”目录。
+                </p>
+                <p>利用<code>rootDirs</code>，可以告诉编译器生成这个虚拟目录的<em>roots</em>； 因此编译器可以在“虚拟”目录下解析相对模块导入，就
+                    <em>好像</em>它们被合并在了一起一样。</p>
+                <p>比如，有下面的工程结构：</p>
+                <pre><code class="language-tree"> src
+ └── views
+     └── view1.ts (imports './template1')
+     └── view2.ts
+
+ generated
+ └── templates
+         └── views
+             └── template1.ts (imports './view2')
+</code></pre>
+                <p><code>src/views</code>里的文件是用于控制UI的用户代码。
+                    <code>generated/templates</code>是UI模版，在构建时通过模版生成器自动生成。 构建中的一步会将
+                    <code>/src/views</code>和<code>/generated/templates/views</code>的输出拷贝到同一个目录下。 在运行时，视图可以假设它的模版与它同在一个目录下，因此可以使用相对导入
+                    <code>&quot;./template&quot;</code>。</p>
+                <p>可以使用<code>&quot;rootDirs&quot;</code>来告诉编译器。
+                    <code>&quot;rootDirs&quot;</code>指定了一个<em>roots</em>列表，列表里的内容会在运行时被合并。 因此，针对这个例子，
+                    <code>tsconfig.json</code>如下：</p>
+                <pre><code class="language-json">{
+  &quot;compilerOptions&quot;: {
+    &quot;rootDirs&quot;: [
+      &quot;src/views&quot;,
+      &quot;generated/templates/views&quot;
+    ]
+  }
+}
+</code></pre>
+                <p>第当编译器在<code>rootDirs</code>的子目录下找到一个相对模块导入，它会尝试从<code>rootDirs</code>里导入。</p>
+                <h2>跟踪模块解析</h2>
+                <p>如之前讨论，编译器在解析模块时可能访问当前文件夹外的文件。 这会导致很难诊断模块为什么没有被解析，或解析到了错误的位置。 通过
+                    <code>--traceResolution</code>启用编译器的模块解析跟踪，它会告诉我们在模块解析过程中发生了什么。</p>
+                <p>假设我们有一个使用了<code>typescript</code>模块的简单应用。
+                    <code>app.ts</code>里有一个这样的导入<code>import * as ts from &quot;typescript&quot;</code>。</p>
+                <pre><code class="language-tree">│   tsconfig.json
+├───node_modules
+│   └───typescript
+│       └───lib
+│               typescript.d.ts
+└───src
+        app.ts
+</code></pre>
+                <p>使用<code>--traceResolution</code>调用编译器。</p>
+                <pre><code class="language-shell">tsc --traceResolution
+</code></pre>
+                <p>输出结果如下：</p>
+                <pre><code class="language-txt">======== Resolving module 'typescript' from 'src/app.ts'. ========
+Module resolution kind is not specified, using 'NodeJs'.
+Loading module 'typescript' from 'node_modules' folder.
+File 'src/node_modules/typescript.ts' does not exist.
+File 'src/node_modules/typescript.tsx' does not exist.
+File 'src/node_modules/typescript.d.ts' does not exist.
+File 'src/node_modules/typescript/package.json' does not exist.
+File 'node_modules/typescript.ts' does not exist.
+File 'node_modules/typescript.tsx' does not exist.
+File 'node_modules/typescript.d.ts' does not exist.
+Found 'package.json' at 'node_modules/typescript/package.json'.
+'package.json' has 'typings' field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.
+File 'node_modules/typescript/lib/typescript.d.ts' exist - use it as a module resolution result.
+======== Module name 'typescript' was successfully resolved to 'node_modules/typescript/lib/typescript.d.ts'. ========
+</code></pre>
+                <h4>需要留意的地方</h4>
+                <ul>
+                    <li>导入的名字及位置</li>
+                </ul>
+                <blockquote>
+                    <p>======== Resolving module <strong>'typescript'</strong> from <strong>'src/app.ts'</strong>. ========</p>
+                </blockquote>
+                <ul>
+                    <li>编译器使用的策略</li>
+                </ul>
+                <blockquote>
+                    <p>Module resolution kind is not specified, using <strong>'NodeJs'</strong>.</p>
+                </blockquote>
+                <ul>
+                    <li>从npm加载typings</li>
+                </ul>
+                <blockquote>
+                    <p>'package.json' has <strong>'typings'</strong> field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.</p>
+                </blockquote>
+                <ul>
+                    <li>最终结果</li>
+                </ul>
+                <blockquote>
+                    <p>======== Module name 'typescript' was <strong>successfully resolved</strong> to 'node_modules/typescript/lib/typescript.d.ts'.
+                        ========</p>
+                </blockquote>
                 <h2>使用<code>--noResolve</code></h2>
                 <p>正常来讲编译器会在开始编译之前解析模块导入。 每当它成功地解析了对一个文件
                     <code>import</code>，这个文件被会加到一个文件列表里，以供编译器稍后处理。</p>

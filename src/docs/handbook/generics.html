@@ -202,7 +202,7 @@ stringNumeric.add = function(x, y) { return x + y; };
 alert(stringNumeric.add(stringNumeric.zeroValue, &quot;test&quot;));
 </code></pre>
                 <p>与接口一样，直接把泛型类型放在类后面，可以帮助我们确认类的所有属性都在使用相同的类型。</p>
-                <p>我们在<a href="./Classes.md">类</a>那节说过，类有两部分：静态部分和实例部分。 泛型类指的是实例部分的类型，所以类的静态属性不能使用这个泛型类型。
+                <p>我们在<a href="./classes.html">类</a>那节说过，类有两部分：静态部分和实例部分。 泛型类指的是实例部分的类型，所以类的静态属性不能使用这个泛型类型。
                 </p>
                 <h1>泛型约束</h1>
                 <p>你应该会记得之前的一个例子，我们有时候想操作某类型的一组值，并且我们知道这组值具有什么样的属性。 在
@@ -232,11 +232,19 @@ function loggingIdentity&lt;T extends Lengthwise&gt;(arg: T): T {
                 <pre><code class="language-ts">loggingIdentity({length: 10, value: 3});
 </code></pre>
                 <h2>在泛型约束中使用类型参数</h2>
-                <p>你可以声明一个类型参数，且它被另一个类型参数所约束。比如，</p>
-                <pre><code class="language-ts">function find&lt;T, U extends Findable&lt;T&gt;&gt;(n: T, s: U) {
-  // ...
+                <p>你可以声明一个类型参数，且它被另一个类型参数所约束。 比如，现在我们有两个对象，并把一个对象的属性拷贝到另一个对象。 我们要确保没有不小心地把额外的属性从源对象拷贝到目标对象，因此我们需要在这两个类型之间使用约束。
+                </p>
+                <pre><code class="language-ts">function copyFields&lt;T extends U, U&gt;(target: T, source: U): T {
+    for (let id in source) {
+        target[id] = source[id];
+    }
+    return target;
 }
-find (giraffe, myAnimals);
+
+let x = { a: 1, b: 2, c: 3, d: 4 };
+
+copyFields(x, { b: 10, d: 20 }); // okay
+copyFields(x, { Q: 90 });  // error: property 'Q' isn't declared in 'x'.
 </code></pre>
                 <h2>在泛型里使用类类型</h2>
                 <p>在TypeScript使用泛型创建工厂函数时，需要引用构造函数的类类型。比如，</p>

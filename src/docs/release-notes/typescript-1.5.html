@@ -159,7 +159,7 @@ alert(a); // 错误: 变量 a 在当前作用域未定义
 </code></pre>
                 <h2><code>for...of</code> 的支持</h2>
                 <p>TypeScript 1.5 增加了 ES6 <code>for...of</code> 循环编译到 ES3/ES5 时对数组的支持, 以及编译到 ES6 时对满足 <code>Iterator</code>                    接口的全面支持.</p>
-                <h3>例子:</h3>
+                <h3>例子</h3>
                 <p>TypeScript 编译器会转译 <code>for...of</code> 数组到具有语义的 ES3/ES5 JavaScript (如果被设置为编译到这些版本).</p>
                 <pre><code class="language-ts">for (var v of expr) { }
 </code></pre>
@@ -182,7 +182,7 @@ alert(a); // 错误: 变量 a 在当前作用域未定义
                 <blockquote>
                     <p>了解更多, 请参见 <a href="https://github.com/Microsoft/TypeScript/issues/2249">装饰器</a> 提案.</p>
                 </blockquote>
-                <h3>例子:</h3>
+                <h3>例子</h3>
                 <p>装饰器 <code>readonly</code> 和 <code>enumerable(false)</code> 会在属性 <code>method</code> 添加到类 <code>C</code> 上之前被应用.
                     这使得装饰器可以修改其实现, 具体到这个例子, 设置了 <code>descriptor</code> 为 <code>writable: false</code> 以及 <code>enumerable: false</code>.</p>
                 <pre><code class="language-ts">class C {
@@ -276,7 +276,7 @@ moduleA.callStuff()
                     <li>调用 tsc 并不指定输入文件, 此时编译器会从当前目录开始往上级目录寻找 <code>tsconfig.json</code> 文件.</li>
                     <li>调用 tsc 并不指定输入文件, 使用 <code>-project</code> (或者 <code>-p</code>) 命令行选项指定包含了 <code>tsconfig.json</code>                        文件的目录.</li>
                 </ul>
-                <h3>例子:</h3>
+                <h3>例子</h3>
                 <pre><code class="language-json">{
     &quot;compilerOptions&quot;: {
         &quot;module&quot;: &quot;commonjs&quot;,

@@ -51,7 +51,7 @@
             <article class="post-content">
                 <p>这个快速上手指南会告诉你如何结合使用TypeScript和<a href="http://knockoutjs.com/">Knockout.js</a>。</p>
                 <p>这里我们假设你已经会使用<a href="https://nodejs.org/">Node.js</a>和<a href="https://www.npmjs.com/">npm</a></p>
-                <h1>初始化项目</h1>
+                <h1>新建工程</h1>
                 <p>首先，我们新建一个目录。 暂时命名为
                     <code>proj</code>，当然了你可以使用任何喜欢的名字。</p>
                 <pre><code class="language-shell">mkdir proj
@@ -59,26 +59,27 @@ cd proj
 </code></pre>
                 <p>接下来，我们按如下方式来组织这个工程：</p>
                 <pre><code class="language-text">proj/
-   +- src/
-   +- built/
+   ├─ src/
+   └─ built/
 </code></pre>
                 <p>TypeScript源码放在<code>src</code>目录下，结过TypeScript编译器编译后，生成的文件放在<code>built</code>目录里。</p>
                 <p>下面创建目录：</p>
                 <pre><code class="language-shell">mkdir src
 mkdir built
 </code></pre>
+                <h1>初始化工程</h1>
+                <p>现在将这个文件夹转换为npm包。</p>
+                <pre><code class="language-shell">npm init
+</code></pre>
+                <p>你会看到一系列提示。 除了入口点外其它设置都可以使用默认值。 你可以随时到生成的
+                    <code>package.json</code>文件里修改这些设置。</p>
                 <h1>安装构建依赖</h1>
-                <p>首先确保TypeScript和Typings已经全局安装。</p>
-                <pre><code class="language-shell">npm install -g typescript typings
+                <p>首先确保TypeScript已经全局安装。</p>
+                <pre><code class="language-shell">npm install -g typescript
 </code></pre>
-                <p>你肯定已经很了解TypeScript了，但你有可能还不太了解Typings.
-                    <a href="https://www.npmjs.com/package/typings">Typings</a>是一个包管理器用来获取声明文件。 我们将会使用它来获取Knockout的声明文件。
-                </p>
-                <pre><code class="language-shell">typings install --ambient --save knockout
+                <p>我们还要获取Knockout的声明文件，它描述了这个库的结构供TypeScript使用。</p>
+                <pre><code class="language-shell">npm install --save @types/knockout
 </code></pre>
-                <p><code>--ambient</code>标记会告诉Typings从<a href="https://github.com/DefinitelyTyped/DefinitelyTyped">DefinitelyTyped</a>去获取声明文件，这是由社区维护的<code>.d.ts</code>文件仓库。
-                    这个命令会在当前目录下创建一个
-                    <code>typings.json</code>文件和一个<code>typings</code>文件夹。</p>
                 <h1>获取运行时依赖</h1>
                 <p>我们需要Knockout和RequireJS。
                     <a href="http://www.requirejs.org/">RequireJS</a>是一个库，它可以让我们在运行时异步地加载模块。</p>
@@ -110,18 +111,17 @@ mkdir built
         &quot;target&quot;: &quot;es5&quot;
     },
     &quot;files&quot;: [
-        &quot;./typings/main.d.ts&quot;,
         &quot;./src/require-config.ts&quot;,
         &quot;./src/hello.ts&quot;
     ]
 }
 </code></pre>
-                <p>这里引用了<code>typings/main.d.ts</code>，它是Typings帮我们创建的。 这个文件会自动地包含所有安装的依赖。
+                <p>这里引用了<code>typings/index.d.ts</code>，它是Typings帮我们创建的。 这个文件会自动地包含所有安装的依赖。
                 </p>
                 <p>你可能会对<code>typings</code>目录下的<code>browser.d.ts</code>文件感到好奇，尤其因为我们将在浏览器里运行代码。 其实原因是这样的，当目标为浏览器的时候，一些包会生成不同的版本。
                     通常来讲，这些情况很少发生并且在这里我们不会遇到这种情况，所以我们可以忽略
                     <code>browser.d.ts</code>。</p>
-                <p>你可以在<a href="../tsconfig.json.md">这里</a>查看更多关于<code>tsconfig.json</code>文件的信息</p>
+                <p>你可以在<a href="./tsconfig-json.html">这里</a>查看更多关于<code>tsconfig.json</code>文件的信息</p>
                 <h1>写些代码</h1>
                 <p>下面我们使用Knockout写一段TypeScript代码。 首先，在
                     <code>src</code>目录里新建一个<code>hello.ts</code>文件。</p>

@@ -105,7 +105,7 @@
 				<p>在你的构建管道中可能包含多个步骤。 比如为每个文件添加一些内容。 每种工具的使用方法都是不同的，我们会尽可能的包涵主流的工具。
 				</p>
 				<h2>Gulp</h2>
-				<p>如果你在使用时髦的Gulp，我们已经有一篇关于<a href="./Gulp.md">使用Gulp</a>结合TypeScript并与常见构建工具Browserify，Babelify和Uglify进行集成的教程。 请阅读这篇教程。
+				<p>如果你在使用时髦的Gulp，我们已经有一篇关于<a href="./gulp.html">使用Gulp</a>结合TypeScript并与常见构建工具Browserify，Babelify和Uglify进行集成的教程。 请阅读这篇教程。
 				</p>
 				<h2>Webpack</h2>
 				<p>Webpack集成非常简单。 你可以使用
@@ -143,7 +143,7 @@
     // Other options...
 };
 </code></pre>
-				<p>要注意的是<code>ts-loader</code>必须在其它处理<code>.js</code>文件的加载器之前运行。 你可以在[React和Webpack教程](./React &amp; Webpack.md)里找到使用Webpack的例子。</p>
+				<p>要注意的是<code>ts-loader</code>必须在其它处理<code>.js</code>文件的加载器之前运行。 你可以在<a href="./react-&-webpack.html">React和Webpack教程</a>里找到使用Webpack的例子。</p>
 				<h1>转换到TypeScript文件</h1>
 				<p>到目前为止，你已经做好了使用TypeScript文件的准备。 第一步，将
 					<code>.js</code>文件重命名为<code>.ts</code>文件。 如果你使用了JSX，则重命名为
@@ -240,7 +240,7 @@ export = foo;
 }
 
 myCoolFunction(function(x) { console.log(x) }, [1, 2, 3, 4]);
-myCoolFunction(function(x) { console.log(x) }, 1, 2, 3, 4]);
+myCoolFunction(function(x) { console.log(x) }, 1, 2, 3, 4);
 </code></pre>
 				<p>这种情况下，我们需要利用TypeScript的函数重载来告诉调用者<code>myCoolFunction</code>函数的调用方式。</p>
 				<pre><code class="language-ts">function myCoolFunction(f: (x: number) =&gt; void, nums: number[]): void;
@@ -316,7 +316,7 @@ foo!.length; // okay - 'foo!' just has type 'string[]'
 					<code>Point</code>类，并且我们要添加一个函数做为它的方法：</p>
 				<pre><code class="language-ts">class Point {
     constuctor(public x, public y) {}
-    getDistance(point: Point) {
+    getDistance(p: Point) {
         let dx = p.x - this.x;
         let dy = p.y - this.y;
         return Math.sqrt(dx ** 2 + dy ** 2);
