@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>案例 · TypeScript——JavaScript的超集</title>
+    <title>起步 · TypeScript——JavaScript的超集</title>
     <!-- inject:css -->
     <!-- endinject -->
     <style type="text/css">
@@ -19,15 +19,15 @@
         .ng-hide:not(.ng-hide-animate) {
             display: none !important;
         }
-        
+
         ng\:form {
             display: block;
         }
-        
+
         .ng-animate-shim {
             visibility: hidden;
         }
-        
+
         .ng-anchor {
             position: absolute;
         }
@@ -61,202 +61,285 @@
     <!-- endinject -->
     <!-- inject:message:html -->
     <!-- endinject -->
-    <div class="examples ng-scope" ng-controller="examplesController">
+    <div class="examples">
         <div id="content" class="container-fluid fill">
             <div class="container examplesBg">
                 <div class="row row-centered">
-                    <!-- ngRepeat: example in examples | byTags:tagFilters track by $index -->
-                    <div class="col-xs-6 col-md-4 col-centered exampleBox ng-scope" ng-class="{hover: example.selected == 1}" ng-repeat="example in examples | byTags:tagFilters track by $index">
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
                         <div class="flip-container">
-                            <div class="front-face">
-                                <a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/greeter">
-                                    <div class="exampleImg"><img ng-src="/assets/images/examples/greeter_400x300.png" src="/assets/images/examples/greeter_400x300.png"></div>
-                                    <h3 class="exampleHeadline ng-binding">Hello World</h3></a>
-                                <div class="exampleSummary ng-binding">类型和类的基本案例</div>
-                                <div class="exampleTags">
-                                    <!-- ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope ng-hide">All</span>
-                                    <!-- end ngRepeat: tag in example.tags -->
+                            <a href="https://github.com/Microsoft/TypeScript-React-Starter#typescript-react-starter" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/react.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">React</h3>
+                                    <div class="exampleSummary">如果create-react-app有一个包含TypeScript的选项，这将会使你得到：React + TypeScript的完美起点。</div>
+                                    <div class="exampleTags">
+
+                                        <span>React</span>
+
+                                        <span>Redux</span>
+
+                                        <span>Webpack</span>
+
+                                        <span>Enzyme</span>
+
+                                        <span>Jest</span>
+
+                                    </div>
                                 </div>
-                                <div class="exampleInfo"></div>
-                            </div>
-                            <div class="back-face">
-                                <div class="ng-binding">
-                                    <p>本示例展示了最基本的定义类和创建类的实例。</p>
-                                </div>
-                                <div class="exampleInfo"></div>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <!-- end ngRepeat: example in examples | byTags:tagFilters track by $index -->
-                    <div class="col-xs-6 col-md-4 col-centered exampleBox ng-scope" ng-class="{hover: example.selected == 1}" ng-repeat="example in examples | byTags:tagFilters track by $index">
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
                         <div class="flip-container">
-                            <div class="front-face">
-                                <a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/raytracer">
-                                    <div class="exampleImg"><img ng-src="/assets/images/examples/raytracer_400x300.png" src="/assets/images/examples/raytracer_400x300.png"></div>
-                                    <h3 class="exampleHeadline ng-binding">Raytracer</h3></a>
-                                <div class="exampleSummary ng-binding">基于TypeScript实现的光线跟踪器</div>
-                                <div class="exampleTags">
-                                    <!-- ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope ng-hide">All</span>
-                                    <!-- end ngRepeat: tag in example.tags -->
+                            <a href="https://angular.io/docs/ts/latest/quickstart.html" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/angular.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">Angular</h3>
+                                    <div class="exampleSummary">Angular团队建议在所有的Angular项目中使用TypeScript。查看教程开始使用。</div>
+                                    <div class="exampleTags">
+
+                                        <span>Angular</span>
+
+                                        <span>Protractor</span>
+
+                                        <span>Jasmine</span>
+
+                                        <span>Karma</span>
+
+                                        <span>Rollup</span>
+
+                                        <span>Uglify</span>
+
+                                        <span>TSLint</span>
+
+                                    </div>
                                 </div>
-                                <div class="exampleInfo"></div>
-                            </div>
-                            <div class="back-face">
-                                <div ng-bind-html="<p>This sample implements a DOM canvas-based raytracer.  Notable features include:</p><ul><li>Use of the DOM Canvas</li><li>Use of a wide range of TypeScript language features including interfaces, classes, modules, accessibility modifiers, and casts</li></ul> | htmlFilter"
-                                    class="ng-binding">
-                                    <p>本案例基于DOM画布实现的光线跟踪器。 显著特性包括:</p>
-                                    <ul>
-                                        <li>使用了DOM画布</li>
-                                        <li>使用了大量TypeScript语言的特性，包括接口、类、模块、访问修饰符和类型转换。</li>
-                                    </ul>
-                                </div>
-                                <div class="exampleInfo"></div>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <!-- end ngRepeat: example in examples | byTags:tagFilters track by $index -->
-                    <div class="col-xs-6 col-md-4 col-centered exampleBox ng-scope" ng-class="{hover: example.selected == 1}" ng-repeat="example in examples | byTags:tagFilters track by $index">
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
                         <div class="flip-container">
-                            <div class="front-face">
-                                <a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/todomvc">
-                                    <div class="exampleImg"><img ng-src="/assets/images/examples/todomvc_400x300.png" src="/assets/images/examples/todomvc_400x300.png"></div>
-                                    <h3 class="exampleHeadline ng-binding">TodoMVC</h3></a>
-                                <div class="exampleSummary ng-binding">使用Backbone.js和jQuery创建TypeScript版本的TodoMVC</div>
-                                <div class="exampleTags">
-                                    <!-- ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope">JQuery</span>
-                                    <!-- end ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope">Backbone</span>
-                                    <!-- end ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope ng-hide">All</span>
-                                    <!-- end ngRepeat: tag in example.tags -->
+                            <a href="https://github.com/Microsoft/TypeScript-Node-Starter#typescript-node-starter" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/node.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">Express</h3>
+                                    <div class="exampleSummary">查看这个使用Express + MongoDB + TypeScript的新手项目，以了解为什么说TypeScript和Node.js是完美的组合。</div>
+                                    <div class="exampleTags">
+
+                                        <span>Node.js</span>
+
+                                        <span>Express</span>
+
+                                        <span>Pug</span>
+
+                                        <span>Jest</span>
+
+                                        <span>TSLint</span>
+
+                                        <span>MongoDB</span>
+
+                                        <span>Travis CI</span>
+
+                                    </div>
                                 </div>
-                                <div class="exampleInfo"></div>
-                            </div>
-                            <div class="back-face">
-                                <div class="ng-binding">
-                                    <p>本案例演示了使用Backbone.js实现的TODO示例（原示例来自<a href="https://github.com/addyosmani/todomvc" target="_blank">https://github.com/addyosmani/todomvc</a>）。突出展示了以下TypeScript的重点：</p>
-                                    <ul>
-                                        <li><strong>Backbone.js</strong>: 使用TypeScript的类去创建Backbone的模型和视图。</li>
-                                        <li><strong>jQuery</strong>: 使用jQuery操作所有的DOM元素</li>
-                                    </ul>
-                                </div>
-                                <div class="exampleInfo"></div>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <!-- end ngRepeat: example in examples | byTags:tagFilters track by $index -->
-                    <div class="col-xs-6 col-md-4 col-centered exampleBox ng-scope" ng-class="{hover: example.selected == 1}" ng-repeat="example in examples | byTags:tagFilters track by $index">
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
                         <div class="flip-container">
-                            <div class="front-face">
-                                <a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/imageboard">
-                                    <div class="exampleImg"><img ng-src="/assets/images/examples/imageboard_400x300.png" src="/assets/images/examples/imageboard_400x300.png"></div>
-                                    <h3 class="exampleHeadline ng-binding">ImageBoard</h3></a>
-                                <div class="exampleSummary ng-binding">在服务器端使用TypeScript构建Node.js + Express + MongoDB应用程序。</div>
-                                <div class="exampleTags">
-                                    <!-- ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope">Node.js</span>
-                                    <!-- end ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope">Express</span>
-                                    <!-- end ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope">MongoDB</span>
-                                    <!-- end ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope ng-hide">All</span>
-                                    <!-- end ngRepeat: tag in example.tags -->
+                            <a href="/docs/handbook/asp-net-core.html">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/aspnet.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">ASP.NET Core</h3>
+                                    <div class="exampleSummary">此入门指南将让你快速在Visual Studio中使用ASP.NET Core和TypeScript.</div>
+                                    <div class="exampleTags">
+
+                                        <span>ASP.NET</span>
+
+                                        <span>Gulp</span>
+
+                                        <span>Angular</span>
+
+                                    </div>
                                 </div>
-                                <div class="exampleInfo"></div>
-                            </div>
-                            <div class="back-face">
-                                <div class="ng-binding">
-                                    <p>本案例实现了一个完整的Node.js应用程序。显著特性包括:</p>
-                                    <ul>
-                                        <li>Express服务器端MVC类型应用</li>
-                                        <li>MongoDB服务器端访问数据库类型应用</li>
-                                        <li>Node.js类型应用</li>
-                                        <li>在Node.js模块系统中使用TypeScript的模块语法</li>
-                                        <li>Visual Studio project file for working with the project</li>
-                                    </ul>
-                                </div>
-                                <div class="exampleInfo"></div>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <!-- end ngRepeat: example in examples | byTags:tagFilters track by $index -->
-                    <div class="col-xs-6 col-md-4 col-centered exampleBox ng-scope" ng-class="{hover: example.selected == 1}" ng-repeat="example in examples | byTags:tagFilters track by $index">
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
                         <div class="flip-container">
-                            <div class="front-face">
-                                <a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/jquery">
-                                    <div class="exampleImg"><img src="/assets/images/examples/jquery_400x300.png"></div>
-                                    <h3 class="exampleHeadline ng-binding">JQuery Parallax Starfield</h3></a>
-                                <div class="exampleSummary ng-binding">构建一个jQuery应用程序来演示jQuery的用法</div>
-                                <div class="exampleTags">
-                                    <!-- ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope">JQuery</span>
-                                    <!-- end ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope ng-hide">All</span>
-                                    <!-- end ngRepeat: tag in example.tags -->
+                            <a href="https://github.com/Microsoft/TypeScript-React-Native-Starter#typescript-react-native-starter" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/react-native.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">React Native</h3>
+                                    <div class="exampleSummary">React Native将JavaScript带到移动设备，TypeScript将生产力持续保持。</div>
+                                    <div class="exampleTags">
+
+                                        <span>React Native</span>
+
+                                        <span>Enzyme</span>
+
+                                        <span>Jest</span>
+
+                                    </div>
                                 </div>
-                                <div class="exampleInfo"></div>
-                            </div>
-                            <div class="back-face">
-                                <div class="ng-binding">
-                                    <p>本案例实现了一个小型的jQuery应用程序。显著特征包括：</p>
-                                    <ul>
-                                        <li>jQuery类型的应用</li>
-                                    </ul>
-                                </div>
-                                <div class="exampleInfo"></div>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <!-- end ngRepeat: example in examples | byTags:tagFilters track by $index -->
-                    <div class="col-xs-6 col-md-4 col-centered exampleBox ng-scope" ng-class="{hover: example.selected == 1}" ng-repeat="example in examples | byTags:tagFilters track by $index">
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
                         <div class="flip-container">
-                            <div class="front-face">
-                                <a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/d3">
-                                    <div class="exampleImg"><img ng-src="/assets/images/examples/d3_400x300.png" src="/assets/images/examples/d3_400x300.png"></div>
-                                    <h3 class="exampleHeadline ng-binding">D3 Visualization</h3></a>
-                                <div class="exampleSummary ng-binding">该应用程序的构建演示了D3的使用和基于画布的可视化</div>
-                                <div class="exampleTags">
-                                    <!-- ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope">D3.js</span>
-                                    <!-- end ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope ng-hide">All</span>
-                                    <!-- end ngRepeat: tag in example.tags -->
+                            <a href="https://github.com/Microsoft/TypeScript-Vue-Starter#typescript-vue-starter" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/vue.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">Vue.js</h3>
+                                    <div class="exampleSummary">查看这个使用Vue.js和TypeScript的TodoMVC应用。</div>
+                                    <div class="exampleTags">
+
+                                        <span>Vue.js</span>
+
+                                        <span>Webpack</span>
+
+                                    </div>
                                 </div>
-                                <div class="exampleInfo"></div>
-                            </div>
-                            <div class="back-face">
-                                <div class="ng-binding">
-                                    <p>本案例实现了一个小型的D3可视化应用程序。显著的特点包括：</p>
-                                    <ul>
-                                        <li>D3类型的应用</li>
-                                        <li>Canvas的应用</li>
-                                    </ul>
-                                </div>
-                                <div class="exampleInfo"></div>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <!-- end ngRepeat: example in examples | byTags:tagFilters track by $index -->
-                    <div class="col-xs-6 col-md-4 col-centered exampleBox ng-scope" ng-class="{hover: example.selected == 1}" ng-repeat="example in examples | byTags:tagFilters track by $index">
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
                         <div class="flip-container">
-                            <div class="front-face">
-                                <a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/warship">
-                                    <div class="exampleImg"><img ng-src="/assets/images/examples/warship_400x300.png" src="/assets/images/examples/warship_400x300.png"></div>
-                                    <h3 class="exampleHeadline ng-binding">军舰战争</h3></a>
-                                <div class="exampleSummary ng-binding">完整克隆的超级战舰游戏</div>
-                                <div class="exampleTags">
-                                    <!-- ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope">JQuery</span>
-                                    <!-- end ngRepeat: tag in example.tags --><span ng-hide="tag === 'All'" ng-repeat="tag in example.tags" class="ng-binding ng-scope ng-hide">All</span>
-                                    <!-- end ngRepeat: tag in example.tags -->
+                            <a href="https://glimmerjs.com/guides/installing" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/glimmer.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">Glimmer</h3>
+                                    <div class="exampleSummary">Glimmer是来自Ember生态的轻量级组件库，支持TypeScript开箱即用。</div>
+                                    <div class="exampleTags">
+
+                                        <span>Glimmer</span>
+
+                                    </div>
                                 </div>
-                                <div class="exampleInfo"></div>
-                            </div>
-                            <div class="back-face">
-                                <div ng-bind-html="<p>This sample implements a full game using JQuery and JQuery UI.  Notable features include:</p><ul><li>Typed usage of JQuery and JQuery UI</li><li>Use of getters/setters</li><li>Use of traditional OO code design, including access modifiers</li></ul> | htmlFilter"
-                                    class="ng-binding">
-                                    <p>本案例使用jQuery和jQuery UI实现了一个完整的游戏。显著的特点包括：</p>
-                                    <ul>
-                                        <li>jQuery和jQuery UI类型的应用</li>
-                                        <li>getters/setters的使用</li>
-                                        <li>使用传统的面向对象的代码设计，包括访问修饰符</li>
-                                    </ul>
-                                </div>
-                                <div class="exampleInfo"></div>
-                            </div>
+                            </a>
                         </div>
                     </div>
-                    <!-- end ngRepeat: example in examples | byTags:tagFilters track by $index -->
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
+                        <div class="flip-container">
+                            <a href="https://github.com/Microsoft/TypeScript-WeChat-Starter#开始之前" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/wechat.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">WeChat</h3>
+                                    <div class="exampleSummary">从此入门指南开始使用TypeScript构建微信小程序。立刻尝试！</div>
+                                    <div class="exampleTags">
+
+                                        <span>WeChat</span>
+
+                                        <span>Node.js</span>
+
+                                        <span>Express</span>
+
+                                        <span>EJS</span>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
+                        <div class="flip-container">
+                            <a href="https://dojo.io/tutorials/002_creating_an_application/" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/dojo.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">Dojo 2</h3>
+                                    <div class="exampleSummary">Dojo 2是由Dojo工具包进化而来的，并且完全使用了TypeScript重写。快速起步！</div>
+                                    <div class="exampleTags">
+
+                                        <span>Dojo 2</span>
+
+                                        <span>Intern</span>
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
+                        <div class="flip-container">
+                            <a href="https://github.com/Microsoft/TypeScript-Knockout-Starter#typescript-knockout-starter" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/knockout.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">Knockout</h3>
+                                    <div class="exampleSummary">Knockout是一个MVVM模式的JavaScript框架，结合TypeScript一起使用非常棒。点击查看快速入门指南。</div>
+                                    <div class="exampleTags">
+                                        <span>Knockout</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
+                        <div class="flip-container">
+                            <a href="https://github.com/Microsoft/TypeScript-React-Conversion-Guide#typescript-react-conversion-guide" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/conversion.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">迁移指南</h3>
+                                    <div class="exampleSummary">已经有代码库了？查看该指南以了解转换为TypeScript的逐步演示。</div>
+                                    <div class="exampleTags">
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6 col-md-4 col-centered exampleBox">
+                        <div class="flip-container">
+                            <a href="https://github.com/Microsoft/TypeScriptSamples/" target="_blank">
+                                <div class="front-face">
+                                    <div class="exampleImg">
+                                        <img src="/assets/images/examples/todomvc_400x300.png">
+                                    </div>
+                                    <h3 class="exampleHeadline">社区案例</h3>
+                                    <div class="exampleSummary">军舰战争、光线追踪器等更多的社区贡献案例可以在这里找到。</div>
+                                    <div class="exampleTags">
+
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row row-centered survey-box">
+                    <p>没有找到你想要的指南？<a href="https://www.surveymonkey.com/r/SN9V7R7" target="_blank">告诉我们</a>如何更好地帮助你。</p>
                 </div>
             </div>
         </div>
