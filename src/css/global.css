@@ -33,7 +33,7 @@
 body {
     font-family: wf_segoe-ui_normal,Verdana,Geneva,Tahoma,sans-serif,微软雅黑;
     font-size: 10px;
-    color: #fff
+    color: #333;
 }
 
 @media (max-width: 767px) {
