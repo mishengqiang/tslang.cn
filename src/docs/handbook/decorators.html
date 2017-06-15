@@ -51,7 +51,7 @@
             <article class="post-content">
                 <h1>介绍</h1>
                 <p>随着TypeScript和ES6里引入了类，在一些场景下我们需要额外的特性来支持标注或修改类及其成员。 装饰器（Decorators）为我们在类的声明及成员上通过元编程语法添加标注提供了一种方式。 Javascript里的装饰器目前处在
-                    <a href="https://github.com/wycats/javascript-decorators/blob/master/README.md">建议征集的第一阶段</a>，但在TypeScript里已做为一项实验性特性予以支持。</p>
+                    <a href="https://github.com/tc39/proposal-decorators">建议征集的第二阶段</a>，但在TypeScript里已做为一项实验性特性予以支持。</p>
                 <blockquote>
                     <p>注意  装饰器是一项实验性特性，在未来的版本中可能会发生改变。</p>
                 </blockquote>
@@ -80,8 +80,7 @@
                 <blockquote>
                     <p>注意  后面<a href="#class-decorators">类装饰器</a>小节里有一个更加详细的例子。</p>
                 </blockquote>
-                <h2>
-                    <a name="decorator-factories"></a>装饰器工厂</h2>
+                <h2><a name="decorator-factories"></a>装饰器工厂</h2>
                 <p>如果我们要定制一个修饰器如何应用到一个声明上，我们得写一个装饰器工厂函数。
                     <em>装饰器工厂</em>就是一个简单的函数，它返回一个表达式，以供装饰器在运行时调用。</p>
                 <p>我们可以通过下面的方式来写一个装饰器工厂函数：</p>
@@ -149,8 +148,7 @@ f(): called
                     <li><em>参数装饰器</em>应用到构造函数。</li>
                     <li><em>类装饰器</em>应用到类。</li>
                 </ol>
-                <h2>
-                    <a name="class-decorators"></a>类装饰器</h2>
+                <h2><a name="class-decorators"></a>类装饰器</h2>
                 <p><em>类装饰器</em>在类声明之前被声明（紧靠着类声明）。 类装饰器应用于类构造函数，可以用来监视，修改或替换类定义。 类装饰器不能用在声明文件中(
                     <code>.d.ts</code>)，也不能用在任何外部上下文中（比如<code>declare</code>的类）。</p>
                 <p>类装饰器表达式会在运行时当作函数被调用，类的构造函数作为其唯一的参数。</p>
@@ -178,8 +176,26 @@ class Greeter {
 }
 </code></pre>
                 <p>当<code>@sealed</code>被执行的时候，它将密封此类的构造函数和原型。(注：参见<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/seal">Object.seal</a>)</p>
-                <h2>
-                    <a name="method-decorators"></a>方法装饰器</h2>
+                <p>下面是一个重载构造函数的例子。</p>
+                <pre><code class="language-ts">function classDecorator&lt;T extends {new(...args:any[]):{}}&gt;(constructor:T) {
+    return class extends constructor {
+        newProperty = &quot;new property&quot;;
+        hello = &quot;override&quot;;
+    }
+}
+
+@classDecorator
+class Greeter {
+    property = &quot;property&quot;;
+    hello: string;
+    constructor(m: string) {
+        this.hello = m;
+    }
+}
+
+console.log(new Greeter(&quot;world&quot;));
+</code></pre>
+                <h2><a name="method-decorators"></a>方法装饰器</h2>
                 <p><em>方法装饰器</em>声明在一个方法的声明之前（紧靠着方法声明）。 它会被应用到方法的
                     <em>属性描述符</em>上，可以用来监视，修改或者替换方法定义。 方法装饰器不能用在声明文件(
                     <code>.d.ts</code>)，重载或者任何外部上下文（比如<code>declare</code>的类）中。</p>
@@ -218,8 +234,7 @@ class Greeter {
 </code></pre>
                 <p>这里的<code>@enumerable(false)</code>是一个<a href="#decorator-factories">装饰器工厂</a>。 当装饰器
                     <code>@enumerable(false)</code>被调用时，它会修改属性描述符的<code>enumerable</code>属性。</p>
-                <h2>
-                    <a name="accessor-decorators"></a>访问器装饰器</h2>
+                <h2><a name="accessor-decorators"></a>访问器装饰器</h2>
                 <p><em>访问器装饰器</em>声明在一个访问器的声明之前（紧靠着访问器声明）。 访问器装饰器应用于访问器的
                     <em>属性描述符</em>并且可以用来监视，修改或替换一个访问器的定义。 访问器装饰器不能用在声明文件中（.d.ts），或者任何外部上下文（比如
                     <code>declare</code>的类）里。</p>
@@ -262,8 +277,7 @@ class Greeter {
     };
 }
 </code></pre>
-                <h2>
-                    <a name="property-decorators"></a>属性装饰器</h2>
+                <h2><a name="property-decorators"></a>属性装饰器</h2>
                 <p><em>属性装饰器</em>声明在一个属性声明之前（紧靠着属性声明）。 属性装饰器不能用在声明文件中（.d.ts），或者任何外部上下文（比如
                     <code>declare</code>的类）里。</p>
                 <p>属性装饰器表达式会在运行时当作函数被调用，传入下列2个参数：</p>
@@ -316,8 +330,7 @@ function getFormat(target: any, propertyKey: string) {
                     <p>注意  这个例子需要使用<code>reflect-metadata</code>库。 查看
                         <a href="#metadata">元数据</a>了解<code>reflect-metadata</code>库更详细的信息。</p>
                 </blockquote>
-                <h2>
-                    <a name="parameter-decorators"></a>参数装饰器</h2>
+                <h2><a name="parameter-decorators"></a>参数装饰器</h2>
                 <p><em>参数装饰器</em>声明在一个参数声明之前（紧靠着参数声明）。 参数装饰器应用于类构造函数或方法声明。 参数装饰器不能用在声明文件（.d.ts），重载或其它外部上下文（比如
                     <code>declare</code>的类）里。</p>
                 <p>参数装饰器表达式会在运行时当作函数被调用，传入下列3个参数：</p>

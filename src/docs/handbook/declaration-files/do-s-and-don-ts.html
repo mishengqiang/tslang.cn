@@ -60,9 +60,7 @@ function reverse(s: String): String;
 				<pre><code class="language-ts">/* OK */
 function reverse(s: string): string;
 </code></pre>
-				<p>如果你就要使用<code>Object</code>类型，考虑使用<code>any</code>代替。 目前在TypeScript里无法指定一个对象“不是一个原始值”。
-				</p>
-				<!--(Revisit if/when #1809 is implemented)-->
+				<p>使用非原始的<code>object</code>类型来代替<code>Object</code> （<a href="/docs/release-notes/typescript-2.2.html#object-type">TypeScript 2.2新增特性</a>）</p>
 				<h2>泛型</h2>
 				<p><em>不要</em>定义一个从来没使用过其类型参数的泛型类型。 了解详情
 					<a href="https://github.com/Microsoft/TypeScript/wiki/FAQ#why-doesnt-type-inference-work-on-this-interface-interface-foot---">TypeScript FAQ page</a>。</p>
@@ -181,7 +179,7 @@ interface Moment {
     utcOffset(b: string): Moment;
 }
 </code></pre>
-				<p><em>应该</em>尽可能使用类型类型：</p>
+				<p><em>应该</em>尽可能地使用类型类型：</p>
 				<pre><code class="language-ts">/* OK */
 interface Moment {
     utcOffset(): number;

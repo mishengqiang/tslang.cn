@@ -306,7 +306,7 @@ alert(&quot;card: &quot; + pickedCard.card + &quot; of &quot; + pickedCard.suit)
     onClickBad(this: Handler, e: Event) {
         // oops, used this here. using this callback would crash at runtime
         this.info = e.message;
-    };
+    }
 }
 let h = new Handler();
 uiElement.addClickListener(h.onClickBad); // error!

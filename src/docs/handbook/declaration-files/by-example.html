@@ -64,8 +64,7 @@
                     <li><a href="#classes">类</a></li>
                 </ul>
                 <h1>例子</h1>
-                <h2>
-                    <a name="global-variables"></a>全局变量</h2>
+                <h2><a name="global-variables"></a>全局变量</h2>
                 <p><em>文档</em></p>
                 <blockquote>
                     <p>全局变量<code>foo</code>包含了存在组件总数。</p>
@@ -80,8 +79,7 @@
                 <pre><code class="language-ts">/** 组件总数 */
 declare var foo: number;
 </code></pre>
-                <h2>
-                    <a name="global-functions"></a>全局函数</h2>
+                <h2><a name="global-functions"></a>全局函数</h2>
                 <p><em>文档</em></p>
                 <blockquote>
                     <p>用一个字符串参数调用<code>greet</code>函数向用户显示一条欢迎信息。</p>
@@ -93,8 +91,7 @@ declare var foo: number;
                 <p>使用<code>declare function</code>声明函数。</p>
                 <pre><code class="language-ts">declare function greet(greeting: string): void;
 </code></pre>
-                <h2>
-                    <a name="objects-with-properties"></a>带属性的对象</h2>
+                <h2><a name="objects-with-properties"></a>带属性的对象</h2>
                 <p><em>文档</em></p>
                 <blockquote>
                     <p>全局变量<code>myLib</code>包含一个<code>makeGreeting</code>函数， 还有一个属性
@@ -113,8 +110,7 @@ let count = myLib.numberOfGreetings;
     let numberOfGreetings: number;
 }
 </code></pre>
-                <h2>
-                    <a name="overloaded-functions"></a>函数重载</h2>
+                <h2><a name="overloaded-functions"></a>函数重载</h2>
                 <p><em>文档</em></p>
                 <blockquote>
                     <p><code>getWidget</code>函数接收一个数字，返回一个组件，或接收一个字符串并返回一个组件数组。</p>
@@ -128,8 +124,7 @@ let arr: Widget[] = getWidget(&quot;all of them&quot;);
                 <pre><code class="language-ts">declare function getWidget(n: number): Widget;
 declare function getWidget(s: string): Widget[];
 </code></pre>
-                <h2>
-                    <a name="reusable-types-interfaces"></a>可重用类型（接口）</h2>
+                <h2><a name="reusable-types-interfaces"></a>可重用类型（接口）</h2>
                 <p><em>文档</em></p>
                 <blockquote>
                     <p>当指定一个欢迎词时，你必须传入一个<code>GreetingSettings</code>对象。 这个对象具有以下几个属性：
@@ -152,8 +147,7 @@ declare function getWidget(s: string): Widget[];
 
 declare function greet(setting: GreetingSettings): void;
 </code></pre>
-                <h2>
-                    <a name="reusable-types-type-aliases"></a>可重用类型（类型别名）</h2>
+                <h2><a name="reusable-types-type-aliases"></a>可重用类型（类型别名）</h2>
                 <p><em>文档</em></p>
                 <blockquote>
                     <p>在任何需要欢迎词的地方，你可以提供一个<code>string</code>，一个返回<code>string</code>的函数或一个<code>Greeter</code>实例。</p>
@@ -170,12 +164,11 @@ greet(new MyGreeter());
 </code></pre>
                 <p><em>声明</em></p>
                 <p>你可以使用类型别名来定义类型的短名：</p>
-                <pre><code class="language-ts">type GreetingLike = string | (() =&gt; string) | Greeting;
+                <pre><code class="language-ts">type GreetingLike = string | (() =&gt; string) | MyGreeter;
 
 declare function greet(g: GreetingLike): void;
 </code></pre>
-                <h2>
-                    <a name="organizing-types"></a>组织类型</h2>
+                <h2><a name="organizing-types"></a>组织类型</h2>
                 <p><em>文档</em></p>
                 <blockquote>
                     <p><code>greeter</code>对象能够记录到文件或显示一个警告。 你可以为
@@ -212,8 +205,7 @@ g.alert({ modal: false, title: &quot;Current Greeting&quot; });
     }
 }
 </code></pre>
-                <h2>
-                    <a name="classes"></a>类</h2>
+                <h2><a name="classes"></a>类</h2>
                 <p><em>文档</em></p>
                 <blockquote>
                     <p>你可以通过实例化<code>Greeter</code>对象来创建欢迎词，或者继承<code>Greeter</code>对象来自定义欢迎词。</p>

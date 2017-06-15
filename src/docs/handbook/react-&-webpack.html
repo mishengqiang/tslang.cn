@@ -49,8 +49,9 @@
 				<h1 class="post-title">React & Webpack</h1>
 			</header>
 			<article class="post-content">
-				<p>这个快速上手指南将会教你如何将TypeScript和<a href="http://facebook.github.io/react/">React</a>还有<a href="http://webpack.github.io/">webpack</a>连结在一起使用。</p>
-				<p>我们假设已经在使用<a href="https://nodejs.org/">Node.js</a>和<a href="https://www.npmjs.com/">npm</a>。</p>
+				<p>这篇指南将会教你如何将TypeScript和<a href="http://facebook.github.io/react/">React</a>还有<a href="http://webpack.github.io/">webpack</a>结合在一起使用。</p>
+				<p>如果你正在做一个全新的工程，可以先阅读这篇<a href="/samples/index.html">React快速上手指南</a>。</p>
+				<p>否则，我们假设已经在使用<a href="https://nodejs.org/">Node.js</a>和<a href="https://www.npmjs.com/">npm</a>。</p>
 				<h1>初始化项目结构</h1>
 				<p>让我们新建一个目录。 将会命名为
 					<code>proj</code>，但是你可以改成任何你喜欢的名字。</p>
@@ -114,10 +115,7 @@ cd ..
         &quot;jsx&quot;: &quot;react&quot;
     },
     &quot;include&quot;: [
-        &quot;./**/*&quot;
-    ],
-    &quot;exclude&quot;: [
-        &quot;node_modules&quot;
+        &quot;./src/**/*&quot;
     ]
 }
 </code></pre>
@@ -196,18 +194,16 @@ ReactDOM.render(
 
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: [&quot;&quot;, &quot;.webpack.js&quot;, &quot;.web.js&quot;, &quot;.ts&quot;, &quot;.tsx&quot;, &quot;.js&quot;]
+        extensions: [&quot;.ts&quot;, &quot;.tsx&quot;, &quot;.js&quot;, &quot;.json&quot;]
     },
 
     module: {
-        loaders: [
+        rules: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
-            { test: /\.tsx?$/, loader: &quot;awesome-typescript-loader&quot; }
-        ],
+            { test: /\.tsx?$/, loader: &quot;awesome-typescript-loader&quot; },
 
-        preLoaders: [
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { test: /\.js$/, loader: &quot;source-map-loader&quot; }
+            { enforce: &quot;pre&quot;, test: /\.js$/, loader: &quot;source-map-loader&quot; }
         ]
     },
 

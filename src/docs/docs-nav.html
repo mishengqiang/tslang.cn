@@ -1,21 +1,21 @@
 <nav class="docs-nav visible-md visible-lg affix-top" id="docs-navbar">
     <ul class="nav" id="main-nav">
         <li class="panel">
-            <a class="docs-home" href="/docs/tutorial.html">快速上手</a>
+            <a class="docs-home" href="/docs/home.html">文档简介</a>
         </li>
         <li class="panel collapsed"><a class="area collapsed" aria-expanded="false" href="#toc-tutorials" data-toggle="collapse" data-parent="#main-nav">辅导教程</a>
             <ul class="collapse" id="toc-tutorials" aria-expanded="false" style="height: 12px;">
-                <li class="toc-item"><a href="/docs/handbook/angular-2.html">Angular 2</a></li>
+                <li class="toc-item"><a href="/docs/handbook/typescript-in-5-minutes.html">5分钟上手TypeScript</a></li>
                 <li class="toc-item"><a href="/docs/handbook/asp-net-core.html">ASP.NET Core</a></li>
-                <li class="toc-item"><a href="/docs/handbook/asp-net-4.html">ASP.NET 4</a></li>
                 <li class="toc-item"><a href="/docs/handbook/gulp.html">Gulp</a></li>
-                <li class="toc-item"><a href="/docs/handbook/knockout.html">Knockout</a></li>
                 <li class="toc-item"><a href="/docs/handbook/migrating-from-javascript.html">JavaScript迁移</a></li>
                 <li class="toc-item"><a href="/docs/handbook/react-&amp;-webpack.html">React &amp; Webpack</a></li>
             </ul>
         </li>
         <li class="panel collapsed"><a class="area collapsed" aria-expanded="false" href="#toc-whats-new" data-toggle="collapse" data-parent="#main-nav">文档版本</a>
             <ul class="collapse" id="toc-whats-new" aria-expanded="false" style="height: 12px;">
+                <li class="toc-item"><a href="/docs/release-notes/typescript-2.3.html">TypeScript 2.3</a></li>
+                <li class="toc-item"><a href="/docs/release-notes/typescript-2.2.html">TypeScript 2.2</a></li>
                 <li class="toc-item"><a href="/docs/release-notes/typescript-2.1.html">TypeScript 2.1</a></li>
                 <li class="toc-item"><a href="/docs/release-notes/typescript-2.0.html">TypeScript 2.0</a></li>
                 <li class="toc-item"><a href="/docs/release-notes/typescript-1.8.html">TypeScript 1.8</a></li>
@@ -50,7 +50,6 @@
                 <li class="toc-item"><a href="/docs/handbook/decorators.html">装饰器</a></li>
                 <li class="toc-item"><a href="/docs/handbook/mixins.html">Mixins</a></li>
                 <li class="toc-item"><a href="/docs/handbook/triple-slash-directives.html">三斜线指令</a></li>
-                <li class="toc-item"><a href="/docs/handbook/error.html">错误信息列表</a></li>
             </ul>
         </li>
         <li class="panel collapsed"><a class="area collapsed" aria-expanded="false" href="#toc-declaration-files" data-toggle="collapse" data-parent="#main-nav">声明文件</a>
@@ -68,9 +67,10 @@
         <li class="panel collapsed"><a class="area collapsed" aria-expanded="false" href="#toc-project-config" data-toggle="collapse" data-parent="#main-nav">项目配置</a>
             <ul class="collapse" id="toc-project-config" aria-expanded="false" style="height: 12px;">
                 <li class="toc-item"><a href="/docs/handbook/tsconfig-json.html">tsconfig.json</a></li>
+                <li class="toc-item"><a href="/docs/handbook/error.html">错误信息列表</a></li>
                 <li class="toc-item"><a href="/docs/handbook/compiler-options.html">编译选项</a></li>
                 <li class="toc-item"><a href="/docs/handbook/compiler-options-in-msbuild.html">MSBuild编译选项</a></li>
-                <li class="toc-item"><a href="/docs/handbook/integrating-with-build-tools.html">构建工具整合</a></li>
+                <li class="toc-item"><a href="/docs/handbook/integrating-with-build-tools.html">构建工具集成</a></li>
                 <li class="toc-item"><a href="/docs/handbook/nightly-builds.html">每日构建</a></li>
             </ul>
         </li>
@@ -80,15 +80,15 @@
     <nav class="xs-toc">
         <div class="toc-dropdown"><a class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown" href="#">文档目录 <span class="caret"></span></a>
             <ul class="dropdown-menu">
-                <li><a href="/docs/tutorial.html">快速上手</a></li>
+                <li class="panel">
+                    <a class="docs-home" href="/docs/home.html">文档简介</a>
+                </li>
                 <li>
                     <ul>
                         <h2>辅导教程</h2>
-                        <li class="toc-item"><a href="/docs/handbook/angular-2.html">Angular 2</a></li>
+                        <li class="toc-item"><a href="/docs/handbook/typescript-in-5-minutes.html">5分钟上手TypeScript</a></li>
                         <li class="toc-item"><a href="/docs/handbook/asp-net-core.html">ASP.NET Core</a></li>
-                        <li class="toc-item"><a href="/docs/handbook/asp-net-4.html">ASP.NET 4</a></li>
                         <li class="toc-item"><a href="/docs/handbook/gulp.html">Gulp</a></li>
-                        <li class="toc-item"><a href="/docs/handbook/knockout.html">Knockout</a></li>
                         <li class="toc-item"><a href="/docs/handbook/migrating-from-javascript.html">JavaScript迁移</a></li>
                         <li class="toc-item"><a href="/docs/handbook/react-&amp;-webpack.html">React &amp; Webpack</a></li>
                     </ul>
@@ -96,6 +96,8 @@
                 <li>
                     <ul>
                         <h2>文档版本</h2>
+                        <li class="toc-item"><a href="/docs/release-notes/typescript-2.3.html">TypeScript 2.3</a></li>
+                        <li class="toc-item"><a href="/docs/release-notes/typescript-2.2.html">TypeScript 2.2</a></li>
                         <li class="toc-item"><a href="/docs/release-notes/typescript-2.1.html">TypeScript 2.1</a></li>
                         <li class="toc-item"><a href="/docs/release-notes/typescript-2.0.html">TypeScript 2.0</a></li>
                         <li class="toc-item"><a href="/docs/release-notes/typescript-1.8.html">TypeScript 1.8</a></li>
@@ -131,7 +133,6 @@
                         <li class="toc-item"><a href="/docs/handbook/decorators.html">装饰器</a></li>
                         <li class="toc-item"><a href="/docs/handbook/mixins.html">Mixins</a></li>
                         <li class="toc-item"><a href="/docs/handbook/triple-slash-directives.html">三斜线指令</a></li>
-                        <li class="toc-item"><a href="/docs/handbook/error.html">错误信息列表</a></li>
                     </ul>
                 </li>
                 <li>
@@ -151,9 +152,10 @@
                     <ul>
                         <h2>项目配置</h2>
                         <li class="toc-item"><a href="/docs/handbook/tsconfig-json.html">tsconfig.json</a></li>
+                        <li class="toc-item"><a href="/docs/handbook/error.html">错误信息列表</a></li>
                         <li class="toc-item"><a href="/docs/handbook/compiler-options.html">编译选项</a></li>
                         <li class="toc-item"><a href="/docs/handbook/compiler-options-in-msbuild.html">MSBuild编译选项</a></li>
-                        <li class="toc-item"><a href="/docs/handbook/integrating-with-build-tools.html">构建工具整合</a></li>
+                        <li class="toc-item"><a href="/docs/handbook/integrating-with-build-tools.html">构建工具集成</a></li>
                         <li class="toc-item"><a href="/docs/handbook/nightly-builds.html">每日构建</a></li>
                     </ul>
                 </li>

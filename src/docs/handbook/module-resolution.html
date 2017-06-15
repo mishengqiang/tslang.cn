@@ -80,7 +80,7 @@
                 </p>
                 <ul>
                     <li><code>import * as $ from &quot;jQuery&quot;;</code></li>
-                    <li><code>import { Component } from &quot;angular2/core&quot;;</code></li>
+                    <li><code>import { Component } from &quot;@angular/core&quot;;</code></li>
                 </ul>
                 <p>相对导入解析时是相对于导入它的文件来的，并且<em>不能</em>解析为一个外部模块声明。 你应该为你自己写的模块使用相对导入，这样能确保它们在运行时的相对位置。
                 </p>
@@ -177,7 +177,7 @@
                 </ol>
                 <p>回想一下Node.js先查找<code>moduleB.js</code>文件，然后是合适的<code>package.json</code>，再之后是<code>index.js</code>。</p>
                 <p>类似地，非相对的导入会遵循Node.js的解析逻辑，首先查找文件，然后是合适的文件夹。 因此
-                    <code>/src/moduleA.ts</code>文件里的<code>import { b } from &quot;moduleB&quot;</code>会以下面的查找顺序解析：</p>
+                    <code>/root/src/moduleA.ts</code>文件里的<code>import { b } from &quot;moduleB&quot;</code>会以下面的查找顺序解析：</p>
                 <ol>
                     <li><code>/root/src/node_modules/moduleB.ts</code></li>
                     <li><code>/root/src/node_modules/moduleB.tsx</code></li>
@@ -225,23 +225,27 @@
                 <p>注意相对模块的导入不会被设置的<code>baseUrl</code>所影响，因为它们总是相对于导入它们的文件。</p>
                 <p>阅读更多关于<code>baseUrl</code>的信息<a href="http://requirejs.org/docs/api.html#config-baseUrl">RequireJS</a>和
                     <a
-                        href="https://github.com/systemjs/systemjs/blob/master/docs/overview.md#baseurl">SystemJS</a>。</p>
+                        href="https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#baseurl">SystemJS</a>。</p>
                 <h3 id="path-mapping">路径映射</h3>
                 <p>有时模块不是直接放在<em>baseUrl</em>下面。 比如，充分
                     <code>&quot;jquery&quot;</code>模块地导入，在运行时可能被解释为<code>&quot;node_modules\jquery\dist\jquery.slim.min.js&quot;</code>。
                     加载器使用映射配置来将模块名映射到运行时的文件，查看
-                    <a href="http://requirejs.org/docs/api.html#config-paths">RequireJs documentation</a>和<a href="https://github.com/systemjs/systemjs/blob/master/docs/overview.md#map-config">SystemJS documentation</a>。</p>
+                    <a href="http://requirejs.org/docs/api.html#config-paths">RequireJs documentation</a>和<a href="https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#paths">SystemJS documentation</a>。</p>
                 <p>TypeScript编译器通过使用<code>tsconfig.json</code>文件里的<code>&quot;paths&quot;</code>来支持这样的声明映射。 下面是一个如何指定
                     <code>jquery</code>的<code>&quot;paths&quot;</code>的例子。</p>
                 <pre><code class="language-json">{
   &quot;compilerOptions&quot;: {
     &quot;baseUrl&quot;: &quot;.&quot;, // This must be specified if &quot;paths&quot; is.
     &quot;paths&quot;: {
-      &quot;jquery&quot;: [&quot;node_modules/jquery/dist/jquery&quot;]
+      &quot;jquery&quot;: [&quot;node_modules/jquery/dist/jquery&quot;] // 此处映射是相对于&quot;baseUrl&quot;
     }
   }
 }
 </code></pre>
+                <p>请注意<code>&quot;paths&quot;</code>是相对于<code>&quot;baseUrl&quot;</code>进行解析。 如果
+                    <code>&quot;baseUrl&quot;</code>被设置成了除<code>&quot;.&quot;</code>外的其它值，比如<code>tsconfig.json</code>所在的目录，那么映射必须要做相应的改变。
+                    如果你在上例中设置了
+                    <code>&quot;baseUrl&quot;: &quot;./src&quot;</code>，那么jquery应该映射到<code>&quot;../node_modules/jquery/dist/jquery&quot;</code>。</p>
                 <p>通过<code>&quot;paths&quot;</code>我们还可以指定复杂的映射，包括指定多个回退位置。 假设在一个工程配置里，有一些模块位于一处，而其它的则在另个的位置。 构建过程会将它们集中至一处。
                     工程结构可能如下：
                 </p>
@@ -280,7 +284,7 @@
                         <ol>
                             <li>匹配'*'模式且通配符捕获到整个名字。</li>
                             <li>尝试列表里的第一个替换：'*' -&gt; <code>folder1/file2</code>。</li>
-                            <li>替换结果为相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/folder1/file2.ts</code>。</li>
+                            <li>替换结果为非相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/folder1/file2.ts</code>。</li>
                             <li>文件存在。完成。</li>
                         </ol>
                     </li>
@@ -288,10 +292,10 @@
                         <ol>
                             <li>匹配'*'模式且通配符捕获到整个名字。</li>
                             <li>尝试列表里的第一个替换：'*' -&gt; <code>folder2/file3</code>。</li>
-                            <li>替换结果为相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/folder2/file3.ts</code>。</li>
+                            <li>替换结果为非相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/folder2/file3.ts</code>。</li>
                             <li>文件不存在，跳到第二个替换。</li>
                             <li>第二个替换：'generated/*' -&gt; <code>generated/folder2/file3</code>。</li>
-                            <li>替换结果为相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/generated/folder2/file3.ts</code>。</li>
+                            <li>替换结果为非相对名 - 与<em>baseUrl</em>合并 -&gt; <code>projectRoot/generated/folder2/file3.ts</code>。</li>
                             <li>文件存在。完成。</li>
                         </ol>
                     </li>

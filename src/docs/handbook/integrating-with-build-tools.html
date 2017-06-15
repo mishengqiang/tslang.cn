@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>与其它构建工具整合 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <title>构建工具集成 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
     <!-- inject:css -->
     <!-- endinject -->
     <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
@@ -46,10 +46,21 @@
         </div>
         <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
             <header class="post-header">
-                <h1 class="post-title">与其它构建工具整合</h1>
+                <h1 class="post-title">构建工具集成</h1>
             </header>
             <article class="post-content">
-                <h1>Browserify</h1>
+                <p>Build tools</p>
+                <ul>
+                    <li><a href="#browserify">Browserify</a></li>
+                    <li><a href="#duo">Duo</a></li>
+                    <li><a href="#grunt">Grunt</a></li>
+                    <li><a href="#gulp">Gulp</a></li>
+                    <li><a href="#jspm">Jspm</a></li>
+                    <li><a href="#webpack">Webpack</a></li>
+                    <li><a href="#msbuild">MSBuild</a></li>
+                    <li><a href="#nuget">NuGet</a></li>
+                </ul>
+                <h1 id="browserify">Browserify</h1>
                 <h3>安装</h3>
                 <pre><code class="language-sh">npm install tsify
 </code></pre>
@@ -67,7 +78,7 @@ browserify()
     .pipe(process.stdout);
 </code></pre>
                 <p>更多详细信息：<a href="https://github.com/smrq/tsify">smrq/tsify</a></p>
-                <h1>Duo</h1>
+                <h1 id="duo">Duo</h1>
                 <h3>安装</h3>
                 <pre><code class="language-sh">npm install duo-typescript
 </code></pre>
@@ -92,7 +103,7 @@ Duo(__dirname)
     });
 </code></pre>
                 <p>更多详细信息：<a href="https://github.com/frankwallis/duo-typescript">frankwallis/duo-typescript</a></p>
-                <h1>Grunt</h1>
+                <h1 id="grunt">Grunt</h1>
                 <h3>安装</h3>
                 <pre><code class="language-sh">npm install grunt-ts
 </code></pre>
@@ -110,7 +121,7 @@ Duo(__dirname)
 };
 </code></pre>
                 <p>更多详细信息：<a href="https://github.com/TypeStrong/grunt-ts">TypeStrong/grunt-ts</a></p>
-                <h1>gulp</h1>
+                <h1 id="gulp">Gulp</h1>
                 <h3>安装</h3>
                 <pre><code class="language-sh">npm install gulp-typescript
 </code></pre>
@@ -128,13 +139,13 @@ gulp.task(&quot;default&quot;, function () {
 });
 </code></pre>
                 <p>更多详细信息：<a href="https://github.com/ivogabe/gulp-typescript">ivogabe/gulp-typescript</a></p>
-                <h1>jspm</h1>
+                <h1 id="jspm">Jspm</h1>
                 <h3>安装</h3>
                 <pre><code class="language-sh">npm install -g jspm@beta
 </code></pre>
                 <p><em>注意：目前jspm的0.16beta版本支持TypeScript</em></p>
                 <p>更多详细信息：<a href="https://github.com/Microsoft/TypeScriptSamples/tree/master/jspm">TypeScriptSamples/jspm</a></p>
-                <h1>webpack</h1>
+                <h1 id="webpack">Webpack</h1>
                 <h3>安装</h3>
                 <pre><code class="language-sh">npm install ts-loader --save-dev
 </code></pre>
@@ -161,7 +172,7 @@ gulp.task(&quot;default&quot;, function () {
                 <ul>
                     <li><a href="https://www.npmjs.com/package/awesome-typescript-loader">awesome-typescript-loader</a></li>
                 </ul>
-                <h1>MSBuild</h1>
+                <h1 id="msbuild">MSBuild</h1>
                 <p>更新工程文件，包含本地安装的<code>Microsoft.TypeScript.Default.props</code>（在顶端）和<code>Microsoft.TypeScript.targets</code>（在底部）文件：</p>
                 <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
@@ -187,7 +198,7 @@ gulp.task(&quot;default&quot;, function () {
 &lt;/Project&gt;
 </code></pre>
                 <p>关于配置MSBuild编译器选项的更多详细信息，请参考：<a href="./compiler-options-in-msbuild.html">在MSBuild里使用编译选项</a></p>
-                <h1>NuGet</h1>
+                <h1 id="nuget">NuGet</h1>
                 <ul>
                     <li>右键点击 -&gt; Manage NuGet Packages</li>
                     <li>查找<code>Microsoft.TypeScript.MSBuild</code></li>
@@ -195,7 +206,6 @@ gulp.task(&quot;default&quot;, function () {
                     <li>安装完成后，Rebuild。</li>
                 </ul>
                 <p>更多详细信息请参考<a href="http://docs.nuget.org/Consume/Package-Manager-Dialog">Package Manager Dialog</a>和<a href="https://github.com/Microsoft/TypeScript/wiki/Nightly-drops#using-nuget-with-msbuild">using nightly builds with NuGet</a></p>
-
             </article>
         </div>
     </div>

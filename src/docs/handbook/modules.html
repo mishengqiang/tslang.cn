@@ -63,8 +63,7 @@
                 <p>模块使用模块加载器去导入其它的模块。 在运行时，模块加载器的作用是在执行此模块代码前去查找并执行这个模块的所有依赖。 大家最熟知的JavaScript模块加载器是服务于Node.js的
                     <a href="https://en.wikipedia.org/wiki/CommonJS">CommonJS</a>和服务于Web应用的<a href="http://requirejs.org/">Require.js</a>。</p>
                 <p>TypeScript与ECMAScript 2015一样，任何包含顶级<code>import</code>或者<code>export</code>的文件都被当成一个模块。</p>
-                <h1>
-                    <a name="export"></a>导出</h1>
+                <h1><a name="export"></a>导出</h1>
                 <h2>导出声明</h2>
                 <p>任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加<code>export</code>关键字来导出。</p>
                 <h5>Validation.ts</h5>
@@ -110,8 +109,7 @@ export {ZipCodeValidator as RegExpBasedZipCodeValidator} from &quot;./ZipCodeVal
 export * from &quot;./LettersOnlyValidator&quot;; // exports class LettersOnlyValidator
 export * from &quot;./ZipCodeValidator&quot;;  // exports class ZipCodeValidator
 </code></pre>
-                <h1>
-                    <a name="import"></a>导入</h1>
+                <h1><a name="import"></a>导入</h1>
                 <p>模块的导入操作与导出一样简单。 可以使用以下
                     <code>import</code>形式之一来导入其它模块中的导出内容。</p>
                 <h2>导入一个模块中的某个导出内容</h2>
@@ -195,7 +193,7 @@ console.log(num); // &quot;123&quot;
                     <code>export =</code>语法以支持传统的CommonJS和AMD的工作流模型。</p>
                 <p><code>export =</code>语法定义一个模块的导出对象。 它可以是类，接口，命名空间，函数或枚举。
                 </p>
-                <p>若要导入一个使用了<code>export =</code>的模块时，必须使用TypeScript提供的特定语法<code>import let = require(&quot;module&quot;)</code>。</p>
+                <p>若要导入一个使用了<code>export =</code>的模块时，必须使用TypeScript提供的特定语法<code>import module = require(&quot;module&quot;)</code>。</p>
                 <h5>ZipCodeValidator.ts</h5>
                 <pre><code class="language-ts">let numberRegexp = /^[0-9]+$/;
 class ZipCodeValidator {
@@ -398,7 +396,7 @@ declare module &quot;path&quot; {
     export let sep: string;
 }
 </code></pre>
-                <p>现在我们可以<code>/// &lt;reference&gt;</code> <code>node.d.ts</code>并且使用<code>import url = require(&quot;url&quot;);</code>加载模块。</p>
+                <p>现在我们可以<code>/// &lt;reference&gt;</code> <code>node.d.ts</code>并且使用<code>import url = require(&quot;url&quot;);</code>或<code>import * as URL from &quot;url&quot;</code>加载模块。</p>
                 <pre><code class="language-ts">/// &lt;reference path=&quot;node.d.ts&quot;/&gt;
 import * as URL from &quot;url&quot;;
 let myUrl = URL.parse(&quot;http://www.typescriptlang.org&quot;);

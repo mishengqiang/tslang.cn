@@ -94,7 +94,7 @@ declare module &quot;SomeModule&quot; {
 				<pre><code class="language-ts">/// &lt;reference path=&quot;myModules.d.ts&quot; /&gt;
 import * as m from &quot;SomeModule&quot;;
 </code></pre>
-				<p>这里的引用标签指定了外来模块的位置。 这就是一些Typescript例子中引用
+				<p>这里的引用标签指定了外来模块的位置。 这就是一些TypeScript例子中引用
 					<code>node.d.ts</code>的方法。</p>
 				<h2>不必要的命名空间</h2>
 				<p>如果你想把命名空间转换为模块，它可能会像下面这个文件一件：</p>
@@ -133,7 +133,7 @@ let t = new shapes.Triangle();
 </code></pre>
 				<h2>模块的取舍</h2>
 				<p>就像每个JS文件对应一个模块一样，TypeScript里模块文件与生成的JS文件也是一一对应的。 这会产生一种影响，根据你指定的目标模块系统的不同，你可能无法连接多个模块源文件。 例如当目标模块系统为
-					<code>commonjs</code>或<code>umd</code>时，无法使用<code>outFile</code>选项，但是在TypeScript 1.8以上的版本<a href="https://www.typescriptlang.org/docs/release-notes/typescript-1.8.html#concatenate-amd-and-system-modules-with---outfile">能够</a>使用<code>outFile</code>当目标为<code>amd</code>或<code>system</code>。</p>
+					<code>commonjs</code>或<code>umd</code>时，无法使用<code>outFile</code>选项，但是在TypeScript 1.8以上的版本<a href="/docs/release-notes/typescript-1.8.html#concatenate-amd-and-system-modules-with---outfile">能够</a>使用<code>outFile</code>当目标为<code>amd</code>或<code>system</code>。</p>
 			</article>
 		</div>
 	</div>

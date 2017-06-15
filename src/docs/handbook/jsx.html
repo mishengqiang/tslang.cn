@@ -60,10 +60,12 @@
                     <li>给文件一个<code>.tsx</code>扩展名</li>
                     <li>启用<code>jsx</code>选项</li>
                 </ol>
-                <p>TypeScript具有两种JSX模式：<code>preserve</code>和<code>react</code>。 这些模式只在代码生成阶段起作用 - 类型检查并不受影响。 在
+                <p>TypeScript具有三种JSX模式：<code>preserve</code>，<code>react</code>和<code>react-native</code>。 这些模式只在代码生成阶段起作用 -
+                    类型检查并不受影响。 在
                     <code>preserve</code>模式下生成代码中会保留JSX以供后续的转换操作使用（比如：<a href="https://babeljs.io/">Babel</a>）。 另外，输出文件会带有
                     <code>.jsx</code>扩展名。
-                    <code>react</code>模式会生成<code>React.createElement</code>，在使用前不需要再进行转换操作了，输出文件的扩展名为<code>.js</code>。</p>
+                    <code>react</code>模式会生成<code>React.createElement</code>，在使用前不需要再进行转换操作了，输出文件的扩展名为<code>.js</code>。
+                    <code>react-native</code>相当于<code>preserve</code>，它也保留了所有的JSX，但是输出文件的扩展名是<code>.js</code>。</p>
                 <table>
                     <thead>
                         <tr>
@@ -86,12 +88,17 @@
                             <td><code>React.createElement(&quot;div&quot;)</code></td>
                             <td><code>.js</code></td>
                         </tr>
+                        <tr>
+                            <td><code>react-native</code></td>
+                            <td><code>&lt;div /&gt;</code></td>
+                            <td><code>&lt;div /&gt;</code></td>
+                            <td><code>.js</code></td>
+                        </tr>
                     </tbody>
                 </table>
                 <p>你可以通过在命令行里使用<code>--jsx</code>标记或<a href="./tsconfig-json.html">tsconfig.json</a>里的选项来指定模式。</p>
                 <blockquote>
-                    <p><em>注意：<code>React</code>标识符是写死的硬代码，所以你必须保证React（大写的R）是可用的。</em>
-                        <em>Note: The identifier <code>React</code> is hard-coded, so you must make React available with an uppercase R.</em></p>
+                    <p><em>注意：<code>React</code>标识符是写死的硬编码，所以你必须保证React（大写的R）是可用的。</em></p>
                 </blockquote>
                 <h1><code>as</code>操作符</h1>
                 <p>回想一下怎么写类型断言：</p>
@@ -275,7 +282,7 @@ var badProps = {};
 &lt;/div&gt;
 </code></pre>
                 <h1>React整合</h1>
-                <p>要想一起使用JSX和React，你应该使用<a href="https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/react">React类型定义</a>。
+                <p>要想一起使用JSX和React，你应该使用<a href="https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react">React类型定义</a>。
                     这些类型声明定义了
                     <code>JSX</code>合适命名空间来使用React。</p>
                 <pre><code class="language-ts">/// &lt;reference path=&quot;react.d.ts&quot; /&gt;

@@ -260,7 +260,7 @@ function test2(x: Maybe&lt;number&gt;) {
     let x3 = isUndefined(x) ? -1 : x;  // number
 }
 </code></pre>
-                <h2>使用 <code>--outFile</code> 合并 <code>AMD</code> 和 <code>System</code> 模块</h2>
+                <h2 id="concatenate-amd-and-system-modules-with---outfile">使用 <code>--outFile</code> 合并 <code>AMD</code> 和 <code>System</code> 模块</h2>
                 <p>在使用 <code>--module amd</code> 或者 <code>--module system</code> 的同时制定 <code>--outFile</code> 将会把所有参与编译的模块合并为单个包括了多个模块闭包的输出文件.</p>
                 <p>每一个模块都会根据其相对于 <code>rootDir</code> 的位置被计算出自己的模块名称.</p>
                 <h3>例子</h3>

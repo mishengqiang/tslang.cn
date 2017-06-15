@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TypeScript 2.3 · TypeScript中文网 · TypeScript——JavaScript的超集</</title>
+		<!-- inject:css -->
+		<!-- endinject -->
+		<link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+		<link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+		<link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+		<link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+		<link rel="manifest" href="/assets/images/icons/manifest.json">
+		<link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+		<link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+		<meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+		<!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+		<!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+	<div class="container">
+		<div class="col-md-3 toc-container">
+			<!-- inject:docs-nav:html -->
+			<!-- endinject -->
+		</div>
+		<div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+			<header class="post-header">
+				<h1 class="post-title">TypeScript 2.3</h1>
+			</header>
+			<article class="post-content">
+				<h2>ES5/ES3 的生成器和迭代支持</h2>
+				<p><em>首先是一些 ES2016 的术语：</em></p>
+				<h5>迭代器</h5>
+				<p><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-iteration">ES2015引入了<code>Iterator</code>（迭代器）</a>，它表示提供了
+					next，return，以及 throw 三个方法的对象，具体满足以下接口：</p>
+				<pre><code class="language-ts">interface Iterator&lt;T&gt; {
+  next(value?: any): IteratorResult&lt;T&gt;;
+  return?(value?: any): IteratorResult&lt;T&gt;;
+  throw?(e?: any): IteratorResult&lt;T&gt;;
+}
+</code></pre>
+				<p>这种迭代器对于迭代可用的值时很有用，比如数组的元素或者Map的键。如果一个对象有一个返回<code>Iterator</code>对象的<code>Symbol.iterator</code>方法，那么我们说这个对象是“可迭代的”。</p>
+				<p>迭代器协议还定义了一些ES2015中的特性像<code>for..of</code>和展开运算符以及解构赋值中的数组的剩余运算的操作对象。</p>
+				<h5>生成器</h5>
+				<p><a href="http://www.ecma-international.org/ecma-262/6.0/#sec-generatorfunction-objects">ES2015也引入了&quot;生成器&quot;</a>，生成器是可以通过<code>Iterator</code>接口和<code>yield</code>关键字被用来生成部分运算结果的函数。生成器也可以在内部通过<code>yield*</code>代理对与其他可迭代对象的调用。举例来说：</p>
+				<pre><code class="language-ts">function* f() {
+  yield 1;
+  yield* [2, 3];
+}
+</code></pre>
+				<h5>新的<code>--downlevelIteration</code>编译选项</h5>
+				<p>之前迭代器只在编译目标为 ES6/ES2015 或者更新版本时可用。此外，设计迭代器协议的结构，比如<code>for..of</code>，如果编译目标低于ES6/ES2015，则只能在操作数组时被支持。</p>
+				<p>TypeScript 2.3 在 ES3 和 ES5 为编译目标时由<code>--downlevelIteration</code>编译选项增加了完整的对生成器和迭代器协议的支持。</p>
+				<p>通过<code>--downlevelIteration</code>编译选项，编译器会使用新的类型检查和输出行为，尝试调用被迭代对象的<code>[Symbol.iterator]()</code>方法 (如果有)，或者在对象上创建一个语义上的数组迭代器。</p>
+				<blockquote>
+					<p>注意这需要非数组的值有原生的<code>Symbol.iterator</code>或者<code>Symbol.iterator</code>的运行时模拟实现。</p>
+				</blockquote>
+				<p>使用<code>--downlevelIteration</code>时，在 ES5/ES3 中<code>for..of</code>语句、数组解构、数组中的元素展开、函数调用、new 表达式在支持<code>Symbol.iterator</code>时可用，但即便没有定义<code>Symbol.iterator</code>，它们在运行时或开发时都可以被使用到数组上.</p>
+				<h2>异步迭代</h2>
+				<p>TypeScript 2.3 添加了对异步迭代器和生成器的支持，描述见当前的<a href="https://github.com/tc39/proposal-async-iteration">TC39 提案</a>。</p>
+				<h5>异步迭代器</h5>
+				<p>异步迭代引入了<code>AsyncIterator</code>，它和<code>Iterator</code>相似。实际上的区别在于<code>AsyncIterator</code>的<code>next</code>、<code>return</code>和<code>throw</code>方法的返回的是迭代结果的<code>Promise</code>，而不是结果本身。这允许<code>AsyncIterator</code>在生成值之前的时间点就加入异步通知。<code>AsyncIterator</code>的接口如下：</p>
+				<pre><code class="language-ts">interface AsyncIterator&lt;T&gt; {
+  next(value?: any): Promise&lt;IteratorResult&lt;T&gt;&gt;;
+  return?(value?: any): Promise&lt;IteratorResult&lt;T&gt;&gt;;
+  throw?(e?: any): Promise&lt;IteratorResult&lt;T&gt;&gt;;
+}
+</code></pre>
+				<p>一个支持异步迭代的对象如果有一个返回<code>AsyncIterator</code>对象的<code>Symbol.asyncIterator</code>方法，被称作是“可迭代的”。</p>
+				<h5>异步生成器</h5>
+				<p><a href="https://github.com/tc39/proposal-async-iteration">异步迭代提案</a>引入了“异步生成器”，也就是可以用来生成部分计算结果的异步函数。异步生成器也可以通过<code>yield*</code>代理对可迭代对象或异步可迭代对象的调用：</p>
+				<pre><code class="language-ts">async function* g() {
+  yield 1;
+  await sleep(100);
+  yield* [2, 3];
+  yield* (async function *() {
+    await sleep(100);
+    yield 4;
+  })();
+}
+</code></pre>
+				<p>和生成器一样，异步生成器只能是函数声明，函数表达式，或者类或对象字面量的方法。箭头函数不能作为异步生成器。异步生成器除了一个可用的<code>Symbol.asyncIterator</code>引用外 (原生或三方实现)，还需要一个可用的全局<code>Promise</code>实现（既可以是原生的，也可以是ES2015兼容的实现）。</p>
+				<h5><code>for-await-of</code>语句</h5>
+				<p>最后，ES2015引入了<code>for..of</code>语句来迭代可迭代对象。相似的，异步迭代提案引入了<code>for..await..of</code>语句来迭代可异步迭代的对象。</p>
+				<pre><code class="language-ts">async function f() {
+  for await (const x of g()) {
+     console.log(x);
+  }
+}
+</code></pre>
+				<p><code>for..await..of</code>语句仅在异步函数或异步生成器中可用。</p>
+				<h5>注意事项</h5>
+				<ul>
+					<li>始终记住我们对于异步迭代器的支持是建立在运行时有<code>Symbol.asyncIterator</code>支持的基础上的。你可能需要<code>Symbol.asyncIterator</code>的三方实现，虽然对于简单的目的可以仅仅是：<code>(Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.from(&quot;Symbol.asyncIterator&quot;);</code></li>
+					<li>如果你没有声明<code>AsyncIterator</code>，还需要在<code>--lib</code>选项中加入<code>esnext</code>来获取<code>AsyncIterator</code>声明。</li>
+					<li>最后, 如果你的编译目标是ES5或ES3，你还需要设置<code>--downlevelIterators</code>编译选项。</li>
+				</ul>
+				<h2>泛型参数默认类型</h2>
+				<p>TypeScript 2.3 增加了对声明泛型参数默认类型的支持。</p>
+				<h5>示例</h5>
+				<p>考虑一个会创建新的<code>HTMLElement</code>的函数，调用时不加参数会生成一个<code>Div</code>，你也可以选择性地传入子元素的列表。之前你必须这么去定义：</p>
+				<pre><code class="language-ts">declare function create(): Container&lt;HTMLDivElement, HTMLDivElement[]&gt;;
+declare function create&lt;T extends HTMLElement&gt;(element: T): Container&lt;T, T[]&gt;;
+declare function create&lt;T extends HTMLElement, U extends HTMLElement&gt;(element: T, children: U[]): Container&lt;T, U[]&gt;;
+</code></pre>
+				<p>有了泛型参数默认类型，我们可以将定义化简为：</p>
+				<pre><code class="language-ts">declare function create&lt;T extends HTMLElement = HTMLDivElement, U = T[]&gt;(element?: T, children?: U): Container&lt;T, U&gt;;
+</code></pre>
+				<p>泛型参数的默认类型遵循以下规则：</p>
+				<ul>
+					<li>有默认类型的类型参数被认为是可选的。</li>
+					<li>必选的类型参数不能在可选的类型参数后。</li>
+					<li>如果类型参数有约束，类型参数的默认类型必须满足这个约束。</li>
+					<li>当指定类型实参时，你只需要指定必选类型参数的类型实参。 未指定的类型参数会被解析为它们的默认类型。</li>
+					<li>如果指定了默认类型，且类型推断无法选择一个候选类型，那么将使用默认类型作为推断结果。</li>
+					<li>一个被现有类或接口合并的类或者接口的声明可以为现有类型参数引入默认类型。</li>
+					<li>一个被现有类或接口合并的类或者接口的声明可以引入新的类型参数，只要它指定了默认类型。</li>
+				</ul>
+				<h2>新的<code>--strict</code>主要编译选项</h2>
+				<p>TypeScript加入的新检查项为了避免不兼容现有项目通常都是默认关闭的。虽然避免不兼容是好事，但这个策略的一个弊端则是使配置最高类型安全越来越复杂，这么做每次TypeScript版本发布时都需要显示地加入新选项。有了<code>--strict</code>编译选项，就可以选择最高级别的类型安全（了解随着更新版本的编译器增加了增强的类型检查特性可能会报新的错误）。</p>
+				<p>新的<code>--strict</code>编译器选项包含了一些建议配置的类型检查选项。具体来说，指定<code>--strict</code>相当于是指定了以下所有选项（未来还可能包括更多选项）：</p>
+				<ul>
+					<li><code>--strictNullChecks</code></li>
+					<li><code>--noImplicitAny</code></li>
+					<li><code>--noImplicitThis</code></li>
+					<li><code>--alwaysStrict</code></li>
+				</ul>
+				<p>确切地说，<code>--strict</code>编译选项会为以上列出的编译器选项设置默认值。这意味着还可以单独控制这些选项。比如：</p>
+				<pre><code class="language-sh">--strict --noImplicitThis false
+</code></pre>
+				<p>这将是开启除<code>--noImplicitThis</code>编译选项以外的所有严格检查选项。使用这个方式可以表述除某些明确列出的项以外的所有严格检查项。换句话说，现在可以在默认最高级别的类型安全下排除部分检查。</p>
+				<p>从TypeScript 2.3开始，<code>tsc --init</code>生成的默认<code>tsconfig.json</code>在<code>&quot;compilerOptions&quot;</code>中包含了<code>&quot;strict: true&quot;</code>设置。这样一来，用<code>tsc --init</code>创建的新项目默认会开启最高级别的类型安全。</p>
+				<h2>改进的<code>--init</code>输出</h2>
+				<p>除了默认的<code>--strict</code>设置外，<code>tsc --init</code>还改进了输出。<code>tsc --init</code>默认生成的<code>tsconfig.json</code>文件现在包含了一些带描述的被注释掉的常用编译器选项.
+					你可以去掉相关选项的注释来获得期望的结果。我们希望新的输出能简化新项目的配置并且随着项目成长保持配置文件的可读性。</p>
+				<h2><code>--checkJS</code>选项下 .js 文件中的错误</h2>
+				<p>即便使用了<code>--allowJs</code>，TypeScript编译器默认不会报 .js 文件中的任何错误。TypeScript 2.3 中使用<code>--checkJs</code>选项，<code>.js</code>文件中的类型检查错误也可以被报出.</p>
+				<p>你可以通过为它们添加<code>// @ts-nocheck</code>注释来跳过对某些文件的检查，反过来你也可以选择通过添加<code>// @ts-check</code>注释只检查一些<code>.js</code>文件而不需要设置<code>--checkJs</code>编译选项。你也可以通过添加<code>// @ts-ignore</code>到特定行的一行前来忽略这一行的错误.</p>
+				<p><code>.js</code>文件仍然会被检查确保只有标准的 ECMAScript 特性，类型标注仅在<code>.ts</code>文件中被允许，在<code>.js</code>中会被标记为错误。JSDoc注释可以用来为你的JavaScript代码添加某些类型信息，更多关于支持的JSDoc结构的详情，请浏览
+					<a
+					 href="https://github.com/Microsoft/TypeScript/wiki/JSDoc-support-in-JavaScript">JSDoc支持文档</a>。</p>
+				<p>有关详细信息，请浏览<a href="https://github.com/Microsoft/TypeScript/wiki/Type-Checking-JavaScript-Files">类型检查JavaScript文件文档</a>。</p>
+			</article>
+		</div>
+	</div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

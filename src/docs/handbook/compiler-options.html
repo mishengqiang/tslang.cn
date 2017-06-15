@@ -103,10 +103,16 @@
                             <td>输入文件的字符集。</td>
                         </tr>
                         <tr>
+                            <td><code>--checkJs</code></td>
+                            <td><code>boolean</code></td>
+                            <td><code>false</code></td>
+                            <td>在<code>.js</code>文件中报告错误。与<code>--allowJs</code>配合使用。</td>
+                        </tr>
+                        <tr>
                             <td><code>--declaration</code><br/><code>-d</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>生成相应的'.d.ts'文件。</td>
+                            <td>生成相应的<code>.d.ts</code>文件。</td>
                         </tr>
                         <tr>
                             <td><code>--declarationDir</code></td>
@@ -148,7 +154,7 @@
                             <td><code>--forceConsistentCasingInFileNames</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>不允许不一致包装引用相同的文件。</td>
+                            <td>禁止对同一个文件的不一致的引用。</td>
                         </tr>
                         <tr>
                             <td><code>--help</code><br/><code>-h</code></td>
@@ -160,7 +166,7 @@
                             <td><code>--importHelpers</code></td>
                             <td><code>string</code></td>
                             <td></td>
-                            <td>从<a href="https://www.npmjs.com/package/tslib"><code>tslib</code></a>导入生成器工具函数（比如<code>__extends</code>，<code>__rest</code>等）</td>
+                            <td>从<a href="https://www.npmjs.com/package/tslib"><code>tslib</code></a>导入辅助工具函数（比如<code>__extends</code>，<code>__rest</code>等）</td>
                         </tr>
                         <tr>
                             <td><code>--inlineSourceMap</code></td>
@@ -184,15 +190,14 @@
                             <td><code>--isolatedModules</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>无条件地给没有解析的文件生成imports。</td>
+                            <td>将每个文件作为单独的模块（与“ts.transpileModule”类似）。</td>
                         </tr>
                         <tr>
                             <td><code>--jsx</code></td>
                             <td><code>string</code></td>
                             <td><code>&quot;Preserve&quot;</code></td>
                             <td>在<code>.tsx</code>文件里支持JSX：<code>&quot;React&quot;</code>或<code>&quot;Preserve&quot;</code>。查看
-                                <a
-                                    href="./jsx.html">JSX</a>。</td>
+                                <a href="./jsx.html">JSX</a>。</td>
                         </tr>
                         <tr>
                             <td><code>--jsxFactory</code></td>
@@ -240,12 +245,14 @@
                             <td><code>--module</code><br/><code>-m</code></td>
                             <td><code>string</code></td>
                             <td><code>target === &quot;ES6&quot; ? &quot;ES6&quot; : &quot;commonjs&quot;</code></td>
-                            <td>指定生成哪个模块系统代码：<code>"None"</code>, <code>"CommonJS"</code>, <code>"AMD"</code>, <code>"System"</code>, <code>"UMD"</code>, <code>"ES6"</code>, or <code>"ES2015"</code>.<br>► Only <code>"AMD"</code> and <code>"System"</code>能和<code>--outFile</code>一起使用。<br>►当目标是<code>"ES5"</code>或以下的时候不能使用<code>"ES6"</code>和<code>"ES2015"</code>。</td>
+                            <td style="word-break: break-word;">指定生成哪个模块系统代码：<code>&quot;None&quot;</code>，<code>&quot;CommonJS&quot;</code>，<code>&quot;AMD&quot;</code>，<code>&quot;System&quot;</code>，<code>&quot;UMD&quot;</code>，<code>&quot;ES6&quot;</code>或<code>&quot;ES2015&quot;</code>。<br/>►
+                                只有
+                                <code>&quot;AMD&quot;</code>和<code>&quot;System&quot;</code>能和<code>--outFile</code>一起使用。<br/>►<code>&quot;ES6&quot;</code>和<code>&quot;ES2015&quot;</code>可使用在目标输出为<code>&quot;ES5&quot;</code>或更低的情况下。</td>
                         </tr>
                         <tr>
                             <td><code>--moduleResolution</code></td>
                             <td><code>string</code></td>
-                            <td><code>module === "AMD" | "System" | "ES6" ? "Classic" : "Node"</code></td>
+                            <td><code>module === "AMD" | "System" | "ES6" ?  "Classic" : "Node"</code></td>
                             <td>决定如何处理模块。或者是<code>&quot;Node&quot;</code>对于Node.js/io.js，或者是<code>&quot;Classic&quot;</code>（默认）。查看<a href="./module-resolution.html">模块解析</a>了解详情。</td>
                         </tr>
                         <tr>
@@ -300,7 +307,7 @@
                             <td><code>--noImplicitUseStrict</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
-                            <td>模块输出中不包含'use strict'指令。</td>
+                            <td>模块输出中不包含<code>&quot;use strict&quot;</code>指令。</td>
                         </tr>
                         <tr>
                             <td><code>--noLib</code></td>
@@ -419,6 +426,13 @@
                             <td>指定TypeScript源文件的路径，以便调试器定位。当TypeScript文件的位置是在运行时指定时使用此标记。路径信息会被加到<code>sourceMap</code>里。</td>
                         </tr>
                         <tr>
+                            <td><code>--strict</code></td>
+                            <td><code>boolean</code></td>
+                            <td><code>false</code></td>
+                            <td>启用所有严格类型检查选项。 <br>启用<code>--strict</code>相当于启用<code>--noImplicitAny</code>,
+                                <code>--noImplicitThis</code>, <code>--alwaysStrict</code>和<code>--strictNullChecks</code>。</td>
+                        </tr>
+                        <tr>
                             <td><code>--strictNullChecks</code></td>
                             <td><code>boolean</code></td>
                             <td><code>false</code></td>
@@ -445,8 +459,8 @@
                         <tr>
                             <td><code>--target</code><br/><code>-t</code></td>
                             <td><code>string</code></td>
-                            <td><code>&quot;ES5&quot;</code></td>
-                            <td>指定ECMAScript目标版本: <code>"ES3"</code> （默认），<code>"ES5"</code>, <code>"ES6"</code>/<code>"ES2015"</code>, <code>"ES2016"</code>, <code>"ES2017"</code>或<code>"ESNext"</code>. <br><br> Note: <code>"ESNext"</code> 最新的生成目标列表为<a href="https://github.com/tc39/proposals">ES proposed features</a>.</td>
+                            <td><code>&quot;ES3&quot;</code></td>
+                            <td style="word-break: break-word;">指定ECMAScript目标版本<code>&quot;ES3&quot;</code>（默认），<code>&quot;ES5&quot;</code>，<code>&quot;ES6&quot;</code>/<code>&quot;ES2015&quot;</code>，<code>&quot;ES2016&quot;</code>，<code>&quot;ES2017&quot;</code>或<code>&quot;ESNext&quot;</code>。<br/><br/>                                注意：<code>&quot;ESNext&quot;</code>最新的生成目标列表为<a href="https://github.com/tc39/proposals">ES proposed features</a></td>
                         </tr>
                         <tr>
                             <td><code>--traceResolution</code></td>
@@ -486,10 +500,9 @@
                 </ul>
                 <h2>相关信息</h2>
                 <ul>
-                    <li>在<a href="./tsconfig-json.html">tsconfig.json</a>文件里设置编译器选项。</li>
+                    <li>在<a href="./tsconfig-json.html"><code>tsconfig.json</code></a>文件里设置编译器选项。</li>
                     <li>在<a href="./compiler-options-in-msbuild.html">MSBuild工程</a>里设置编译器选项。</li>
                 </ul>
-
             </article>
         </div>
     </div>

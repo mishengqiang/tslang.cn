@@ -66,11 +66,10 @@
                 </ul>
                 <pre><code class="language-json">{
     &quot;compilerOptions&quot;: {
-        &quot;module&quot;: &quot;system&quot;,
+        &quot;module&quot;: &quot;commonjs&quot;,
         &quot;noImplicitAny&quot;: true,
         &quot;removeComments&quot;: true,
         &quot;preserveConstEnums&quot;: true,
-        &quot;outFile&quot;: &quot;../../built/local/tsc.js&quot;,
         &quot;sourceMap&quot;: true
     },
     &quot;files&quot;: [
@@ -124,8 +123,7 @@
                     <li><code>**/</code> 递归匹配任意子目录</li>
                 </ul>
                 <p>如果一个glob模式里的某部分只包含<code>*</code>或<code>.*</code>，那么仅有支持的文件扩展名类型被包含在内（比如默认<code>.ts</code>，<code>.tsx</code>，和<code>.d.ts</code>，
-                    如果
-                    <code>allowJs</code>设置能<code>true</code>还包含<code>.js</code>和<code>.jsx</code>）。</p>
+                    如果<code>allowJs</code>设置能<code>true</code>还包含<code>.js</code>和<code>.jsx</code>）。</p>
                 <p>如果<code>&quot;files&quot;</code>和<code>&quot;include&quot;</code>都没有被指定，编译器默认包含当前目录和子目录下所有的TypeScript文件（<code>.ts</code>,
                     <code>.d.ts</code> 和 <code>.tsx</code>），排除在<code>&quot;exclude&quot;</code>里指定的文件。JS文件（<code>.js</code>和<code>.jsx</code>）也被包含进来如果<code>allowJs</code>被设置成<code>true</code>。
                     如果指定了
@@ -135,6 +133,9 @@
                     <code>&quot;files&quot;</code>属性明确指定的文件却总是会被包含在内，不管<code>&quot;exclude&quot;</code>如何设置。 如果没有特殊指定，
                     <code>&quot;exclude&quot;</code>默认情况下会排除<code>node_modules</code>，<code>bower_components</code>，<code>jspm_packages</code>和<code>&lt;outDir&gt;</code>目录。</p>
                 <p>任何被<code>&quot;files&quot;或</code>&quot;include&quot;<code>指定的文件所引用的文件也会被包含进来。</code>A.ts<code>引用了</code>B.ts<code>，因此</code>B.ts<code>不能被排除，除非引用它的</code>A.ts<code>在</code>&quot;exclude&quot;`列表中。</p>
+                <p>需要注意编译器不会去引入那些可能做为输出的文件；比如，假设我们包含了<code>index.ts</code>，那么<code>index.d.ts</code>和<code>index.js</code>会被排除在外。
+                    通常来讲，不推荐只有扩展名的不同来区分同目录下的文件。
+                </p>
                 <p><code>tsconfig.json</code>文件可以是个空文件，那么所有默认的文件（如上面所述）都会以默认配置选项编译。</p>
                 <p>在命令行上指定的编译选项会覆盖在<code>tsconfig.json</code>文件里的相应选项。</p>
                 <h2 id="types-typeroots-and-types"><code>@types</code>，<code>typeRoots</code>和<code>types</code></h2>
@@ -206,10 +207,9 @@
     }
 }
 </code></pre>
-                <p>要想支持这个特性需要Visual Studio 2015， TypeScript1.8.4以上并且安装<a href="https://github.com/TypeStrong/atom-typescript/blob/master/docs/tsconfig.md#compileonsave">atom-typescript</a>插件。</p>
+                <p>要想支持这个特性需要Visual Studio 2015， TypeScript1.8.4以上并且安装<a href="https://github.com/TypeStrong/atom-typescript#compile-on-save">atom-typescript</a>插件。</p>
                 <h2>模式</h2>
                 <p>到这里查看模式: <a href="http://json.schemastore.org/tsconfig">http://json.schemastore.org/tsconfig</a>.</p>
-
             </article>
         </div>
     </div>

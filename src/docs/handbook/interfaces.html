@@ -50,7 +50,7 @@
 			</header>
 			<article class="post-content">
 				<h1>介绍</h1>
-				<p>TypeScript的核心原则之一是对值所具有的<em>shape</em>进行类型检查。 它有时被称做“鸭式辨型法”或“结构性子类型化”。 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
+				<p>TypeScript的核心原则之一是对值所具有的<em>结构</em>进行类型检查。 它有时被称做“鸭式辨型法”或“结构性子类型化”。 在TypeScript里，接口的作用就是为这些类型命名和为你的代码或第三方代码定义契约。
 				</p>
 				<h1>接口初探</h1>
 				<p>下面通过一个简单示例来观察接口是如何工作的：</p>
@@ -169,7 +169,7 @@ function createSquare(config: SquareConfig): { color: string; area: number } {
 
 let mySquare = createSquare({ colour: &quot;red&quot;, width: 100 });
 </code></pre>
-				<p>注意传入<code>createSquare</code>的参数拼写为*<code>colour</code>*而不是<code>color</code>。 在JavaScript里，这会默默地失败。
+				<p>注意传入<code>createSquare</code>的参数拼写为<em><code>colour</code></em>而不是<code>color</code>。 在JavaScript里，这会默默地失败。
 				</p>
 				<p>你可能会争辩这个程序已经正确地类型化了，因为<code>width</code>属性是兼容的，不存在<code>color</code>属性，而且额外的<code>colour</code>属性是无意义的。</p>
 				<p>然而，TypeScript会认为这段代码可能存在bug。 对象字面量会被特殊对待而且会经过
@@ -213,12 +213,7 @@ let mySquare = createSquare(squareOptions);
 				<pre><code class="language-ts">let mySearch: SearchFunc;
 mySearch = function(source: string, subString: string) {
   let result = source.search(subString);
-  if (result == -1) {
-    return false;
-  }
-  else {
-    return true;
-  }
+  return result &gt; -1;
 }
 </code></pre>
 				<p>对于函数类型的类型检查来说，函数的参数名不需要与接口里定义的名字相匹配。 比如，我们使用下面的代码重写上面的例子：
@@ -226,27 +221,17 @@ mySearch = function(source: string, subString: string) {
 				<pre><code class="language-ts">let mySearch: SearchFunc;
 mySearch = function(src: string, sub: string): boolean {
   let result = src.search(sub);
-  if (result == -1) {
-    return false;
-  }
-  else {
-    return true;
-  }
+  return result &gt; -1;
 }
 </code></pre>
-				<p>函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。 如果你不想指定类型，Typescript的类型系统会推断出参数类型，因为函数直接赋值给了
+				<p>函数的参数会逐个进行检查，要求对应位置上的参数类型是兼容的。 如果你不想指定类型，TypeScript的类型系统会推断出参数类型，因为函数直接赋值给了
 					<code>SearchFunc</code>类型变量。 函数的返回值类型是通过其返回值推断出来的（此例是
 					<code>false</code>和<code>true</code>）。 如果让这个函数返回数字或字符串，类型检查器会警告我们函数的返回值类型与
 					<code>SearchFunc</code>接口中的定义不匹配。</p>
 				<pre><code class="language-ts">let mySearch: SearchFunc;
 mySearch = function(src, sub) {
     let result = src.search(sub);
-    if (result == -1) {
-        return false;
-    }
-    else {
-        return true;
-    }
+    return result &gt; -1;
 }
 </code></pre>
 				<h1>可索引的类型</h1>
@@ -370,8 +355,8 @@ let digital = createClock(DigitalClock, 12, 17);
 let analog = createClock(AnalogClock, 7, 32);
 </code></pre>
 				<p>因为<code>createClock</code>的第一个参数是<code>ClockConstructor</code>类型，在<code>createClock(AnalogClock, 7, 32)</code>里，会检查<code>AnalogClock</code>是否符合构造函数签名。</p>
-				<h1>扩展接口</h1>
-				<p>和类一样，接口也可以相互扩展。 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
+				<h1>继承接口</h1>
+				<p>和类一样，接口也可以相互继承。 这让我们能够从一个接口里复制成员到另一个接口里，可以更灵活地将接口分割到可重用的模块里。
 				</p>
 				<pre><code class="language-ts">interface Shape {
     color: string;

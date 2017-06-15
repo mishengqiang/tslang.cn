@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>TypeScript 2.2 · TypeScript中文网 · TypeScript——JavaScript的超集</</title>
+		<!-- inject:css -->
+		<!-- endinject -->
+		<link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+		<link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+		<link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+		<link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+		<link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+		<link rel="manifest" href="/assets/images/icons/manifest.json">
+		<link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+		<link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+		<meta name="msapplication-TileColor" content="#da532c">
+		<meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+		<meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+		<meta name="theme-color" content="#ffffff">
+		<!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+		<!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+	<div class="container">
+		<div class="col-md-3 toc-container">
+			<!-- inject:docs-nav:html -->
+			<!-- endinject -->
+		</div>
+		<div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+			<header class="post-header">
+				<h1 class="post-title">TypeScript 2.2</h1>
+			</header>
+			<article class="post-content">
+				<h2>支持混合类</h2>
+				<p>TypeScript 2.2 增加了对 ECMAScript 2015 混合类模式 (见<a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes#Mix-ins">MDN混合类的描述</a>及
+					<a
+					 href="http://justinfagnani.com/2015/12/21/real-mixins-with-javascript-classes/">JavaScript类的&quot;真&quot;混合</a>了解更多) 以及使用交叉来类型表达结合混合构造函数的签名及常规构造函数签名的规则.</p>
+				<h5>首先是一些术语</h5>
+				<p><strong>混合构造函数类型</strong>指仅有单个构造函数签名，且该签名仅有一个类型为 any[] 的变长参数，返回值为对象类型. 比如, 有 X 为对象类型, new (...args: any[]) =&gt; X 是一个实例类型为
+					X 的混合构造函数类型。</p>
+				<p><strong>混合类</strong>指一个<code>extends</code>(扩展)了类型参数类型的表达式的类声明或表达式. 以下规则对混合类声明适用：</p>
+				<ul>
+					<li><code>extends</code>表达式的类型参数类型必须是混合构造函数.</li>
+					<li>混合类的构造函数 (如果有) 必须有且仅有一个类型为<code>any[]</code>的变长参数, 并且必须使用展开运算符在<code>super(...args)</code>调用中将这些参数传递。</li>
+				</ul>
+				<p>假设有类型参数为<code>T</code>且约束为<code>X</code>的表达式<code>Bas</code>，处理混合类<code>class C extends Base {...}</code>时会假设<code>Base</code>有<code>X</code>类型，处理结果为交叉类型<code>typeof C &amp; T</code>。换言之，一个混合类被表达为混合类构造函数类型与参数基类构造函数类型的交叉类型.</p>
+				<p>在获取一个包含了混合构造函数类型的交叉类型的构造函数签名时，混合构造函数签名会被丢弃，而它们的实例类型会被混合到交叉类型中其他构造函数签名的返回类型中. 比如，交叉类型<code>{ new(...args: any[]) =&gt; A } &amp; { new(s: string) =&gt; B }</code>仅有一个构造函数签名<code>new(s: string) =&gt; A &amp; B</code>。</p>
+				<h5>将以上规则放到一个例子中</h5>
+				<pre><code class="language-ts">class Point {
+    constructor(public x: number, public y: number) {}
+}
+
+class Person {
+    constructor(public name: string) {}
+}
+
+type Constructor&lt;T&gt; = new(...args: any[]) =&gt; T;
+
+function Tagged&lt;T extends Constructor&lt;{}&gt;&gt;(Base: T) {
+    return class extends Base {
+        _tag: string;
+        constructor(...args: any[]) {
+            super(...args);
+            this._tag = &quot;&quot;;
+        }
+    }
+}
+
+const TaggedPoint = Tagged(Point);
+
+let point = new TaggedPoint(10, 20);
+point._tag = &quot;hello&quot;;
+
+class Customer extends Tagged(Person) {
+    accountBalance: number;
+}
+
+let customer = new Customer(&quot;Joe&quot;);
+customer._tag = &quot;test&quot;;
+customer.accountBalance = 0;
+</code></pre>
+				<p>混合类可以通过在类型参数中限定构造函数签名的返回值类型来限制它们可以被混入的类的类型。举例来说，下面的<code>WithLocation</code>函数实现了一个为满足<code>Point</code>接口 （也就是有类型为<code>number</code>的<code>x</code>和<code>y</code>属性）的类添加<code>getLocation</code>方法的子类工厂。</p>
+				<pre><code class="language-ts">interface Point {
+    x: number;
+    y: number;
+}
+
+const WithLocation = &lt;T extends Constructor&lt;Point&gt;&gt;(Base: T) =&gt;
+    class extends Base {
+        getLocation(): [number, number] {
+            return [this.x, this.y];
+        }
+    }
+</code></pre>
+				<h2><code>object</code>类型</h2>
+				<p>TypeScript没有表示非基本类型的类型，即不是<code>number</code> | <code>string</code> | <code>boolean</code> | <code>symbol</code> | <code>null</code>					| <code>undefined</code>的类型。一个新的<code>object</code>类型登场。</p>
+				<p>使用<code>object</code>类型，可以更好地表示类似<code>Object.create</code>这样的API。例如：</p>
+				<pre><code class="language-typescript">declare function create(o: object | null): void;
+
+create({ prop: 0 }); // OK
+create(null); // OK
+
+create(42); // Error
+create(&quot;string&quot;); // Error
+create(false); // Error
+create(undefined); // Error
+</code></pre>
+				<h2>支持<code>new.target</code></h2>
+				<p><code>new.target</code>元属性是ES2015引入的新语法。当通过<code>new</code>构造函数创建实例时，<code>new.target</code>的值被设置为对最初用于分配实例的构造函数的引用。如果一个函数不是通过<code>new</code>构造而是直接被调用，那么<code>new.target</code>的值被设置为<code>undefined</code>。</p>
+				<p>当在类的构造函数中需要设置<code>Object.setPrototypeOf</code>或<code>__proto__</code>时，<code>new.target</code>就派上用场了。在NodeJS v4及更高版本中继承<code>Error</code>类就是这样的使用案例。</p>
+				<h4>示例</h4>
+				<pre><code class="language-typescript">class CustomError extends Error {
+    constructor(message?: string) {
+        super(message); // 'Error' breaks prototype chain here
+        Object.setPrototypeOf(this, new.target.prototype); // restore prototype chain
+    }
+}
+</code></pre>
+				<p>生成JS代码：</p>
+				<pre><code class="language-js">var CustomError = (function (_super) {
+  __extends(CustomError, _super);
+  function CustomError() {
+    var _newTarget = this.constructor;
+    var _this = _super.apply(this, arguments);  // 'Error' breaks prototype chain here
+    _this.__proto__ = _newTarget.prototype; // restore prototype chain
+    return _this;
+  }
+  return CustomError;
+})(Error);
+</code></pre>
+				<p>new.target也适用于编写可构造的函数，例如：</p>
+				<pre><code class="language-typescript">function f() {
+  if (new.target) { /* called via 'new' */ }
+}
+</code></pre>
+				<p>编译为：</p>
+				<pre><code class="language-js">function f() {
+  var _newTarget = this &amp;&amp; this instanceof f ? this.constructor : void 0;
+  if (_newTarget) { /* called via 'new' */ }
+}
+</code></pre>
+				<h2>更好地检查表达式的操作数中的<code>null</code> / <code>undefined</code></h2>
+				<p>TypeScript 2.2改进了对表达式中可空操作数的检查。具体来说，这些现在被标记为错误：</p>
+				<ul>
+					<li>如果<code>+</code>运算符的任何一个操作数是可空的，并且两个操作数都不是<code>any</code>或<code>string</code>类型。</li>
+					<li>如果<code>-</code>，<code>*</code>，<code>**</code>，<code>/</code>，<code>％</code>，<code>&lt;&lt;</code>，<code>&gt;&gt;</code>，<code>&gt;&gt;&gt;</code>,
+						<code>&amp;</code>, <code>|</code> 或 <code>^</code>运算符的任何一个操作数是可空的。</li>
+					<li>如果<code>&lt;</code>，<code>&gt;</code>，<code>&lt;=</code>，<code>&gt;=</code>或<code>in</code>运算符的任何一个操作数是可空的。</li>
+					<li>如果<code>instanceof</code>运算符的右操作数是可空的。</li>
+					<li>如果一元运算符<code>+</code>，<code>-</code>，<code>~</code>，<code>++</code>或者<code>--</code>的操作数是可空的。</li>
+				</ul>
+				<p>如果操作数的类型是<code>null</code>或<code>undefined</code>或者包含<code>null</code>或<code>undefined</code>的联合类型，则操作数视为可空的。注意：包含<code>null</code>或<code>undefined</code>的联合类型只会出现在<code>--strictNullChecks</code>模式中，因为常规类型检查模式下<code>null</code>和<code>undefined</code>在联合类型中是不存在的。</p>
+				<h2>字符串索引签名类型的点属性</h2>
+				<p>具有字符串索引签名的类型可以使用<code>[]</code>符号访问，但不允许使用<code>.</code>符号访问。从TypeScript 2.2开始两种方式都允许使用。</p>
+				<pre><code class="language-typescript">interface StringMap&lt;T&gt; {
+    [x: string]: T;
+}
+
+const map: StringMap&lt;number&gt;;
+
+map[&quot;prop1&quot;] = 1;
+map.prop2 = 2;
+</code></pre>
+				<p>这仅适用于具有显式字符串索引签名的类型。在类型使用上使用<code>.</code>符号访问未知属性仍然是一个错误。</p>
+				<h2>支持在JSX子元素上使用扩展运算符</h2>
+				<p>TypeScript 2.2增加了对在JSX子元素上使用扩展运算符的支持。更多详情请看<a href="https://github.com/facebook/jsx/issues/57">facebook/jsx#57</a>。</p>
+				<h4>示例</h4>
+				<pre><code class="language-typescript">function Todo(prop: { key: number, todo: string }) {
+    return &lt;div&gt;{prop.key.toString() + prop.todo}&lt;/div&gt;;
+}
+
+function TodoList({ todos }: TodoListProps) {
+    return &lt;div&gt;
+        {...todos.map(todo =&gt; &lt;Todo key={todo.id} todo={todo.todo} /&gt;)}
+    &lt;/div&gt;;
+}
+
+let x: TodoListProps;
+
+&lt;TodoList {...x} /&gt;
+</code></pre>
+				<h2>新的<code>jsx: react-native</code></h2>
+				<p>React-native构建管道期望所有文件都具有.js扩展名，即使该文件包含JSX语法。新的<code>--jsx</code>编译参数值<code>react-native</code>将在输出文件中坚持JSX语法，但是给它一个<code>.js</code>扩展名。</p>
+			</article>
+		</div>
+	</div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

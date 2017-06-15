@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>5分钟上手TypeScript · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">5分钟上手TypeScript</h1>
+            </header>
+            <article class="post-content">
+                <p>让我们使用TypeScript来创建一个简单的Web应用。</p>
+                <h2>安装TypeScript</h2>
+                <p>有两种主要的方式来获取TypeScript工具：</p>
+                <ul>
+                    <li>通过npm（Node.js包管理器）</li>
+                    <li>安装Visual Studior的TypeScript插件</li>
+                </ul>
+                <p>Visual Studio 2017和Visual Studio 2015 Update 3默认包含了TypeScript。 如果你的Visual Studio还没有安装TypeScript，你可以<a href="/#download-links">下载</a>它。</p>
+                <p>针对使用npm的用户：</p>
+                <pre><code class="language-shell">&gt; npm install -g typescript
+</code></pre>
+                <h2>构建你的第一个TypeScript文件</h2>
+                <p>在编辑器，将下面的代码输入到<code>greeter.ts</code>文件里：</p>
+                <pre><code class="language-ts">function greeter(person) {
+    return &quot;Hello, &quot; + person;
+}
+
+var user = &quot;Jane User&quot;;
+
+document.body.innerHTML = greeter(user);
+</code></pre>
+                <h2>编译代码</h2>
+                <p>我们使用了<code>.ts</code>扩展名，但是这段代码仅仅是JavaScript而已。 你可以直接从现有的JavaScript应用里复制/粘贴这段代码。
+                </p>
+                <p>在命令行上，运行TypeScript编译器：</p>
+                <pre><code class="language-shell">tsc greeter.ts
+</code></pre>
+                <p>输出结果为一个<code>greeter.js</code>文件，它包含了和输入文件中相同的JavsScript代码。 一切准备就绪，我们可以运行这个使用TypeScript写的JavaScript应用了！
+                </p>
+                <p>接下来让我们看看TypeScript工具带来的高级功能。 给
+                    <code>person</code>函数的参数添加<code>: string</code>类型注解，如下：</p>
+                <pre><code class="language-ts">function greeter(person: string) {
+    return &quot;Hello, &quot; + person;
+}
+
+var user = &quot;Jane User&quot;;
+
+document.body.innerHTML = greeter(user);
+</code></pre>
+                <h2>类型注解</h2>
+                <p>TypeScript里的类型注解是一种轻量级的为函数或变量添加约束的方式。 在这个例子里，我们希望
+                    <code>greeter</code>函数接收一个字符串参数。 然后尝试把
+                    <code>greeter</code>的调用改成传入一个数组：</p>
+                <pre><code class="language-ts">function greeter(person: string) {
+    return &quot;Hello, &quot; + person;
+}
+
+var user = [0, 1, 2];
+
+document.body.innerHTML = greeter(user);
+</code></pre>
+                <p>重新编译，你会看到产生了一个错误。</p>
+                <pre><code class="language-shell">greeter.ts(7,26): error TS2345: Argument of type 'number[]' is not assignable to parameter of type 'string'.
+</code></pre>
+                <p>类似地，尝试删除<code>greeter</code>调用的所有参数。 TypeScript会告诉你使用了非期望个数的参数调用了这个函数。 在这两种情况中，TypeScript提供了静态的代码分析，它可以分析代码结构和提供的类型注解。
+                </p>
+                <p>要注意的是尽管有错误，<code>greeter.js</code>文件还是被创建了。 就算你的代码里有错误，你仍然可以使用TypeScript。但在这种情况下，TypeScript会警告你代码可能不会按预期执行。
+                </p>
+                <h2>接口</h2>
+                <p>让我们开发这个示例应用。这里我们使用接口来描述一个拥有<code>firstName</code>和<code>lastName</code>字段的对象。 在TypeScript里，只在两个类型内部的结构兼容那么这两个类型就是兼容的。
+                    这就允许我们在实现接口时候只要保证包含了接口要求的结构就可以，而不必明确地使用
+                    <code>implements</code>语句。</p>
+                <pre><code class="language-ts">interface Person {
+    firstName: string;
+    lastName: string;
+}
+
+function greeter(person: Person) {
+    return &quot;Hello, &quot; + person.firstName + &quot; &quot; + person.lastName;
+}
+
+var user = { firstName: &quot;Jane&quot;, lastName: &quot;User&quot; };
+
+document.body.innerHTML = greeter(user);
+</code></pre>
+                <h2>类</h2>
+                <p>最后，让我们使用类来改写这个例子。 TypeScript支持JavaScript的新特性，比如支持基于类的面向对象编程。
+                </p>
+                <p>让我们创建一个<code>Student</code>类，它带有一个构造函数和一些公共字段。 注意类和接口可以一起共作，程序员可以自行决定抽象的级别。
+                </p>
+                <p>还要注意的是，在构造函数的参数上使用<code>public</code>等同于创建了同名的成员变量。</p>
+                <pre><code class="language-ts">class Student {
+    fullName: string;
+    constructor(public firstName, public middleInitial, public lastName) {
+        this.fullName = firstName + &quot; &quot; + middleInitial + &quot; &quot; + lastName;
+    }
+}
+
+interface Person {
+    firstName: string;
+    lastName: string;
+}
+
+function greeter(person : Person) {
+    return &quot;Hello, &quot; + person.firstName + &quot; &quot; + person.lastName;
+}
+
+var user = new Student(&quot;Jane&quot;, &quot;M.&quot;, &quot;User&quot;);
+
+document.body.innerHTML = greeter(user);
+</code></pre>
+                <p>重新运行<code>tsc greeter.ts</code>，你会看到生成的JavaScript代码和原先的一样。 TypeScript里的类只是JavaScript里常用的基于原型面向对象编程的简写。
+                </p>
+                <h2>运行TypeScript Web应用</h2>
+                <p>在<code>greeter.html</code>里输入如下内容：</p>
+                <pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;&lt;title&gt;TypeScript Greeter&lt;/title&gt;&lt;/head&gt;
+    &lt;body&gt;
+        &lt;script src=&quot;greeter.js&quot;&gt;&lt;/script&gt;
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+                <p>在浏览器里打开<code>greeter.html</code>运行这个应用！</p>
+                <p>可选地：在Visual Studio里打开<code>greeter.ts</code>或者把代码复制到TypeScript playground。 将鼠标悬停在标识符上查看它们的类型。 注意在某些情况下它们的类型可以被自动地推断出来。
+                    重新输入一下最后一行代码，看一下自动补全列表和参数列表，它们会根据DOM元素类型而变化。 将光标放在
+                    <code>greeter</code>函数上，点击F12可以跟踪到它的定义。 还有一点，你可以右键点击标识，使用重构功能来重命名。
+                </p>
+                <p>这些类型信息以及工具可以很好的和JavaScript一起工作。 更多的TypeScript功能演示，请查看本网站的<a href="/samples/index.html">起步</a>部分。
+                </p>
+                <p><img src="/assets/images/docs/greet_person.png" alt="Visual Studio picture"></p>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>
