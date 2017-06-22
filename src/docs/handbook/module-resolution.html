@@ -228,7 +228,7 @@
                         href="https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#baseurl">SystemJS</a>。</p>
                 <h3 id="path-mapping">路径映射</h3>
                 <p>有时模块不是直接放在<em>baseUrl</em>下面。 比如，充分
-                    <code>&quot;jquery&quot;</code>模块地导入，在运行时可能被解释为<code>&quot;node_modules\jquery\dist\jquery.slim.min.js&quot;</code>。
+                    <code>&quot;jquery&quot;</code>模块地导入，在运行时可能被解释为<code>&quot;node_modules/jquery/dist/jquery.slim.min.js&quot;</code>。
                     加载器使用映射配置来将模块名映射到运行时的文件，查看
                     <a href="http://requirejs.org/docs/api.html#config-paths">RequireJs documentation</a>和<a href="https://github.com/systemjs/systemjs/blob/master/docs/config-api.md#paths">SystemJS documentation</a>。</p>
                 <p>TypeScript编译器通过使用<code>tsconfig.json</code>文件里的<code>&quot;paths&quot;</code>来支持这样的声明映射。 下面是一个如何指定
@@ -274,9 +274,9 @@
 </code></pre>
                 <p>它告诉编译器所有匹配<code>&quot;*&quot;</code>（所有的值）模式的模块导入会在以下两个位置查找：</p>
                 <ol>
-                    <li><code>&quot;*&quot;</code>： 表示名字不发生改变，所以映射为<code>&lt;moduleName&gt;</code> =&gt; <code>&lt;baseUrl&gt;\&lt;moduleName&gt;</code></li>
-                    <li><code>&quot;generated\*&quot;</code>表示模块名添加了“generated”前缀，所以映射为<code>&lt;moduleName&gt;</code> =&gt;
-                        <code>&lt;baseUrl&gt;\generated\&lt;moduleName&gt;</code></li>
+                    <li><code>&quot;*&quot;</code>： 表示名字不发生改变，所以映射为<code>&lt;moduleName&gt;</code> =&gt; <code>&lt;baseUrl&gt;/&lt;moduleName&gt;</code></li>
+                    <li><code>&quot;generated/*&quot;</code>表示模块名添加了“generated”前缀，所以映射为<code>&lt;moduleName&gt;</code> =&gt;
+                        <code>&lt;baseUrl&gt;/generated/&lt;moduleName&gt;</code></li>
                 </ol>
                 <p>按照这个逻辑，编译器将会如下尝试解析这两个导入：</p>
                 <ul>

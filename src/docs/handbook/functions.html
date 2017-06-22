@@ -86,7 +86,7 @@ let myAdd = function(x: number, y: number): number { return x+y; };
                 </p>
                 <h2>书写完整函数类型</h2>
                 <p>现在我们已经为函数指定了类型，下面让我们写出函数的完整类型。</p>
-                <pre><code class="language-ts">let myAdd: (x:number, y:number)=&gt;number =
+                <pre><code class="language-ts">let myAdd: (x:number, y:number) =&gt; number =
     function(x: number, y: number): number { return x+y; };
 </code></pre>
                 <p>函数类型包含两部分：参数类型和返回值类型。 当写出完整函数类型的时候，这两部分都是需要的。 我们以参数列表的形式写出参数类型，为每个参数指定一个名字和类型。 这个名字只是为了增加可读性。 我们也可以这么写：

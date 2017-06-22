@@ -124,7 +124,7 @@
                 <p>TypeScript使用<a href="http://facebook.github.io/react/docs/jsx-in-depth.html#html-tags-vs.-react-components">与React相同的规范</a>                    来区别它们。 固有元素总是以一个小写字母开头，基于值的元素总是以一个大写字母开头。
                 </p>
                 <h2>固有元素</h2>
-                <p>固有元素使用特殊的接口<code>JSX.IntrinsicElements</code>来查找。 默认地，如果这个接口没有指定，会全部通过，不对固有元素进行类型检查。 然而，如果接口存在，那么固有元素的名字需要在
+                <p>固有元素使用特殊的接口<code>JSX.IntrinsicElements</code>来查找。 默认地，如果这个接口没有指定，会全部通过，不对固有元素进行类型检查。 然而，如果这个接口存在，那么固有元素的名字需要在
                     <code>JSX.IntrinsicElements</code>接口的属性里查找。 例如：
                 </p>
                 <pre><code class="language-ts">declare namespace JSX {

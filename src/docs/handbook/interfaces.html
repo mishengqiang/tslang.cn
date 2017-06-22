@@ -271,7 +271,7 @@ interface NotOkay {
 				<pre><code class="language-ts">interface NumberDictionary {
   [index: string]: number;
   length: number;    // 可以，length是number类型
-  name: string       // 错误，`name`的类型不是索引类型的子类型
+  name: string       // 错误，`name`的类型与索引类型返回值的类型不匹配
 }
 </code></pre>
 				<p>最后，你可以将索引签名设置为只读，这样就防止了给索引赋值：</p>

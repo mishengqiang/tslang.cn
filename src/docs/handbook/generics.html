@@ -115,7 +115,7 @@
     return arg;
 }
 </code></pre>
-                <p>你可以这样理解<code>loggingIdentity</code>的类型：泛型函数<code>loggingIdentity</code>，接收类型参数<code>T</code>，和函数<code>arg</code>，它是个元素类型是<code>T</code>的数组，并返回元素类型是<code>T</code>的数组。
+                <p>你可以这样理解<code>loggingIdentity</code>的类型：泛型函数<code>loggingIdentity</code>，接收类型参数<code>T</code>和参数<code>arg</code>，它是个元素类型是<code>T</code>的数组，并返回元素类型是<code>T</code>的数组。
                     如果我们传入数字数组，将返回一个数字数组，因为此时
                     <code>T</code>的的类型为<code>number</code>。 这可以让我们把泛型变量T当做类型的一部分使用，而不是整个类型，增加了灵活性。
                 </p>
@@ -234,11 +234,8 @@ function loggingIdentity&lt;T extends Lengthwise&gt;(arg: T): T {
                 <h2>在泛型约束中使用类型参数</h2>
                 <p>你可以声明一个类型参数，且它被另一个类型参数所约束。 比如，现在我们想要用属性名从对象里获取这个属性。 并且我们想要确保这个属性存在于对象
                     <code>obj</code>上，因此我们需要在这两个类型之间使用约束。</p>
-                <pre><code class="language-ts">function copyFields&lt;T extends U, U&gt;(target: T, source: U): T {
-    for (let id in source) {
-        target[id] = source[id];
-    }
-    return target;
+                <pre><code class="language-ts">function getProperty<T, K extends keyof T>(obj: T, key: K) {
+    return obj[key];
 }
 
 let x = { a: 1, b: 2, c: 3, d: 4 };
@@ -273,13 +270,12 @@ class Lion extends Animal {
     keeper: ZooKeeper;
 }
 
-function findKeeper&lt;A extends Animal, K&gt; (a: {new(): A;
-    prototype: {keeper: K}}): K {
-
-    return a.prototype.keeper;
+function createInstance<A extends Animal>(c: new () => A): A {
+    return new c();
 }
 
-findKeeper(Lion).nametag;  // typechecks!
+createInstance(Lion).keeper.nametag;  // typechecks!
+createInstance(Bee).keeper.hasMask;   // typechecks!
 </code></pre>
             </article>
         </div>

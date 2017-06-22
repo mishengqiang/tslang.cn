@@ -705,7 +705,7 @@ let proxyProps = proxify(props);
 				<pre><code class="language-ts">type Pick&lt;T, K extends keyof T&gt; = {
     [P in K]: T[P];
 }
-type Record&lt;K extends string | number, T&gt; = {
+type Record&lt;K extends string, T&gt; = {
     [P in K]: T;
 }
 </code></pre>
