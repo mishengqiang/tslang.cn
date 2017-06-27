@@ -270,7 +270,7 @@ class Lion extends Animal {
     keeper: ZooKeeper;
 }
 
-function createInstance<A extends Animal>(c: new () => A): A {
+function createInstance&lt;A extends Animal&gt;(c: new () =&gt; A): A {
     return new c();
 }
 
