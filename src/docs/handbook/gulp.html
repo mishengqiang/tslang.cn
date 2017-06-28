@@ -114,7 +114,7 @@ var tsProject = ts.createProject(&quot;tsconfig.json&quot;);
 gulp.task(&quot;default&quot;, function () {
     return tsProject.src()
         .pipe(tsProject())
-        .ts.pipe(gulp.dest(&quot;dist&quot;));
+        .js.pipe(gulp.dest(&quot;dist&quot;));
 });
 </code></pre>
 				<h2>测试这个应用</h2>
