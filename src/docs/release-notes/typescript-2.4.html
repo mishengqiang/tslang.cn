@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TypeScript 2.4 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">TypeScript 2.4</h1>
+            </header>
+            <article class="post-content">
+                <h2>动态导入表达式</h2>
+                <p>动态的<code>import</code>表达式是一个新特性，它属于ECMAScript的一部分，允许用户在程序的任何位置异步地请求某个模块。</p>
+                <p>这意味着你可以有条件地延迟加载其它模块和库。 例如下面这个
+                    <code>async</code>函数，它仅在需要的时候才导入工具库：</p>
+                <pre><code class="language-ts">async function getZipFile(name: string, files: File[]): Promise&lt;File&gt; {
+    const zipUtil = await import('./utils/create-zip-file');
+    const zipContents = await zipUtil.getContentAsBlob(files);
+    return new File(zipContents, name);
+}
+</code></pre>
+                <p>许多bundlers工具已经支持依照这些<code>import</code>表达式自动地分割输出，因此可以考虑使用这个新特性并把输出模块目标设置为<code>esnext</code>。</p>
+                <h2>字符串枚举</h2>
+                <p>TypeScript 2.4现在支持枚举成员变量包含字符串构造器。</p>
+                <pre><code class="language-ts">enum Colors {
+    Red = &quot;RED&quot;,
+    Green = &quot;GREEN&quot;,
+    Blue = &quot;BLUE&quot;,
+}
+</code></pre>
+                <p>需要注意的是字符串枚举成员不能被反向映射到枚举成员的名字。 换句话说，你不能使用
+                    <code>Colors[&quot;RED&quot;]</code>来得到<code>&quot;Red&quot;</code>。</p>
+                <h2>增强的泛型推断</h2>
+                <p>TypeScript 2.4围绕着泛型的推断方式引入了一些很棒的改变。</p>
+                <h3>返回类型作为推断目标</h3>
+                <p>其一，TypeScript能够推断调用的返回值类型。 这可以优化你的体验和方便捕获错误。 如下所示：
+                </p>
+                <pre><code class="language-ts">function arrayMap&lt;T, U&gt;(f: (x: T) =&gt; U): (a: T[]) =&gt; U[] {
+    return a =&gt; a.map(f);
+}
+
+const lengths: (a: string[]) =&gt; number[] = arrayMap(s =&gt; s.length);
+</code></pre>
+                <p>下面是一个你可能会见到的出错了的例子：</p>
+                <pre><code class="language-ts">let x: Promise&lt;string&gt; = new Promise(resolve =&gt; {
+    resolve(10);
+    //      ~~ Error!
+});
+</code></pre>
+                <h3>从上下文类型中推断类型参数</h3>
+                <p>在TypeScript 2.4之前，在下面的例子里：</p>
+                <pre><code class="language-ts">let f: &lt;T&gt;(x: T) =&gt; T = y =&gt; y;
+</code></pre>
+                <p><code>y</code>将会具有<code>any</code>类型。 这意味着虽然程序会检查类型，但是你却可以使用
+                    <code>y</code>做任何事情，就比如：</p>
+                <pre><code class="language-ts">let f: &lt;T&gt;(x: T) =&gt; T = y =&gt; y() + y.foo.bar;
+</code></pre>
+                <p>这个例子实际上并不是类型安全的。</p>
+                <p>在TypeScript 2.4里，右手边的函数会隐式地获得类型参数，并且<code>y</code>的类型会被推断为那个类型参数的类型。</p>
+                <p>如果你使用<code>y</code>的方式是这个类型参数所不支持的，那么你会得到一个错误。 在这个例子里，
+                    <code>T</code>的约束是<code>{}</code>（隐式地），所以在最后一个例子里会出错。</p>
+                <h3>对泛型函数进行更严格的检查</h3>
+                <p>TypeScript在比较两个单一签名的类型时会尝试统一类型参数。 因此，在涉及到两个泛型签名的时候会进行更严格的检查，这就可能发现一些bugs。
+                </p>
+                <pre><code class="language-ts">type A = &lt;T, U&gt;(x: T, y: U) =&gt; [T, U];
+type B = &lt;S&gt;(x: S, y: S) =&gt; [S, S];
+
+function f(a: A, b: B) {
+    a = b;  // Error
+    b = a;  // Ok
+}
+</code></pre>
+                <h2>回调参数的严格逆变</h2>
+                <p>TypeScript一直是以双变（bivariant）的方式来比较参数。 这样做有很多原因，总体上来说这不会有什么大问题直到我们发现它应用在
+                    <code>Promise</code>和<code>Observable</code>上时有些副作用。</p>
+                <p>TypeScript 2.4在处理两个回调类型时引入了收紧机制。例如：</p>
+                <pre><code class="language-ts">interface Mappable&lt;T&gt; {
+    map&lt;U&gt;(f: (x: T) =&gt; U): Mappable&lt;U&gt;;
+}
+
+declare let a: Mappable&lt;number&gt;;
+declare let b: Mappable&lt;string | number&gt;;
+
+a = b;
+b = a;
+</code></pre>
+                <p>在TypeScript 2.4之前，它会成功执行。 当关联
+                    <code>map</code>的类型时，TypeScript会双向地关联它们的类型（例如<code>f</code>的类型）。 当关联每个
+                    <code>f</code>的类型时，TypeScript也会双向地关联那些参数的类型。</p>
+                <p>TS 2.4里关联<code>map</code>的类型时，TypeScript会检查是否每个参数都是回调类型，如果是的话，它会确保那些参数根据它所在的位置以逆变（contravariant）地方式进行检查。</p>
+                <p>换句话说，TypeScript现在可以捕获上面的bug，这对某些用户来说可能是一个破坏性改动，但却是非常帮助的。</p>
+                <h2>弱类型（Weak Type）探测</h2>
+                <p>TypeScript 2.4引入了“弱类型”的概念。 任何只包含了可选属性的类型被当作是“weak”。 比如，下面的
+                    <code>Options</code>类型是弱类型：</p>
+                <pre><code class="language-ts">interface Options {
+    data?: string,
+    timeout?: number,
+    maxRetries?: number,
+}
+</code></pre>
+                <p>在TypeScript 2.4里给弱类型赋值时，如果这个值的属性与弱类型的属性没有任何重叠属性时会得到一个错误。 比如：
+                </p>
+                <pre><code class="language-ts">function sendMessage(options: Options) {
+    // ...
+}
+
+const opts = {
+    payload: &quot;hello world!&quot;,
+    retryOnFail: true,
+}
+
+// 错误!
+sendMessage(opts);
+// 'opts' 和 'Options' 没有重叠的属性
+// 可能我们想要用'data'/'maxRetries'来代替'payload'/'retryOnFail'
+</code></pre>
+                <p>因为这是一个破坏性改动，你可能想要知道一些解决方法：</p>
+                <ol>
+                    <li>确定属性存在时再声明</li>
+                    <li>给弱类型增加索引签名（比如 <code>[propName: string]: {}</code>）</li>
+                    <li>使用类型断言（比如<code>opts as Options</code>）</li>
+                </ol>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>
