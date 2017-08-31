@@ -501,7 +501,9 @@ let search = { ...defaults, food: &quot;rich&quot; };
 let search = { food: &quot;rich&quot;, ...defaults };
 </code></pre>
                 <p>那么，<code>defaults</code>里的<code>food</code>属性会重写<code>food: &quot;rich&quot;</code>，在这里这并不是我们想要的结果。</p>
-                <p>对象展开还有其它一些意想不到的限制。 首先，它只包含自身的可枚举的属性。 首先，当你展开一个对象实例时，你会丢失其方法：
+                <p>对象展开还有其它一些意想不到的限制。 首先，它仅包含对象
+                    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Enumerability_and_ownership_of_properties">自身的可枚举属性</a>。
+                    大体上是说当你展开一个对象实例时，你会丢失其方法：
                 </p>
                 <pre><code class="language-ts">class C {
   p = 12;

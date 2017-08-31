@@ -73,13 +73,12 @@
                 </p>
                 <pre><code class="language-ts">let zoo: Animal[] = [new Rhino(), new Elephant(), new Snake()];
 </code></pre>
-                <p>如果没有找到最佳通用类型的话，类型推论的结果是空对象类型，<code>{}</code>。 因为这个类型没有任何成员，所以访问其成员的时候会报错。
-                </p>
+                <p>如果没有找到最佳通用类型的话，类型推断的结果为联合数组类型，<code>(Rhino | Elephant | Snake)[]</code>。</p>
                 <h1>上下文类型</h1>
                 <p>TypeScript类型推论也可能按照相反的方向进行。 这被叫做“按上下文归类”。按上下文归类会发生在表达式的类型与所处的位置相关时。比如：
                 </p>
                 <pre><code class="language-ts">window.onmousedown = function(mouseEvent) {
-    console.log(mouseEvent.buton);  //&lt;- Error
+    console.log(mouseEvent.button);  //&lt;- Error
 };
 </code></pre>
                 <p>这个例子会得到一个类型错误，TypeScript类型检查器使用<code>Window.onmousedown</code>函数的类型来推断右边函数表达式的类型。 因此，就能推断出
@@ -88,7 +87,7 @@
                 <p>如果上下文类型表达式包含了明确的类型信息，上下文的类型被忽略。 重写上面的例子：
                 </p>
                 <pre><code class="language-ts">window.onmousedown = function(mouseEvent: any) {
-    console.log(mouseEvent.buton);  //&lt;- Now, no error is given
+    console.log(mouseEvent.button);  //&lt;- Now, no error is given
 };
 </code></pre>
                 <p>这个函数表达式有明确的参数类型注解，上下文类型被忽略。 这样的话就不报错了，因为这里不会使用到上下文类型。

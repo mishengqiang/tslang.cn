@@ -259,7 +259,7 @@ class Dog extends Animal {
     breed: string;
 }
 
-// Error: indexing with a 'string' will sometimes get you a Dog!
+// 错误：使用'string'索引，有时会得到Animal!
 interface NotOkay {
     [x: number]: Animal;
     [x: string]: Dog;
@@ -424,20 +424,21 @@ interface SelectableControl extends Control {
     select(): void;
 }
 
-class Button extends Control {
+class Button extends Control implements SelectableControl {
     select() { }
 }
 
 class TextBox extends Control {
-    select() { }
+
 }
 
-class Image {
+// 错误：“Image”类型缺少“state”属性。
+class Image implements SelectableControl {
     select() { }
 }
 
 class Location {
-    select() { }
+
 }
 </code></pre>
 				<p>在上面的例子里，<code>SelectableControl</code>包含了<code>Control</code>的所有成员，包括私有成员<code>state</code>。 因为

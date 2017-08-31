@@ -36,7 +36,7 @@
     },
     "highlight": {
       "main": [
-        "highlight.pack.js",
+        "build/highlight.pack.js",
         "src/styles/vs.css"
       ]
     },
@@ -49,7 +49,8 @@
   },
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "highlight": "^9.4.0",
-    "magnific-popup": "^1.1.0"
+    "highlight": "^9.12.0",
+    "magnific-popup": "^1.1.0",
+    "clipboard": "^1.7.1"
   }
 }

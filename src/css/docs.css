@@ -1,12 +1,16 @@
-
 .docs-container {
-    padding: 0 0 6em
+    -webkit-box-flex: 1;
+    -ms-flex: 1;
+    flex: 1;
+    padding: 0 0 6em;
 }
+
 
 /*.docs-container .doc-content-container {
     padding: 0 2em 0 4em;
     margin-right: 0
 }*/
+
 
 /*@media (max-width: 992px) {
     .docs-container .doc-content-container {
@@ -94,12 +98,17 @@
     padding-top: 3em
 }
 
-/*.docs-container .toc-container {
-    margin-right: 2em;
-    width: 22em;
-    padding-left: 2em;
-    padding-right: 0
-}*/
+@media (min-width: 992px) {
+    .docs-container .toc-container {
+        /* margin-right: 2em;
+        width: 22em;
+        padding-left: 2em;
+        padding-right: 0 */
+        position: -webkit-sticky;
+        position: sticky;
+        top: 5vh;
+    }
+}
 
 .docs-container .toc-dropdown>a {
     font-size: 1em;
@@ -108,7 +117,7 @@
     box-shadow: none
 }
 
-.docs-container .toc-dropdown>a:active,.docs-container .toc-dropdown>a:focus,.docs-container .toc-dropdown>a:hover {
+.docs-container .toc-dropdown>a:active, .docs-container .toc-dropdown>a:focus, .docs-container .toc-dropdown>a:hover {
     color: #000;
     background-color: #c4c4c4
 }
@@ -137,34 +146,40 @@
     font-size: 2.4em
 }
 
-.docs-container .post-content h2,.docs-container .post-content h3,.docs-container .post-content h4,.docs-container .post-content h5,.docs-container .post-content h6 {
+.docs-container .post-content h2, .docs-container .post-content h3, .docs-container .post-content h4, .docs-container .post-content h5, .docs-container .post-content h6 {
     color: #152740;
     font-size: 1.8em;
     font-weight: 700
 }
 
-.docs-container .post-content h3,.docs-container .post-content h4,.docs-container .post-content h5,.docs-container .post-content h6 {
+.docs-container .post-content h3, .docs-container .post-content h4, .docs-container .post-content h5, .docs-container .post-content h6 {
     font-size: 1.6em;
     font-style: italic
 }
 
-.docs-container .post-content h4,.docs-container .post-content h5,.docs-container .post-content h6 {
+.docs-container .post-content h4, .docs-container .post-content h5, .docs-container .post-content h6 {
     font-weight: 600;
     color: #2e568d
 }
 
-.docs-container .post-content h5,.docs-container .post-content h6 {
+.docs-container .post-content h5, .docs-container .post-content h6 {
     font-weight: 500;
     color: #5987c8
 }
 
-.docs-container li code,.docs-container p code,.docs-container td code {
+@media screen and (max-width: 767px) {
+    .docs-container .post-content .table-responsive {
+        max-width: 80vw;
+    }
+}
+
+.docs-container li code, .docs-container p code, .docs-container td code {
     background-color: transparent;
     color: #bf414a;
     font-size: 1em
 }
 
-.docs-container li pre,.docs-container p pre,.docs-container td pre {
+.docs-container li pre, .docs-container p pre, .docs-container td pre {
     font-size: 1em
 }
 
@@ -180,17 +195,17 @@
     background-color: #eaeef3;
     border-radius: 0;
     -webkit-text-size-adjust: none;
-    overflow: hidden
+    overflow: visible;
 }
 
 .docs-container pre code {
     color: #2f4f4f;
-    font-family: Menlo,Monaco,"Courier New",monospace;
+    font-family: Menlo, Monaco, "Courier New", monospace;
     font-size: 1em!important;
     padding: 0
 }
 
-.docs-container pre code .hljs,.docs-container pre code .hljs-addition,.docs-container pre code .hljs-argument,.docs-container pre code .hljs-blockquote,.docs-container pre code .hljs-built_in,.docs-container pre code .hljs-filename,.docs-container pre code .hljs-header,.docs-container pre code .hljs-keyword,.docs-container pre code .hljs-link_label,.docs-container pre code .hljs-list,.docs-container pre code .hljs-literal,.docs-container pre code .hljs-name,.docs-container pre code .hljs-number,.docs-container pre code .hljs-params,.docs-container pre code .hljs-parent,.docs-container pre code .hljs-string,.docs-container pre code .hljs-tag,.docs-container pre code .hljs-title,.docs-container pre code .hljs-value,.docs-container pre code p,.docs-container pre code span {
+.docs-container pre code .hljs, .docs-container pre code .hljs-addition, .docs-container pre code .hljs-argument, .docs-container pre code .hljs-blockquote, .docs-container pre code .hljs-built_in, .docs-container pre code .hljs-filename, .docs-container pre code .hljs-header, .docs-container pre code .hljs-keyword, .docs-container pre code .hljs-link_label, .docs-container pre code .hljs-list, .docs-container pre code .hljs-literal, .docs-container pre code .hljs-name, .docs-container pre code .hljs-number, .docs-container pre code .hljs-params, .docs-container pre code .hljs-parent, .docs-container pre code .hljs-string, .docs-container pre code .hljs-tag, .docs-container pre code .hljs-title, .docs-container pre code .hljs-value, .docs-container pre code p, .docs-container pre code span {
     font-size: 1em!important
 }
 
@@ -200,7 +215,7 @@
     font-size: 1.3em
 }
 
-.docs-container td,.docs-container th {
+.docs-container td, .docs-container th {
     padding: .75rem;
     border: 1px solid #294e80;
     font-size: 1em!important;
@@ -214,7 +229,10 @@
 
 .docs-container .docs-nav {
     margin-top: 4.5rem;
-    position: relative
+    position: relative;
+    max-height: 85vh;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .docs-container .docs-nav .nav {
@@ -287,7 +305,7 @@
     font-weight: 600!important
 }
 
-.docs-container .docs-nav .nav li a:focus,.docs-container .docs-nav .nav li a:hover {
+.docs-container .docs-nav .nav li a:focus, .docs-container .docs-nav .nav li a:hover {
     background: 0 0;
     color: #152740!important;
     text-decoration: none!important;
@@ -318,8 +336,7 @@
 .docs-container .dropdown-menu li {
     font-size: 1em
 }
-.hljs{
+
+.hljs {
     background-color: #eaeef3;
 }
-
-

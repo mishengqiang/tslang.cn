@@ -62,9 +62,9 @@
                 <h2>示例</h2>
                 <p><code>tsconfig.json</code>示例文件:</p>
                 <ul>
-                    <li>使用<code>&quot;files&quot;</code>属性</li>
-                </ul>
-                <pre><code class="language-json">{
+                    <li>
+                        <p>使用<code>&quot;files&quot;</code>属性</p>
+                        <pre><code class="language-json">{
     &quot;compilerOptions&quot;: {
         &quot;module&quot;: &quot;commonjs&quot;,
         &quot;noImplicitAny&quot;: true,
@@ -89,6 +89,8 @@
     ]
 }
 </code></pre>
+                    </li>
+                </ul>
                 <ul>
                     <li>
                         <p>使用<code>&quot;include&quot;</code>和<code>&quot;exclude&quot;</code>属性</p>
@@ -123,7 +125,8 @@
                     <li><code>**/</code> 递归匹配任意子目录</li>
                 </ul>
                 <p>如果一个glob模式里的某部分只包含<code>*</code>或<code>.*</code>，那么仅有支持的文件扩展名类型被包含在内（比如默认<code>.ts</code>，<code>.tsx</code>，和<code>.d.ts</code>，
-                    如果<code>allowJs</code>设置能<code>true</code>还包含<code>.js</code>和<code>.jsx</code>）。</p>
+                    如果
+                    <code>allowJs</code>设置能<code>true</code>还包含<code>.js</code>和<code>.jsx</code>）。</p>
                 <p>如果<code>&quot;files&quot;</code>和<code>&quot;include&quot;</code>都没有被指定，编译器默认包含当前目录和子目录下所有的TypeScript文件（<code>.ts</code>,
                     <code>.d.ts</code> 和 <code>.tsx</code>），排除在<code>&quot;exclude&quot;</code>里指定的文件。JS文件（<code>.js</code>和<code>.jsx</code>）也被包含进来如果<code>allowJs</code>被设置成<code>true</code>。
                     如果指定了

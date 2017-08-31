@@ -95,7 +95,7 @@
     A
 }
 let a = Enum.A;
-let nameOfA = Enum[Enum.A]; // &quot;A&quot;
+let nameOfA = Enum[a]; // &quot;A&quot;
 </code></pre>
                 <p>编译成：</p>
                 <pre><code class="language-js">var Enum;
@@ -103,7 +103,7 @@ let nameOfA = Enum[Enum.A]; // &quot;A&quot;
     Enum[Enum[&quot;A&quot;] = 0] = &quot;A&quot;;
 })(Enum || (Enum = {}));
 var a = Enum.A;
-var nameOfA = Enum[Enum.A]; // &quot;A&quot;
+var nameOfA = Enum[a]; // &quot;A&quot;
 </code></pre>
                 <p>生成的代码中，枚举类型被编译成一个对象，它包含双向映射（<code>name</code> -&gt; <code>value</code>）和（<code>value</code> -&gt; <code>name</code>）。
                     引用枚举成员总会生成一次属性访问并且永远不会内联。 在大多数情况下这是很好的并且正确的解决方案。 然而有时候需求却比较严格。 当访问枚举值时，为了避免生成多余的代码和间接引用，可以使用常数枚举。 常数枚举是在

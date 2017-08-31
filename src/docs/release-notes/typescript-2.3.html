@@ -112,7 +112,7 @@
 				<p><code>for..await..of</code>语句仅在异步函数或异步生成器中可用。</p>
 				<h5>注意事项</h5>
 				<ul>
-					<li>始终记住我们对于异步迭代器的支持是建立在运行时有<code>Symbol.asyncIterator</code>支持的基础上的。你可能需要<code>Symbol.asyncIterator</code>的三方实现，虽然对于简单的目的可以仅仅是：<code>(Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.from(&quot;Symbol.asyncIterator&quot;);</code></li>
+					<li>始终记住我们对于异步迭代器的支持是建立在运行时有<code>Symbol.asyncIterator</code>支持的基础上的。你可能需要<code>Symbol.asyncIterator</code>的三方实现，虽然对于简单的目的可以仅仅是：<code>(Symbol as any).asyncIterator = Symbol.asyncIterator || Symbol.for(&quot;Symbol.asyncIterator&quot;);</code></li>
 					<li>如果你没有声明<code>AsyncIterator</code>，还需要在<code>--lib</code>选项中加入<code>esnext</code>来获取<code>AsyncIterator</code>声明。</li>
 					<li>最后, 如果你的编译目标是ES5或ES3，你还需要设置<code>--downlevelIterators</code>编译选项。</li>
 				</ul>

@@ -163,7 +163,7 @@
                 <h4>TypeScript如何解析模块</h4>
                 <p>TypeScript是模仿Node.js运行时的解析策略来在编译阶段定位模块定义文件。 因此，TypeScript在Node解析逻辑基础上增加了TypeScript源文件的扩展名（
                     <code>.ts</code>，<code>.tsx</code>和<code>.d.ts</code>）。 同时，TypeScript在
-                    <code>package.json</code>里使用字段<code>&quot;typings&quot;</code>来表示类似<code>&quot;main&quot;</code>的意义 -
+                    <code>package.json</code>里使用字段<code>&quot;types&quot;</code>来表示类似<code>&quot;main&quot;</code>的意义 -
                     编译器会使用它来找到要使用的&quot;main&quot;定义文件。
                 </p>
                 <p>比如，有一个导入语句<code>import { b } from &quot;./moduleB&quot;</code>在<code>/root/src/moduleA.ts</code>里，会以下面的流程来定位<code>&quot;./moduleB&quot;</code>：</p>
@@ -171,7 +171,7 @@
                     <li><code>/root/src/moduleB.ts</code></li>
                     <li><code>/root/src/moduleB.tsx</code></li>
                     <li><code>/root/src/moduleB.d.ts</code></li>
-                    <li><code>/root/src/moduleB/package.json</code> (如果指定了<code>&quot;typings&quot;</code>属性)</li>
+                    <li><code>/root/src/moduleB/package.json</code> (如果指定了<code>&quot;types&quot;</code>属性)</li>
                     <li><code>/root/src/moduleB/index.ts</code></li>
                     <li><code>/root/src/moduleB/index.tsx</code></li>
                     <li><code>/root/src/moduleB/index.d.ts</code></li>
@@ -183,7 +183,7 @@
                     <li><code>/root/src/node_modules/moduleB.ts</code></li>
                     <li><code>/root/src/node_modules/moduleB.tsx</code></li>
                     <li><code>/root/src/node_modules/moduleB.d.ts</code></li>
-                    <li><code>/root/src/node_modules/moduleB/package.json</code> (如果指定了<code>&quot;typings&quot;</code>属性)</li>
+                    <li><code>/root/src/node_modules/moduleB/package.json</code> (如果指定了<code>&quot;types&quot;</code>属性)</li>
                     <li><code>/root/src/node_modules/moduleB/index.ts</code></li>
                     <li><code>/root/src/node_modules/moduleB/index.tsx</code></li>
                     <li><code>/root/src/node_modules/moduleB/index.d.ts</code>
@@ -191,7 +191,7 @@
                     <li><code>/root/node_modules/moduleB.ts</code></li>
                     <li><code>/root/node_modules/moduleB.tsx</code></li>
                     <li><code>/root/node_modules/moduleB.d.ts</code></li>
-                    <li><code>/root/node_modules/moduleB/package.json</code> (如果指定了<code>&quot;typings&quot;</code>属性)</li>
+                    <li><code>/root/node_modules/moduleB/package.json</code> (如果指定了<code>&quot;types&quot;</code>属性)</li>
                     <li><code>/root/node_modules/moduleB/index.ts</code></li>
                     <li><code>/root/node_modules/moduleB/index.tsx</code></li>
                     <li><code>/root/node_modules/moduleB/index.d.ts</code>
@@ -199,7 +199,7 @@
                     <li><code>/node_modules/moduleB.ts</code></li>
                     <li><code>/node_modules/moduleB.tsx</code></li>
                     <li><code>/node_modules/moduleB.d.ts</code></li>
-                    <li><code>/node_modules/moduleB/package.json</code> (如果指定了<code>&quot;typings&quot;</code>属性)</li>
+                    <li><code>/node_modules/moduleB/package.json</code> (如果指定了<code>&quot;types&quot;</code>属性)</li>
                     <li><code>/node_modules/moduleB/index.ts</code></li>
                     <li><code>/node_modules/moduleB/index.tsx</code></li>
                     <li><code>/node_modules/moduleB/index.d.ts</code></li>
@@ -381,7 +381,7 @@ File 'node_modules/typescript.ts' does not exist.
 File 'node_modules/typescript.tsx' does not exist.
 File 'node_modules/typescript.d.ts' does not exist.
 Found 'package.json' at 'node_modules/typescript/package.json'.
-'package.json' has 'typings' field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.
+'package.json' has 'types' field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.
 File 'node_modules/typescript/lib/typescript.d.ts' exist - use it as a module resolution result.
 ======== Module name 'typescript' was successfully resolved to 'node_modules/typescript/lib/typescript.d.ts'. ========
 </code></pre>
@@ -399,10 +399,10 @@ File 'node_modules/typescript/lib/typescript.d.ts' exist - use it as a module re
                     <p>Module resolution kind is not specified, using <strong>'NodeJs'</strong>.</p>
                 </blockquote>
                 <ul>
-                    <li>从npm加载typings</li>
+                    <li>从npm加载types</li>
                 </ul>
                 <blockquote>
-                    <p>'package.json' has <strong>'typings'</strong> field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.</p>
+                    <p>'package.json' has <strong>'types'</strong> field './lib/typescript.d.ts' that references 'node_modules/typescript/lib/typescript.d.ts'.</p>
                 </blockquote>
                 <ul>
                     <li>最终结果</li>
