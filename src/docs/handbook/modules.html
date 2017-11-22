@@ -436,7 +436,7 @@ console.log(data, fileContent);
                     例如：
                 </p>
                 <h5>math-lib.d.ts</h5>
-                <pre><code class="language-ts">export const isPrime(x: number): boolean;
+                <pre><code class="language-ts">export function isPrime(x: number): boolean;
 export as namespace mathLib;
 </code></pre>
                 <p>之后，这个库可以在某个模块里通过导入来使用：</p>
@@ -576,7 +576,7 @@ export function test(c: Calculator, input: string) {
     console.log(`result of '${input}' is '${c.getResult()}'`);
 }
 </code></pre>
-                <p>这是使用导出的<code>test</code>函数来测试计算器。</p>
+                <p>下面使用导出的<code>test</code>函数来测试计算器。</p>
                 <h4>TestCalculator.ts</h4>
                 <pre><code class="language-ts">import { Calculator, test } from &quot;./Calculator&quot;;
 

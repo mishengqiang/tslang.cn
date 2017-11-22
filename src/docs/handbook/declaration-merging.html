@@ -127,10 +127,11 @@ interface Box {
 
 let box: Box = {height: 5, width: 6, scale: 10};
 </code></pre>
-                <p>接口的非函数的成员必须是唯一的。 如果两个接口中同时声明了同名的非函数成员编译器则会报错。
+                <p>接口的非函数的成员应该是唯一的。如果它们不是唯一的，那么它们必须是相同的类型。如果两个接口中同时声明了同名的非函数成员且它们的类型不同，则编译器会报错。
                 </p>
                 <p>对于函数成员，每个同名函数声明都会被当成这个函数的一个重载。 同时需要注意，当接口
-                    <code>A</code>与后来的接口<code>A</code>合并时，后面的接口具有更高的优先级。</p>
+                    <code>A</code>与后来的接口
+                    <code>A</code>合并时，后面的接口具有更高的优先级。</p>
                 <p>如下例所示：</p>
                 <pre><code class="language-ts">interface Cloner {
     clone(animal: Animal): Animal;
@@ -169,7 +170,8 @@ interface Document {
     createElement(tagName: &quot;canvas&quot;): HTMLCanvasElement;
 }
 </code></pre>
-                <p>合并后的<code>Document</code>将会像下面这样：</p>
+                <p>合并后的
+                    <code>Document</code>将会像下面这样：</p>
                 <pre><code class="language-ts">interface Document {
     createElement(tagName: &quot;canvas&quot;): HTMLCanvasElement;
     createElement(tagName: &quot;div&quot;): HTMLDivElement;
@@ -183,7 +185,8 @@ interface Document {
                 </p>
                 <p>对于命名空间的合并，模块导出的同名接口进行合并，构成单一命名空间内含合并后的接口。</p>
                 <p>对于命名空间里值的合并，如果当前已经存在给定名字的命名空间，那么后来的命名空间的导出成员会被加到已经存在的那个模块里。</p>
-                <p><code>Animals</code>声明合并示例：</p>
+                <p>
+                    <code>Animals</code>声明合并示例：</p>
                 <pre><code class="language-ts">namespace Animals {
     export class Zebra { }
 }
@@ -218,7 +221,9 @@ namespace Animal {
     }
 }
 </code></pre>
-                <p>因为<code>haveMuscles</code>并没有导出，只有<code>animalsHaveMuscles</code>函数共享了原始未合并的命名空间可以访问这个变量。
+                <p>因为
+                    <code>haveMuscles</code>并没有导出，只有
+                    <code>animalsHaveMuscles</code>函数共享了原始未合并的命名空间可以访问这个变量。
                     <code>doAnimalsHaveMuscles</code>函数虽是合并命名空间的一部分，但是访问不了未导出的成员。</p>
                 <h1>命名空间与类和函数和枚举类型合并</h1>
                 <p>命名空间可以与其它类型的声明进行合并。 只要命名空间的定义符合将要合并类型的定义。合并结果包含两者的声明类型。 TypeScript使用这个功能去实现一些JavaScript里的设计模式。
@@ -232,7 +237,9 @@ namespace Album {
     export class AlbumLabel { }
 }
 </code></pre>
-                <p>合并规则与上面<code>合并命名空间</code>小节里讲的规则一致，我们必须导出<code>AlbumLabel</code>类，好让合并的类能访问。 合并结果是一个类并带有一个内部类。 你也可以使用命名空间为类增加一些静态属性。
+                <p>合并规则与上面
+                    <code>合并命名空间</code>小节里讲的规则一致，我们必须导出
+                    <code>AlbumLabel</code>类，好让合并的类能访问。 合并结果是一个类并带有一个内部类。 你也可以使用命名空间为类增加一些静态属性。
                 </p>
                 <p>除了内部类的模式，你在JavaScript里，创建一个函数稍后扩展它增加一些属性也是很常见的。 TypeScript使用声明合并来达到这个目的并保证类型安全。
                 </p>
@@ -287,7 +294,8 @@ Observable.prototype.map = function (f) {
     // ... another exercise for the reader
 }
 </code></pre>
-                <p>它也可以很好地工作在TypeScript中， 但编译器对 <code>Observable.prototype.map</code>一无所知。 你可以使用扩展模块来将它告诉编译器：
+                <p>它也可以很好地工作在TypeScript中， 但编译器对
+                    <code>Observable.prototype.map</code>一无所知。 你可以使用扩展模块来将它告诉编译器：
                 </p>
                 <pre><code class="language-ts">// observable.ts stays the same
 // map.ts
@@ -308,8 +316,10 @@ import &quot;./map&quot;;
 let o: Observable&lt;number&gt;;
 o.map(x =&gt; x.toFixed());
 </code></pre>
-                <p>模块名的解析和用<code>import</code>/<code>export</code>解析模块标识符的方式是一致的。 更多信息请参考 <a href="./modules.html">Modules</a>。
-                    当这些声明在扩展中合并时，就好像在原始位置被声明了一样。 但是，你不能在扩展中声明新的顶级声明－仅可以扩展模块中已经存在的声明。
+                <p>模块名的解析和用
+                    <code>import</code>/
+                    <code>export</code>解析模块标识符的方式是一致的。 更多信息请参考
+                    <a href="./modules.html">Modules</a>。 当这些声明在扩展中合并时，就好像在原始位置被声明了一样。 但是，你不能在扩展中声明新的顶级声明－仅可以扩展模块中已经存在的声明。
                 </p>
                 <h2>全局扩展</h2>
                 <p>你也以在模块内部添加声明到全局作用域中。</p>

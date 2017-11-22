@@ -135,7 +135,8 @@
                 <p>使用<code>&quot;include&quot;</code>引入的文件可以使用<code>&quot;exclude&quot;</code>属性过滤。 然而，通过
                     <code>&quot;files&quot;</code>属性明确指定的文件却总是会被包含在内，不管<code>&quot;exclude&quot;</code>如何设置。 如果没有特殊指定，
                     <code>&quot;exclude&quot;</code>默认情况下会排除<code>node_modules</code>，<code>bower_components</code>，<code>jspm_packages</code>和<code>&lt;outDir&gt;</code>目录。</p>
-                <p>任何被<code>&quot;files&quot;或</code>&quot;include&quot;<code>指定的文件所引用的文件也会被包含进来。</code>A.ts<code>引用了</code>B.ts<code>，因此</code>B.ts<code>不能被排除，除非引用它的</code>A.ts<code>在</code>&quot;exclude&quot;`列表中。</p>
+                <p>任何被<code>&quot;files&quot;</code>或<code>&quot;include&quot;</code>指定的文件所引用的文件也会被包含进来。
+                        <code>A.ts</code>引用了<code>B.ts</code>，因此<code>B.ts</code>不能被排除，除非引用它的<code>A.ts</code>在<code>&quot;exclude&quot;</code>列表中。</p>
                 <p>需要注意编译器不会去引入那些可能做为输出的文件；比如，假设我们包含了<code>index.ts</code>，那么<code>index.d.ts</code>和<code>index.js</code>会被排除在外。
                     通常来讲，不推荐只有扩展名的不同来区分同目录下的文件。
                 </p>

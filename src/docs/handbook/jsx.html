@@ -50,22 +50,31 @@
             </header>
             <article class="post-content">
                 <h1>介绍</h1>
-                <p><a href="https://facebook.github.io/jsx/">JSX</a>是一种嵌入式的类似XML的语法。 它可以被转换成合法的JavaScript，尽管转换的语义是依据不同的实现而定的。
-                    JSX因
+                <p>
+                    <a href="https://facebook.github.io/jsx/">JSX</a>是一种嵌入式的类似XML的语法。 它可以被转换成合法的JavaScript，尽管转换的语义是依据不同的实现而定的。 JSX因
                     <a href="http://facebook.github.io/react/">React</a>框架而流行，但是也被其它应用所使用。 TypeScript支持内嵌，类型检查和将JSX直接编译为JavaScript。
                 </p>
                 <h1>基本用法</h1>
                 <p>想要使用JSX必须做两件事：</p>
                 <ol>
-                    <li>给文件一个<code>.tsx</code>扩展名</li>
-                    <li>启用<code>jsx</code>选项</li>
+                    <li>给文件一个
+                        <code>.tsx</code>扩展名</li>
+                    <li>启用
+                        <code>jsx</code>选项</li>
                 </ol>
-                <p>TypeScript具有三种JSX模式：<code>preserve</code>，<code>react</code>和<code>react-native</code>。 这些模式只在代码生成阶段起作用 -
-                    类型检查并不受影响。 在
-                    <code>preserve</code>模式下生成代码中会保留JSX以供后续的转换操作使用（比如：<a href="https://babeljs.io/">Babel</a>）。 另外，输出文件会带有
+                <p>TypeScript具有三种JSX模式：
+                    <code>preserve</code>，
+                    <code>react</code>和
+                    <code>react-native</code>。 这些模式只在代码生成阶段起作用 - 类型检查并不受影响。 在
+                    <code>preserve</code>模式下生成代码中会保留JSX以供后续的转换操作使用（比如：
+                    <a href="https://babeljs.io/">Babel</a>）。 另外，输出文件会带有
                     <code>.jsx</code>扩展名。
-                    <code>react</code>模式会生成<code>React.createElement</code>，在使用前不需要再进行转换操作了，输出文件的扩展名为<code>.js</code>。
-                    <code>react-native</code>相当于<code>preserve</code>，它也保留了所有的JSX，但是输出文件的扩展名是<code>.js</code>。</p>
+                    <code>react</code>模式会生成
+                    <code>React.createElement</code>，在使用前不需要再进行转换操作了，输出文件的扩展名为
+                    <code>.js</code>。
+                    <code>react-native</code>相当于
+                    <code>preserve</code>，它也保留了所有的JSX，但是输出文件的扩展名是
+                    <code>.js</code>。</p>
                 <table>
                     <thead>
                         <tr>
@@ -77,54 +86,97 @@
                     </thead>
                     <tbody>
                         <tr>
-                            <td><code>preserve</code></td>
-                            <td><code>&lt;div /&gt;</code></td>
-                            <td><code>&lt;div /&gt;</code></td>
-                            <td><code>.jsx</code></td>
+                            <td>
+                                <code>preserve</code>
+                            </td>
+                            <td>
+                                <code>&lt;div /&gt;</code>
+                            </td>
+                            <td>
+                                <code>&lt;div /&gt;</code>
+                            </td>
+                            <td>
+                                <code>.jsx</code>
+                            </td>
                         </tr>
                         <tr>
-                            <td><code>react</code></td>
-                            <td><code>&lt;div /&gt;</code></td>
-                            <td><code>React.createElement(&quot;div&quot;)</code></td>
-                            <td><code>.js</code></td>
+                            <td>
+                                <code>react</code>
+                            </td>
+                            <td>
+                                <code>&lt;div /&gt;</code>
+                            </td>
+                            <td>
+                                <code>React.createElement(&quot;div&quot;)</code>
+                            </td>
+                            <td>
+                                <code>.js</code>
+                            </td>
                         </tr>
                         <tr>
-                            <td><code>react-native</code></td>
-                            <td><code>&lt;div /&gt;</code></td>
-                            <td><code>&lt;div /&gt;</code></td>
-                            <td><code>.js</code></td>
+                            <td>
+                                <code>react-native</code>
+                            </td>
+                            <td>
+                                <code>&lt;div /&gt;</code>
+                            </td>
+                            <td>
+                                <code>&lt;div /&gt;</code>
+                            </td>
+                            <td>
+                                <code>.js</code>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
-                <p>你可以通过在命令行里使用<code>--jsx</code>标记或<a href="./tsconfig-json.html">tsconfig.json</a>里的选项来指定模式。</p>
+                <p>你可以通过在命令行里使用
+                    <code>--jsx</code>标记或
+                    <a href="./tsconfig-json.html">tsconfig.json</a>里的选项来指定模式。</p>
                 <blockquote>
-                    <p><em>注意：<code>React</code>标识符是写死的硬编码，所以你必须保证React（大写的R）是可用的。</em></p>
+                    <p>
+                        <em>注意：
+                            <code>React</code>标识符是写死的硬编码，所以你必须保证React（大写的R）是可用的。</em>
+                    </p>
                 </blockquote>
-                <h1><code>as</code>操作符</h1>
+                <h1>
+                    <code>as</code>操作符</h1>
                 <p>回想一下怎么写类型断言：</p>
                 <pre><code class="language-ts">var foo = &lt;foo&gt;bar;
 </code></pre>
-                <p>这里我们断言<code>bar</code>变量是<code>foo</code>类型的。 因为TypeScript也使用尖括号来表示类型断言，JSX的语法带来了解析的困难。因此，TypeScript在
+                <p>这里我们断言
+                    <code>bar</code>变量是
+                    <code>foo</code>类型的。 因为TypeScript也使用尖括号来表示类型断言，JSX的语法带来了解析的困难。因此，TypeScript在
                     <code>.tsx</code>文件里禁用了使用尖括号的类型断言。</p>
-                <p>为了弥补<code>.tsx</code>里的这个功能，新加入了一个类型断言符号：<code>as</code>。 上面的例子可以很容易地使用
+                <p>为了弥补
+                    <code>.tsx</code>里的这个功能，新加入了一个类型断言符号：
+                    <code>as</code>。 上面的例子可以很容易地使用
                     <code>as</code>操作符改写：</p>
                 <pre><code class="language-ts">var foo = bar as foo;
 </code></pre>
-                <p><code>as</code>操作符在<code>.ts</code>和<code>.tsx</code>里都可用，并且与其它类型断言行为是等价的。</p>
+                <p>
+                    <code>as</code>操作符在
+                    <code>.ts</code>和
+                    <code>.tsx</code>里都可用，并且与其它类型断言行为是等价的。</p>
                 <h1>类型检查</h1>
                 <p>为了理解JSX的类型检查，你必须首先理解固有元素与基于值的元素之间的区别。 假设有这样一个JSX表达式
-                    <code>&lt;expr /&gt;</code>，<code>expr</code>可能引用环境自带的某些东西（比如，在DOM环境里的<code>div</code>或<code>span</code>）或者是你自定义的组件。
-                    这是非常重要的，原因有如下两点：
+                    <code>&lt;expr /&gt;</code>，
+                    <code>expr</code>可能引用环境自带的某些东西（比如，在DOM环境里的
+                    <code>div</code>或
+                    <code>span</code>）或者是你自定义的组件。 这是非常重要的，原因有如下两点：
                 </p>
                 <ol>
-                    <li>对于React，固有元素会生成字符串（<code>React.createElement(&quot;div&quot;)</code>），然而由你自定义的组件却不会生成（<code>React.createElement(MyComponent)</code>）。</li>
+                    <li>对于React，固有元素会生成字符串（
+                        <code>React.createElement(&quot;div&quot;)</code>），然而由你自定义的组件却不会生成（
+                        <code>React.createElement(MyComponent)</code>）。</li>
                     <li>传入JSX元素里的属性类型的查找方式不同。 固有元素属性
                         <em>本身</em>就支持，然而自定义的组件会自己去指定它们具有哪个属性。</li>
                 </ol>
-                <p>TypeScript使用<a href="http://facebook.github.io/react/docs/jsx-in-depth.html#html-tags-vs.-react-components">与React相同的规范</a>                    来区别它们。 固有元素总是以一个小写字母开头，基于值的元素总是以一个大写字母开头。
+                <p>TypeScript使用
+                    <a href="http://facebook.github.io/react/docs/jsx-in-depth.html#html-tags-vs.-react-components">与React相同的规范</a> 来区别它们。 固有元素总是以一个小写字母开头，基于值的元素总是以一个大写字母开头。
                 </p>
                 <h2>固有元素</h2>
-                <p>固有元素使用特殊的接口<code>JSX.IntrinsicElements</code>来查找。 默认地，如果这个接口没有指定，会全部通过，不对固有元素进行类型检查。 然而，如果这个接口存在，那么固有元素的名字需要在
+                <p>固有元素使用特殊的接口
+                    <code>JSX.IntrinsicElements</code>来查找。 默认地，如果这个接口没有指定，会全部通过，不对固有元素进行类型检查。 然而，如果这个接口存在，那么固有元素的名字需要在
                     <code>JSX.IntrinsicElements</code>接口的属性里查找。 例如：
                 </p>
                 <pre><code class="language-ts">declare namespace JSX {
@@ -136,9 +188,13 @@
 &lt;foo /&gt;; // 正确
 &lt;bar /&gt;; // 错误
 </code></pre>
-                <p>在上例中，<code>&lt;foo /&gt;</code>没有问题，但是<code>&lt;bar /&gt;</code>会报错，因为它没在<code>JSX.IntrinsicElements</code>里指定。</p>
+                <p>在上例中，
+                    <code>&lt;foo /&gt;</code>没有问题，但是
+                    <code>&lt;bar /&gt;</code>会报错，因为它没在
+                    <code>JSX.IntrinsicElements</code>里指定。</p>
                 <blockquote>
-                    <p>注意：你也可以在<code>JSX.IntrinsicElements</code>上指定一个用来捕获所有字符串索引：</p>
+                    <p>注意：你也可以在
+                        <code>JSX.IntrinsicElements</code>上指定一个用来捕获所有字符串索引：</p>
                     <pre><code class="language-ts">declare namespace JSX {
    interface IntrinsicElements {
        [elemName: string]: any;
@@ -153,9 +209,55 @@
 &lt;MyComponent /&gt;; // 正确
 &lt;SomeOtherComponent /&gt;; // 错误
 </code></pre>
-                <p>可以限制基于值的元素的类型。 然而，为了这么做我们需要引入两个新的术语：
-                    <em>元素类的类型</em>和<em>元素实例的类型</em>。</p>
-                <p>现在有<code>&lt;Expr /&gt;</code>，<em>元素类的类型</em>为<code>Expr</code>的类型。 所以在上面的例子里，如果
+                <p>有两种方式可以定义基于值的元素：</p>
+                <ol>
+                    <li>无状态函数组件 (SFC)</li>
+                    <li>类组件</li>
+                </ol>
+                <p>由于这两种基于值的元素在JSX表达式里无法区分，因此我们首先会尝试将表达式做为无状态函数组件进行解析。如果解析成功，那么我们就完成了表达式到其声明的解析操作。如果按照无状态函数组件解析失败，那么我们会继续尝试以类组件的形式进行解析。如果依旧失败，那么将输出一个错误。</p>
+                <h3>无状态函数组件</h3>
+                <p>正如其名，组件被定义成JavaScript函数，它的第一个参数是
+                    <code>props</code>对象。 我们强制它的返回值可以赋值给
+                    <code>JSX.Element</code>。</p>
+                <pre><code class="language-ts">interface FooProp {
+  name: string;
+  X: number;
+  Y: number;
+}
+
+declare function AnotherComponent(prop: {name: string});
+function ComponentFoo(prop: FooProp) {
+  return &lt;AnotherComponent name=prop.name /&gt;;
+}
+
+const Button = (prop: {value: string}, context: { color: string }) =&gt; &lt;button&gt;
+</code></pre>
+                <p>由于无状态函数组件是简单的JavaScript函数，所以我们还可以利用函数重载。</p>
+                <pre><code class="language-ts">interface ClickableProps {
+  children: JSX.Element[] | JSX.Element
+}
+
+interface HomeProps extends ClickableProps {
+  home: JSX.Element;
+}
+
+interface SideProps extends ClickableProps {
+  side: JSX.Element | string;
+}
+
+function MainButton(prop: HomeProps): JSX.Element;
+function MainButton(prop: SideProps): JSX.Element {
+  ...
+}
+</code></pre>
+                <h3>类组件</h3>
+                <p>我们可以限制类组件的类型。 然而，为了这么做我们需要引入两个新的术语：
+                    <em>元素类的类型</em>和
+                    <em>元素实例的类型</em>。</p>
+                <p>现在有
+                    <code>&lt;Expr /&gt;</code>，
+                    <em>元素类的类型</em>为
+                    <code>Expr</code>的类型。 所以在上面的例子里，如果
                     <code>MyComponent</code>是ES6的类，那么它的类类型就是这个类。 如果
                     <code>MyComponent</code>是个工厂函数，类类型为这个函数。</p>
                 <p>一旦建立起了类类型，实例类型就确定了，为类类型调用签名的返回值与构造签名的联合类型。 再次说明，在ES6类的情况下，实例类型为这个类的实例的类型，并且如果是工厂函数，实例类型为这个函数返回值类型。
@@ -183,8 +285,10 @@ var myComponent = MyFactoryFunction();
 // 元素类的类型 =&gt; FactoryFunction
 // 元素实例的类型 =&gt; { render: () =&gt; void }
 </code></pre>
-                <p>元素的实例类型很有趣，因为它必须赋值给<code>JSX.ElementClass</code>或抛出一个错误。 默认的
-                    <code>JSX.ElementClass</code>为<code>{}</code>，但是它可以被扩展用来限制JSX的类型以符合相应的接口。</p>
+                <p>元素的实例类型很有趣，因为它必须赋值给
+                    <code>JSX.ElementClass</code>或抛出一个错误。 默认的
+                    <code>JSX.ElementClass</code>为
+                    <code>{}</code>，但是它可以被扩展用来限制JSX的类型以符合相应的接口。</p>
                 <pre><code class="language-ts">declare namespace JSX {
   interface ElementClass {
     render: any;
@@ -210,9 +314,11 @@ function NotAValidFactoryFunction() {
 &lt;NotAValidFactoryFunction /&gt;; // 错误
 </code></pre>
                 <h2>属性类型检查</h2>
-                <p>属性类型检查的第一步是确定<em>元素属性类型</em>。 这在固有元素和基于值的元素之间稍有不同。
+                <p>属性类型检查的第一步是确定
+                    <em>元素属性类型</em>。 这在固有元素和基于值的元素之间稍有不同。
                 </p>
-                <p>对于固有元素，这是<code>JSX.IntrinsicElements</code>属性的类型。</p>
+                <p>对于固有元素，这是
+                    <code>JSX.IntrinsicElements</code>属性的类型。</p>
                 <pre><code class="language-ts">declare namespace JSX {
   interface IntrinsicElements {
     foo: { bar?: boolean }
@@ -257,7 +363,8 @@ class MyComponent {
 &lt;foo requiredProp=&quot;bar&quot; some-unknown-prop /&gt;; // 正确, `some-unknown-prop`不是个合法的标识符
 </code></pre>
                 <blockquote>
-                    <p>注意：如果一个属性名不是个合法的JS标识符（像<code>data-*</code>属性），并且它没出现在元素属性类型里时不会当做一个错误。</p>
+                    <p>注意：如果一个属性名不是个合法的JS标识符（像
+                        <code>data-*</code>属性），并且它没出现在元素属性类型里时不会当做一个错误。</p>
                 </blockquote>
                 <p>延展操作符也可以使用：</p>
                 <pre><code class="language-JSX">var props = { requiredProp: 'bar' };
@@ -266,11 +373,82 @@ class MyComponent {
 var badProps = {};
 &lt;foo {...badProps} /&gt;; // 错误
 </code></pre>
+                <h2>子孙类型检查</h2>
+                <p>从TypeScript 2.3开始，我们引入了
+                    <em>children</em>类型检查。
+                    <em>children</em>是
+                    <em>元素属性(attribute)类型</em>的一个属性(property)。 与使用
+                    <code>JSX.ElementAttributesProperty</code>来决定
+                    <em>props</em>名类似，我们可以利用
+                    <code>JSX.ElementChildrenAttribute</code>来决定
+                    <em>children</em>名。
+                    <code>JSX.ElementChildrenAttribute</code>应该被声明在单一的属性(property)里。</p>
+                <pre><code class="language-ts">declare namespace JSX {
+  interface ElementChildrenAttribute {
+    children: {};  // specify children name to use
+  }
+}
+</code></pre>
+                <p>如不特殊指定子孙的类型，我们将使用
+                    <a href="https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react">React typings</a>里的默认类型。</p>
+                <pre><code class="language-ts">&lt;div&gt;
+  &lt;h1&gt;Hello&lt;/h1&gt;
+&lt;/div&gt;;
+
+&lt;div&gt;
+  &lt;h1&gt;Hello&lt;/h1&gt;
+  World
+&lt;/div&gt;;
+
+const CustomComp = (props) =&gt; &lt;div&gt;props.children&lt;/div&gt;
+&lt;CustomComp&gt;
+  &lt;div&gt;Hello World&lt;/div&gt;
+  {&quot;This is just a JS expression...&quot; + 1000}
+&lt;/CustomComp&gt;
+</code></pre>
+                <p>你也可以像其它属性一样指定
+                    <em>children</em>的类型。下面我们重写
+                    <a href="https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react">React typings</a>里的默认类型。</p>
+                <pre><code class="language-ts">interface PropsType {
+  children: JSX.Element
+  name: string
+}
+
+class Component extends React.Component&lt;PropsType, {}&gt; {
+  render() {
+    return (
+      &lt;h2&gt;
+        this.props.children
+      &lt;/h2&gt;
+    )
+  }
+}
+
+// OK
+&lt;Component&gt;
+  &lt;h1&gt;Hello World&lt;/h1&gt;
+&lt;/Component&gt;
+
+// Error: children is of type JSX.Element not array of JSX.Element
+&lt;Component&gt;
+  &lt;h1&gt;Hello World&lt;/h1&gt;
+  &lt;h2&gt;Hello World&lt;/h2&gt;
+&lt;/Component&gt;
+
+// Error: children is of type JSX.Element not array of JSX.Element or string.
+&lt;Component&gt;
+  &lt;h1&gt;Hello&lt;/h1&gt;
+  World
+&lt;/Component&gt;
+</code></pre>
                 <h1>JSX结果类型</h1>
-                <p>默认地JSX表达式结果的类型为<code>any。 你可以自定义这个类型，通过指定</code>JSX.Element`接口。 然而，不能够从接口里检索元素，属性或JSX的子元素的类型信息。 它是一个黑盒。
+                <p>默认地JSX表达式结果的类型为
+                    <code>any</code>。 你可以自定义这个类型，通过指定
+                    <code>JSX.Element</code>接口。 然而，不能够从接口里检索元素，属性或JSX的子元素的类型信息。 它是一个黑盒。
                 </p>
                 <h1>嵌入的表达式</h1>
-                <p>JSX允许你使用<code>{ }</code>标签来内嵌表达式。</p>
+                <p>JSX允许你使用
+                    <code>{ }</code>标签来内嵌表达式。</p>
                 <pre><code class="language-JSX">var a = &lt;div&gt;
   {['foo', 'bar'].map(i =&gt; &lt;span&gt;{i / 2}&lt;/span&gt;)}
 &lt;/div&gt;
@@ -282,8 +460,8 @@ var badProps = {};
 &lt;/div&gt;
 </code></pre>
                 <h1>React整合</h1>
-                <p>要想一起使用JSX和React，你应该使用<a href="https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react">React类型定义</a>。
-                    这些类型声明定义了
+                <p>要想一起使用JSX和React，你应该使用
+                    <a href="https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react">React类型定义</a>。 这些类型声明定义了
                     <code>JSX</code>合适命名空间来使用React。</p>
                 <pre><code class="language-ts">/// &lt;reference path=&quot;react.d.ts&quot; /&gt;
 

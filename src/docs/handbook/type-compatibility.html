@@ -234,8 +234,7 @@ identity = reverse;  // Okay because (x: any)=&gt;any matches (y: any)=&gt;any
                 <h2>子类型与赋值</h2>
                 <p>目前为止，我们使用了<code>兼容性</code>，它在语言规范里没有定义。 在TypeScript里，有两种类型的兼容性：子类型与赋值。 它们的不同点在于，赋值扩展了子类型兼容，允许给
                     <code>any</code>赋值或从<code>any</code>取值和允许数字赋值给枚举类型或枚举类型赋值给数字。</p>
-                <p>语言里的不同地方分别使用了它们之中的机制。 实际上，类型兼容性是由赋值兼容性来控制的甚至在
-                    <code>implements</code>和<code>extends</code>语句里。 更多信息，请参阅
+                <p>语言里的不同地方分别使用了它们之中的机制。 实际上，类型兼容性是由赋值兼容性来控制的，即使在<code>implements</code>和<code>extends</code>语句也不例外。 更多信息，请参阅
                     <a href="https://github.com/Microsoft/TypeScript/blob/master/doc/spec.md">TypeScript语言规范</a>.</p>
             </article>
         </div>

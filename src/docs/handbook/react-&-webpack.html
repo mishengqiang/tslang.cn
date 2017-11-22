@@ -78,7 +78,7 @@ cd ..
 				<p>现在把这个目录变成npm包。</p>
 				<pre><code class="language-shell">npm init
 </code></pre>
-				<p>你会看到一些提示。 你可以使用默认项除了开始脚本。 当然，你也可以随时到生成的
+				<p>你会看到一些提示，放心地使用默认值就可以了。 当然，你也可以随时到生成的
 					<code>package.json</code>文件里修改。</p>
 				<h1>安装依赖</h1>
 				<p>首先确保已经全局安装了Webpack。</p>
@@ -130,14 +130,14 @@ export interface HelloProps { compiler: string; framework: string; }
 export const Hello = (props: HelloProps) =&gt; &lt;h1&gt;Hello from {props.compiler} and {props.framework}!&lt;/h1&gt;;
 
 </code></pre>
-				<p>注意这个例子使用了<a href="https://facebook.github.io/react/docs/reusable-components.html#stateless-functions">无状态的功能组件</a>)，我们可以让它更像一点<em>类</em>。</p>
+				<p>注意这个例子使用了<a href="https://facebook.github.io/react/docs/reusable-components.html#stateless-functions">无状态的功能组件</a>，我们可以让它更像一点<em>类</em>。</p>
 				<pre><code class="language-ts">import * as React from &quot;react&quot;;
 
 export interface HelloProps { compiler: string; framework: string; }
 
 // 'HelloProps' describes the shape of props.
-// State is never set so we use the 'undefined' type.
-export class Hello extends React.Component&lt;HelloProps, undefined&gt; {
+// State is never set so we use the '{}' type.
+export class Hello extends React.Component&lt;HelloProps, {}&gt; {
     render() {
         return &lt;h1&gt;Hello from {this.props.compiler} and {this.props.framework}!&lt;/h1&gt;;
     }
@@ -169,8 +169,8 @@ ReactDOM.render(
         &lt;div id=&quot;example&quot;&gt;&lt;/div&gt;
 
         &lt;!-- Dependencies --&gt;
-        &lt;script src=&quot;./node_modules/react/dist/react.js&quot;&gt;&lt;/script&gt;
-        &lt;script src=&quot;./node_modules/react-dom/dist/react-dom.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;./node_modules/react/umd/react.development.js&quot;&gt;&lt;/script&gt;
+        &lt;script src=&quot;./node_modules/react-dom/umd/react-dom.development.js&quot;&gt;&lt;/script&gt;
 
         &lt;!-- Main --&gt;
         &lt;script src=&quot;./dist/bundle.js&quot;&gt;&lt;/script&gt;
@@ -222,7 +222,7 @@ ReactDOM.render(
 				<p>理想情况下，我们只需要在浏览器里引入React模块，但是大部分浏览器还没有支持模块。 因此大部分代码库会把自己包裹在一个单独的全局变量内，比如：
 					<code>jQuery</code>或<code>_</code>。 这叫做“命名空间”模式，webpack也允许我们继续使用通过这种方式写的代码库。 通过我们的设置
 					<code>&quot;react&quot;: &quot;React&quot;</code>，webpack会神奇地将所有对<code>&quot;react&quot;</code>的导入转换成从<code>React</code>全局变量中加载。</p>
-				<p>你可以在<a href="http://webpack.github.io/docs/configuration.html">这里</a>了解更多如何配置webpack。</p>
+				<p>你可以在<a href="https://webpack.js.org/concepts">这里</a>了解更多如何配置webpack。</p>
 				<h1>整合在一起</h1>
 				<p>执行：</p>
 				<pre><code class="language-shell">webpack
