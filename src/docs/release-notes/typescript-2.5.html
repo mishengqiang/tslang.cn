@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TypeScript 2.5 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">TypeScript 2.5</h1>
+            </header>
+            <article class="post-content">
+                <h2>可选的
+                    <code>catch</code>语句变量</h2>
+                <p>得益于
+                    <a href="https://github.com/tinganho">@tinganho</a>所做的工作，TypeScript 2.5实现了一个新的ECMAScript特性，允许用户省略
+                    <code>catch</code>语句中的变量。 例如，当使用
+                    <code>JSON.parse</code>时，你可能需要将对应的函数调用放在
+                    <code>try</code> /
+                    <code>catch</code>中，但是最后可能并不会用到输入有误时会抛出的
+                    <code>SyntaxError</code>（语法错误）。</p>
+                <pre><code class="language-ts">let input = &quot;...&quot;;
+try {
+    JSON.parse(input);
+}
+catch {
+    // ^ 注意我们的 `catch` 语句并没有声明一个变量
+    console.log(&quot;传入的 JSON 不合法\n\n&quot; + input)
+} 
+</code></pre>
+                <h2>
+                    <code>checkJs</code>/
+                    <code>@ts-check</code> 模式中的类型断言/转换语法</h2>
+                <p>TypeScript 2.5 引入了在
+                    <a href="https://github.com/Microsoft/TypeScript/issues/5158">使用纯 JavaScript 的项目中断言表达式类型</a>的能力。对应的语法是
+                    <code>/** @type {...} */</code>标注注释后加上被圆括号括起来，类型需要被重新演算的表达式。举例:</p>
+                <pre><code class="language-ts">var x = /** @type {SomeType} */ (AnyParenthesizedExpression);
+</code></pre>
+                <h2>包去重和重定向</h2>
+                <p>在 TypeScript 2.5 中使用
+                    <code>Node</code>模块解析策略进行导入时，编译器现在会检查文件是否来自 &quot;相同&quot; 的包。如果一个文件所在的包的
+                    <code>package.json</code>包含了与之前读取的包相同的
+                    <code>name</code>和
+                    <code>version</code>，那么TypeScript会将它重定向到最顶层的包。这可以解决两个包可能会包含相同的类声明，但因为包含
+                    <code>private</code>成员导致他们在结构上不兼容的问题.</p>
+                <p>这也带来一个额外的好处，可以通过避免从重复的包中加载
+                    <code>.d.ts</code>文件减少内存使用和编译器及语言服务的运行时计算.</p>
+                <h2>
+                    <code>--preserveSymlinks</code>（保留符号链接）编译器选项</h2>
+                <p>TypeScript 2.5带来了
+                    <code>preserveSymlinks</code>选项，它对应了
+                    <a href="https://nodejs.org/api/cli.html#cli_preserve_symlinks">Node.js 中
+                        <code>--preserve-symlinks</code>选项</a>的行为。这一选项也会带来和Webpack的
+                    <code>resolve.symlinks</code>选项相反的行为（也就是说，将TypeScript的
+                    <code>preserveSymlinks</code>选项设置为
+                    <code>true</code>对应了将Webpack的
+                    <code>resolve.symlinks</code>选项设为
+                    <code>false</code>，反之亦然）。</p>
+                <p>在这一模式中，对于模块和包的引用（比如
+                    <code>import</code>语句和
+                    <code>/// &lt;reference type=&quot;..&quot; /&gt;</code>指令）都会以相对符号链接文件的位置被解析，而不是相对于符号链接解析到的路径。更具体的例子，可以参考
+                    <a href="https://nodejs.org/api/cli.html#cli_preserve_symlinks">Node.js网站的文档</a>。</p>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>
