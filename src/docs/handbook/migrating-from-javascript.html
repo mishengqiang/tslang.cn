@@ -315,7 +315,7 @@ foo!.length; // okay - 'foo!' just has type 'string[]'
 				<p>当你在类的外部使用<code>this</code>关键字时，它会默认获得<code>any</code>类型。 比如，假设有一个
 					<code>Point</code>类，并且我们要添加一个函数做为它的方法：</p>
 				<pre><code class="language-ts">class Point {
-    constuctor(public x, public y) {}
+    constructor(public x, public y) {}
     getDistance(p: Point) {
         let dx = p.x - this.x;
         let dy = p.y - this.y;
