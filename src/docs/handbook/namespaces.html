@@ -192,7 +192,7 @@ validators[&quot;Letters only&quot;] = new Validation.LettersOnlyValidator();
 // Show whether each string passed each validator
 for (let s of strings) {
     for (let name in validators) {
-        console.log(&quot;&quot;&quot; + s + &quot;&quot; &quot; + (validators[name].isAcceptable(s) ? &quot; matches &quot; : &quot; does not match &quot;) + name);
+        console.log(`&quot;${ s }&quot; - ${ validators[name].isAcceptable(s) ? &quot;matches&quot; : &quot;does not match&quot; } ${ name }`);
     }
 }
 </code></pre>

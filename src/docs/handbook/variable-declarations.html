@@ -135,7 +135,7 @@ f(false); // returns 'undefined'
 </code></pre>
                 <p>这里很容易看出一些问题，里层的<code>for</code>循环会覆盖变量<code>i</code>，因为所有<code>i</code>都引用相同的函数作用域内的变量。 有经验的开发者们很清楚，这些问题可能在代码审查时漏掉，引发无穷的麻烦。
                 </p>
-                <h2>变量获取怪异之处</h2>
+                <h2>捕获变量怪异之处</h2>
                 <p>快速的猜一下下面的代码会返回什么：</p>
                 <pre><code class="language-ts">for (var i = 0; i &lt; 10; i++) {
     setTimeout(function() { console.log(i); }, 100 * i);
@@ -167,11 +167,11 @@ f(false); // returns 'undefined'
 8
 9
 </code></pre>
-                <p>还记得我们上面讲的变量获取吗？</p>
+                <p>还记得我们上面提到的捕获变量吗？</p>
                 <blockquote>
-                    <p>每当<code>g</code>被调用时，它都可以访问到<code>f</code>里的<code>a</code>变量。</p>
+                    <p>我们传给<code>setTimeout</code>的每一个函数表达式实际上都引用了相同作用域里的同一个<code>i</code>。</p>
                 </blockquote>
-                <p>让我们花点时间考虑在这个上下文里的情况。
+                <p>让我们花点时间思考一下这是为什么。
                     <code>setTimeout</code>在若干毫秒后执行一个函数，并且是在<code>for</code>循环结束后。
                     <code>for</code>循环结束后，<code>i</code>的值为<code>10</code>。 所以当函数被调用的时候，它会打印出
                     <code>10</code>！</p>
@@ -371,9 +371,8 @@ kitty.numLives--;
                 <p>使用<a href="https://en.wikipedia.org/wiki/Principle_of_least_privilege">最小特权原则</a>，所有变量除了你计划去修改的都应该使用<code>const</code>。
                     基本原则就是如果一个变量不需要对它写入，那么其它使用这些代码的人也不能够写入它们，并且要思考为什么会需要对这些变量重新赋值。 使用
                     <code>const</code>也可以让我们更容易的推测数据的流动。</p>
-                <p>另一方面，用户很喜欢<code>let</code>的简洁性。 这个手册大部分地方都使用了
-                    <code>let</code>。</p>
                 <p>跟据你的自己判断，如果合适的话，与团队成员商议一下。</p>
+                <p>这个手册大部分地方都使用了<code>let</code>声明。</p>
                 <h1>解构</h1>
                 <p>Another TypeScript已经可以解析其它 ECMAScript 2015 特性了。 完整列表请参见 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">the article on the Mozilla Developer Network</a>。
                     本章，我们将给出一个简短的概述。

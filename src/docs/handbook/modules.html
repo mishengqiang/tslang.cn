@@ -62,7 +62,7 @@
                 <p>模块是自声明的；两个模块之间的关系是通过在文件级别上使用imports和exports建立的。</p>
                 <p>模块使用模块加载器去导入其它的模块。 在运行时，模块加载器的作用是在执行此模块代码前去查找并执行这个模块的所有依赖。 大家最熟知的JavaScript模块加载器是服务于Node.js的
                     <a href="https://en.wikipedia.org/wiki/CommonJS">CommonJS</a>和服务于Web应用的<a href="http://requirejs.org/">Require.js</a>。</p>
-                <p>TypeScript与ECMAScript 2015一样，任何包含顶级<code>import</code>或者<code>export</code>的文件都被当成一个模块。</p>
+                <p>TypeScript与ECMAScript 2015一样，任何包含顶级<code>import</code>或者<code>export</code>的文件都被当成一个模块。相反地，如果一个文件不带有顶级的<code>import</code>或者<code>export</code>声明，那么它的内容被视为全局可见的（因此对模块也是可见的）。</p>
                 <h1><a name="export"></a>导出</h1>
                 <h2>导出声明</h2>
                 <p>任何声明（比如变量，函数，类，类型别名或接口）都能够通过添加<code>export</code>关键字来导出。</p>
@@ -219,8 +219,7 @@ strings.forEach(s =&gt; {
 </code></pre>
                 <h1>生成模块代码</h1>
                 <p>根据编译时指定的模块目标参数，编译器会生成相应的供Node.js (<a href="http://wiki.commonjs.org/wiki/CommonJS">CommonJS</a>)，Require.js
-                    (<a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a>)，isomorphic (<a href="https://github.com/umdjs/umd">UMD</a>),
-                    <a href="https://github.com/systemjs/systemjs">SystemJS</a>或<a href="http://www.ecma-international.org/ecma-262/6.0/#sec-modules">ECMAScript 2015 native modules</a>                    (ES6)模块加载系统使用的代码。 想要了解生成代码中
+                    (<a href="https://github.com/amdjs/amdjs-api/wiki/AMD">AMD</a>)，<a href="https://github.com/umdjs/umd">UMD</a>，<a href="https://github.com/systemjs/systemjs">SystemJS</a>或<a href="http://www.ecma-international.org/ecma-262/6.0/#sec-modules">ECMAScript 2015 native modules</a>                    (ES6)模块加载系统使用的代码。 想要了解生成代码中
                     <code>define</code>，<code>require</code> 和 <code>register</code>的意义，请参考相应模块加载器的文档。</p>
                 <p>下面的例子说明了导入导出语句里使用的名字是怎么转换为相应的模块加载器代码的。</p>
                 <h5>SimpleModule.ts</h5>
@@ -270,7 +269,7 @@ export let t = something + 1;
 </code></pre>
                 <h1>简单示例</h1>
                 <p>下面我们来整理一下前面的验证器实现，每个模块只有一个命名的导出。</p>
-                <p>为了编译，我们必需要在命令行上指定一个模块目标。对于Node.js来说，使用<code>--module commonjs</code>； 对于Require.js来说，使用``--module amd`。比如：</p>
+                <p>为了编译，我们必需要在命令行上指定一个模块目标。对于Node.js来说，使用<code>--module commonjs</code>； 对于Require.js来说，使用<code>--module amd</code>。比如：</p>
                 <pre><code class="language-Shell">tsc --module commonjs Test.ts
 </code></pre>
                 <p>编译完成后，每个模块会生成一个单独的<code>.js</code>文件。 好比使用了reference标签，编译器会根据
@@ -347,7 +346,7 @@ if (needZipValidation) {
                 <h5>示例：require.js里的动态模块加载</h5>
                 <pre><code class="language-ts">declare function require(moduleNames: string[], onLoad: (...args: any[]) =&gt; void): void;
 
-import  * as Zip from &quot;./ZipCodeValidator&quot;;
+import * as Zip from &quot;./ZipCodeValidator&quot;;
 
 if (needZipValidation) {
     require([&quot;./ZipCodeValidator&quot;], (ZipCodeValidator: typeof Zip) =&gt; {
@@ -432,7 +431,7 @@ console.log(data, fileContent);
 </code></pre>
                 <h3>UMD模块</h3>
                 <p>有些模块被设计成兼容多个模块加载器，或者不使用模块加载器（全局变量）。 它们以
-                    <a href="https://github.com/umdjs/umd">UMD</a>或<a href="http://isomorphic.net">Isomorphic</a>模块为代表。 这些库可以通过导入的形式或全局变量的形式访问。
+                    <a href="https://github.com/umdjs/umd">UMD</a>模块为代表。 这些库可以通过导入的形式或全局变量的形式访问。
                     例如：
                 </p>
                 <h5>math-lib.d.ts</h5>
@@ -442,9 +441,9 @@ export as namespace mathLib;
                 <p>之后，这个库可以在某个模块里通过导入来使用：</p>
                 <pre><code class="language-ts">import { isPrime } from &quot;math-lib&quot;;
 isPrime(2);
-mathLib.isPrime(2); // ERROR: can't use the global definition from inside a module
+mathLib.isPrime(2); // 错误: 不能在模块内使用全局定义。
 </code></pre>
-                <p>它同样可以通过全局变量的形式使用，但只能在某个脚本里。 （脚本是指一个不带有导入或导出的文件。）
+                <p>它同样可以通过全局变量的形式使用，但只能在某个脚本（指不带有模块导入或导出的脚本文件）里。
                 </p>
                 <pre><code class="language-ts">mathLib.isPrime(2);
 </code></pre>

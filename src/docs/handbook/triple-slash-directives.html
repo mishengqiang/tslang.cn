@@ -73,16 +73,20 @@
                 <h3>使用 <code>--noResolve</code></h3>
                 <p>如果指定了<code>--noResolve</code>编译选项，三斜线引用会被忽略；它们不会增加新文件，也不会改变给定文件的顺序。</p>
                 <h2><code>/// &lt;reference types=&quot;...&quot; /&gt;</code></h2>
-                <p>与<code>/// &lt;reference path=&quot;...&quot; /&gt;</code>指令相似，这个指令是用来声明<em>依赖</em>的； 一个
-                    <code>/// &lt;reference path=&quot;...&quot; /&gt;</code>指令声明了对<code>@types</code>包的一个依赖。</p>
-                <p>在声明文件里包含<code>/// &lt;reference types=&quot;node&quot; /&gt;</code>，表明这个文件使用了<code>@types/node/index.d.ts</code>里面声明的名字；
-                    并且，这个包要在编译阶段与声明文件一起被包含进来。
+                <p>与
+                    <code>/// &lt;reference path=&quot;...&quot; /&gt;</code>指令相似，这个指令是用来声明
+                    <em>依赖</em>的； 一个
+                    <code>/// &lt;reference types=&quot;...&quot; /&gt;</code>指令则声明了对某个包的依赖。</p>
+                <p>对这些包的名字的解析与在
+                    <code>import</code>语句里对模块名的解析类似。 可以简单地把三斜线类型引用指令当做
+                    <code>import</code>声明的包。</p>
+                <p>例如，把
+                    <code>/// &lt;reference types=&quot;node&quot; /&gt;</code>引入到声明文件，表明这个文件使用了
+                    <code>@types/node/index.d.ts</code>里面声明的名字； 并且，这个包需要在编译阶段与声明文件一起被包含进来。
                 </p>
-                <p>解析<code>@types</code>包的名字的过程与解析<code>import</code>语句里模块名的过程类似。 所以可以简单的把三斜线类型引用指令想像成针对包的
-                    <code>import</code>声明。</p>
                 <p>仅当在你需要写一个<code>d.ts</code>文件时才使用这个指令。</p>
                 <p>对于那些在编译阶段生成的声明文件，编译器会自动地添加<code>/// &lt;reference types=&quot;...&quot; /&gt;</code>；
-                    <em>当且仅当</em>结果文件中使用了引用的<code>@types</code>包里的声明时才会在生成的声明文件里添加<code>/// &lt;reference types=&quot;...&quot; /&gt;</code>语句。</p>
+                    <em>当且仅当</em>结果文件中使用了引用的包里的声明时才会在生成的声明文件里添加<code>/// &lt;reference types=&quot;...&quot; /&gt;</code>语句。</p>
                 <p>若要在<code>.ts</code>文件里声明一个对<code>@types</code>包的依赖，使用<code>--types</code>命令行选项或在<code>tsconfig.json</code>里指定。
                     查看
                     <a href="./tsconfig-json.html#types-typeroots-and-types">在<code>tsconfig.json</code>里使用<code>@types</code>，<code>typeRoots</code>和<code>types</code></a>了解详情。</p>

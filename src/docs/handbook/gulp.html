@@ -350,7 +350,7 @@ cat dist/bundle.js
 				<h2>Babel</h2>
 				<p>首先安装Babelify和ES2015的Babel预置程序。 和Uglify一样，Babelify也会混淆代码，因此我们也需要vinyl-buffer和gulp-sourcemaps。 默认情况下Babelify只会处理扩展名为
 					<code>.js</code>，<code>.es</code>，<code>.es6</code>和<code>.jsx</code>的文件，因此我们需要添加<code>.ts</code>扩展名到Babelify选项。</p>
-				<pre><code class="language-shell">npm install --save-dev babelify babel-preset-es2015 vinyl-buffer gulp-sourcemaps
+				<pre><code class="language-shell">npm install --save-dev babelify babel-core babel-preset-es2015 vinyl-buffer gulp-sourcemaps
 </code></pre>
 				<p>修改gulpfile文件如下：</p>
 				<pre><code class="language-js">var gulp = require('gulp');

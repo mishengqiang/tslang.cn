@@ -49,7 +49,7 @@
 				<h1 class="post-title">React & Webpack</h1>
 			</header>
 			<article class="post-content">
-				<p>这篇指南将会教你如何将TypeScript和<a href="http://facebook.github.io/react/">React</a>还有<a href="http://webpack.github.io/">webpack</a>结合在一起使用。</p>
+				<p>这篇指南将会教你如何将TypeScript和<a href="https://reactjs.org/">React</a>还有<a href="http://webpack.github.io/">webpack</a>结合在一起使用。</p>
 				<p>如果你正在做一个全新的工程，可以先阅读这篇<a href="/samples/index.html">React快速上手指南</a>。</p>
 				<p>否则，我们假设已经在使用<a href="https://nodejs.org/">Node.js</a>和<a href="https://www.npmjs.com/">npm</a>。</p>
 				<h1>初始化项目结构</h1>
@@ -130,7 +130,7 @@ export interface HelloProps { compiler: string; framework: string; }
 export const Hello = (props: HelloProps) =&gt; &lt;h1&gt;Hello from {props.compiler} and {props.framework}!&lt;/h1&gt;;
 
 </code></pre>
-				<p>注意这个例子使用了<a href="https://facebook.github.io/react/docs/reusable-components.html#stateless-functions">无状态的功能组件</a>，我们可以让它更像一点<em>类</em>。</p>
+				<p>注意这个例子使用了<a href="https://reactjs.org/docs/components-and-props.html#functional-and-class-components">无状态的功能组件</a>，我们可以让它更像一点<em>类</em>。</p>
 				<pre><code class="language-ts">import * as React from &quot;react&quot;;
 
 export interface HelloProps { compiler: string; framework: string; }
@@ -179,7 +179,7 @@ ReactDOM.render(
 </code></pre>
 				<p>需要注意一点我们是从<code>node_modules</code>引入的文件。 React和React-DOM的npm包里包含了独立的
 					<code>.js</code>文件，你可以在页面上引入它们，这里我们为了快捷就直接引用了。 可以随意地将它们拷贝到其它目录下，或者从CDN上引用。 Facebook在CND上提供了一系列可用的React版本，你可以在这里查看
-					<a href="http://facebook.github.io/react/downloads.html#development-vs.-production-builds">更多内容</a>。</p>
+					<a href="https://reactjs.org/docs/cdn-links.html">更多内容</a>。</p>
 				<h1>创建一个webpack配置文件</h1>
 				<p>在工程根目录下创建一个<code>webpack.config.js</code>文件。</p>
 				<pre><code class="language-js">module.exports = {

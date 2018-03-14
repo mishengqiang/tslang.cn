@@ -568,6 +568,13 @@
                             </tr>
                             <tr>
                                 <td>
+                                    <code>--strictPropertyInitialization</code>
+                                </td>
+                                <td>TypeScriptStrictPropertyInitialization</td>
+                                <td>布尔值</td>
+                            </tr>
+                            <tr>
+                                <td>
                                     <code>--strictNullChecks</code>
                                 </td>
                                 <td>TypeScriptStrictNullChecks</td>
@@ -659,7 +666,7 @@
                     <code>tsc</code>编译选项的映射都在那里。</p>
                 <h2>ToolsVersion</h2>
                 <p>工程文件里的
-                    <code>&lt;TypeScriptToolsVersion&gt;1.7&lt;/TypeScriptToolsVersion&gt;</code>属性值表明了构建时使用的编译器的版本号（这个例子里是1.7） 这样就允许一个工程在不同的机器上使用固定的版本去编译。
+                    <code>&lt;TypeScriptToolsVersion&gt;1.7&lt;/TypeScriptToolsVersion&gt;</code>属性值表明了构建时使用的编译器的版本号（这个例子里是1.7）这样就允许一个工程在不同的机器上使用相同版本的编译器进行构建。
                 </p>
                 <p>如果没有指定
                     <code>TypeScriptToolsVersion</code>，则会使用机器上安装的最新版本的编译器去构建。</p>

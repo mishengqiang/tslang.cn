@@ -110,7 +110,7 @@ function f(a: A, b: B) {
     b = a;  // Ok
 }
 </code></pre>
-                <h2>回调参数的严格逆变</h2>
+                <h2>回调参数的严格抗变</h2>
                 <p>TypeScript一直是以双变（bivariant）的方式来比较参数。 这样做有很多原因，总体上来说这不会有什么大问题直到我们发现它应用在
                     <code>Promise</code>和<code>Observable</code>上时有些副作用。</p>
                 <p>TypeScript 2.4在处理两个回调类型时引入了收紧机制。例如：</p>
@@ -127,7 +127,7 @@ b = a;
                 <p>在TypeScript 2.4之前，它会成功执行。 当关联
                     <code>map</code>的类型时，TypeScript会双向地关联它们的类型（例如<code>f</code>的类型）。 当关联每个
                     <code>f</code>的类型时，TypeScript也会双向地关联那些参数的类型。</p>
-                <p>TS 2.4里关联<code>map</code>的类型时，TypeScript会检查是否每个参数都是回调类型，如果是的话，它会确保那些参数根据它所在的位置以逆变（contravariant）地方式进行检查。</p>
+                <p>TS 2.4里关联<code>map</code>的类型时，TypeScript会检查是否每个参数都是回调类型，如果是的话，它会确保那些参数根据它所在的位置以抗变（contravariant）地方式进行检查。</p>
                 <p>换句话说，TypeScript现在可以捕获上面的bug，这对某些用户来说可能是一个破坏性改动，但却是非常帮助的。</p>
                 <h2>弱类型（Weak Type）探测</h2>
                 <p>TypeScript 2.4引入了“弱类型”的概念。 任何只包含了可选属性的类型被当作是“weak”。 比如，下面的

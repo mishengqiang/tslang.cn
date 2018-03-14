@@ -50,8 +50,10 @@
             </header>
             <article class="post-content">
                 <h1>枚举</h1>
-                <p>使用枚举我们可以定义一些有名字的数字常量。 枚举通过
-                    <code>enum</code>关键字来定义。</p>
+                <p>使用枚举我们可以定义一些带名字的常量。 使用枚举可以清晰地表达意图或创建一组有区别的用例。 TypeScript支持数字的和基于字符串的枚举。
+                </p>
+                <h2>数字枚举</h2>
+                <p>首先我们看看数字枚举，如果你使用过其它编程语言应该会很熟悉。</p>
                 <pre><code class="language-ts">enum Direction {
     Up = 1,
     Down,
@@ -59,22 +61,125 @@
     Right
 }
 </code></pre>
-                <p>一个枚举类型可以包含零个或多个枚举成员。 枚举成员具有一个数字值，它可以是
-                    <em>常数</em>或是<em>计算得出的值</em> 当满足如下条件时，枚举成员被当作是常数：
+                <p>如上，我们定义了一个数字枚举，
+                    <code>Up</code>使用初始化为
+                    <code>1</code>。 其余的成员会从
+                    <code>1</code>开始自动增长。 换句话说，
+                    <code>Direction.Up</code>的值为
+                    <code>1</code>，
+                    <code>Down</code>为
+                    <code>2</code>，
+                    <code>Left</code>为
+                    <code>3</code>，
+                    <code>Right</code>为
+                    <code>4</code>。</p>
+                <p>我们还可以完全不使用初始化器：</p>
+                <pre><code class="language-ts">enum Direction {
+    Up,
+    Down,
+    Left,
+    Right,
+}
+</code></pre>
+                <p>现在，
+                    <code>Up</code>的值为
+                    <code>0</code>，
+                    <code>Down</code>的值为
+                    <code>1</code>等等。 当我们不在乎成员的值的时候，这种自增长的行为是很有用处的，但是要注意每个枚举成员的值都是不同的。
+                </p>
+                <p>使用枚举很简单：通过枚举的属性来访问枚举成员，和枚举的名字来访问枚举类型：</p>
+                <pre><code class="language-ts">enum Response {
+    No = 0,
+    Yes = 1,
+}
+
+function respond(recipient: string, message: Response): void {
+    // ...
+}
+
+respond(&quot;Princess Caroline&quot;, Response.Yes)
+</code></pre>
+                <p>数字枚举可以被混入到
+                    <a href="#computed-and-constant-members">计算过的和常量成员（如下所示）</a>。 简短地说，不带初始化器的枚举或者被放在第一的位置，或者被放在使用了数字常量或其它常量初始化了的枚举后面。 换句话说，下面的情况是不被允许的：
+                </p>
+                <pre><code class="language-ts">enum E {
+    A = getSomeValue(),
+    B, // error! 'A' is not constant-initialized, so 'B' needs an initializer
+}
+</code></pre>
+                <h2>字符串枚举</h2>
+                <p>字符串枚举的概念很简单，但是有细微的
+                    <a href="#enums-at-runtime">运行时的差别</a>。 在一个字符串枚举里，每个成员都必须用字符串字面量，或另外一个字符串枚举成员进行初始化。
+                </p>
+                <pre><code class="language-ts">enum Direction {
+    Up = &quot;UP&quot;,
+    Down = &quot;DOWN&quot;,
+    Left = &quot;LEFT&quot;,
+    Right = &quot;RIGHT&quot;,
+}
+</code></pre>
+                <p>由于字符串枚举没有自增长的行为，字符串枚举可以很好的序列化。 换句话说，如果你正在调试并且必须要读一个数字枚举的运行时的值，这个值通常是很难读的 - 它并不能表达有用的信息（尽管
+                    <a href="#enums-at-runtime">反向映射</a>会有所帮助），字符串枚举允许你提供一个运行时有意义的并且可读的值，独立于枚举成员的名字。</p>
+                <h2>异构枚举（Heterogeneous enums）</h2>
+                <p>从技术的角度来说，枚举可以混合字符串和数字成员，但是似乎你并不会这么做：</p>
+                <pre><code class="language-ts">enum BooleanLikeHeterogeneousEnum {
+    No = 0,
+    Yes = &quot;YES&quot;,
+}
+</code></pre>
+                <p>除非你真的想要利用JavaScript运行时的行为，否则我们不建议这样做。</p>
+                <h2 id="computed-and-constant-members">计算的和常量成员</h2>
+                <p>每个枚举成员都带有一个值，它可以是
+                    <em>常量</em>或
+                    <em>计算出来的</em>。 当满足如下条件时，枚举成员被当作是常量：
                 </p>
                 <ul>
-                    <li>不具有初始化函数并且之前的枚举成员是常数。 在这种情况下，当前枚举成员的值为上一个枚举成员的值加1。 但第一个枚举元素是个例外。 如果它没有初始化方法，那么它的初始值为
-                        <code>0</code>。</li>
-                    <li>枚举成员使用<em>常数枚举表达式</em>初始化。 常数枚举表达式是TypeScript表达式的子集，它可以在编译阶段求值。 当一个表达式满足下面条件之一时，它就是一个常数枚举表达式：
+                    <li>
+                        <p>它是枚举的第一个成员且没有初始化器，这种情况下它被赋予值
+                            <code>0</code>：</p>
+                        <pre><code class="language-ts">// E.X is constant:
+enum E { X }
+</code></pre>
+                    </li>
+                    <li>
+                        <p>它不带有初始化器且它之前的枚举成员是一个
+                            <em>数字</em>常量。 这种情况下，当前枚举成员的值为它上一个枚举成员的值加1。
+                        </p>
+                        <pre><code class="language-ts">// All enum members in 'E1' and 'E2' are constant.
+
+enum E1 { X, Y, Z }
+
+enum E2 {
+    A = 1, B, C
+}
+</code></pre>
+                    </li>
+                    <li>
+                        <p>枚举成员使用
+                            <em>常量枚举表达式</em>初始化。 常数枚举表达式是TypeScript表达式的子集，它可以在编译阶段求值。 当一个表达式满足下面条件之一时，它就是一个常量枚举表达式：
+                        </p>
                         <ul>
-                            <li>数字字面量</li>
-                            <li>引用之前定义的常数枚举成员（可以是在不同的枚举类型中定义的） 如果这个成员是在同一个枚举类型中定义的，可以使用非限定名来引用。
-                            </li>
-                            <li>带括号的常数枚举表达式</li>
-                            <li><code>+</code>, <code>-</code>, <code>~</code> 一元运算符应用于常数枚举表达式</li>
-                            <li><code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>, <code>%</code>, <code>&lt;&lt;</code>,
-                                <code>&gt;&gt;</code>, <code>&gt;&gt;&gt;</code>, <code>&amp;</code>, <code>|</code>, <code>^</code>二元运算符，常数枚举表达式做为其一个操作对象。若常数枚举表达式求值后为
-                                <code>NaN</code>或<code>Infinity</code>，则会在编译阶段报错。</li>
+                            <li>一个枚举表达式字面量（主要是字符串字面量或数字字面量）</li>
+                            <li>一个对之前定义的常量枚举成员的引用（可以是在不同的枚举类型中定义的）</li>
+                            <li>带括号的常量枚举表达式</li>
+                            <li>一元运算符
+                                <code>+</code>,
+                                <code>-</code>,
+                                <code>~</code>其中之一应用在了常量枚举表达式</li>
+                            <li>常量枚举表达式做为二元运算符
+                                <code>+</code>,
+                                <code>-</code>,
+                                <code>*</code>,
+                                <code>/</code>,
+                                <code>%</code>,
+                                <code>&lt;&lt;</code>,
+                                <code>&gt;&gt;</code>,
+                                <code>&gt;&gt;&gt;</code>,
+                                <code>&amp;</code>,
+                                <code>|</code>,
+                                <code>^</code>的操作对象。 若常数枚举表达式求值后为
+                                <code>NaN</code>或
+                                <code>Infinity</code>，则会在编译阶段报错。</li>
                         </ul>
                     </li>
                 </ul>
@@ -89,7 +194,89 @@
     G = &quot;123&quot;.length
 }
 </code></pre>
-                <p>枚举是在运行时真正存在的一个对象。 其中一个原因是因为这样可以从枚举值到枚举名进行反向映射。
+                <h2>联合枚举与枚举成员的类型</h2>
+                <p>存在一种特殊的非计算的常量枚举成员的子集：字面量枚举成员。 字面量枚举成员是指不带有初始值的常量枚举成员，或者是值被初始化为
+                </p>
+                <ul>
+                    <li>任何字符串字面量（例如：
+                        <code>&quot;foo&quot;</code>，
+                        <code>&quot;bar&quot;</code>，
+                        <code>&quot;baz&quot;</code>）</li>
+                    <li>任何数字字面量（例如：
+                        <code>1</code>,
+                        <code>100</code>）</li>
+                    <li>应用了一元
+                        <code>-</code>符号的数字字面量（例如：
+                        <code>-1</code>,
+                        <code>-100</code>）</li>
+                </ul>
+                <p>当所有枚举成员都拥有字面量枚举值时，它就带有了一种特殊的语义。</p>
+                <p>首先，枚举成员成为了类型！ 例如，我们可以说某些成员
+                    <em>只能</em>是枚举成员的值：</p>
+                <pre><code class="language-ts">enum ShapeKind {
+    Circle,
+    Square,
+}
+
+interface Circle {
+    kind: ShapeKind.Circle;
+    radius: number;
+}
+
+interface Square {
+    kind: ShapeKind.Square;
+    sideLength: number;
+}
+
+let c: Circle = {
+    kind: ShapeKind.Square,
+    //    ~~~~~~~~~~~~~~~~ Error!
+    radius: 100,
+}
+</code></pre>
+                <p>另一个变化是枚举类型本身变成了每个枚举成员的
+                    <em>联合</em>。 虽然我们还没有讨论[联合类型](./Advanced Types.md#union-types)，但你只要知道通过联合枚举，类型系统能够利用这样一个事实，它可以知道枚举里的值的集合。
+                    因此，TypeScript能够捕获在比较值的时候犯的愚蠢的错误。 例如：
+                </p>
+                <pre><code class="language-ts">enum E {
+    Foo,
+    Bar,
+}
+
+function f(x: E) {
+    if (x !== E.Foo || x !== E.Bar) {
+        //             ~~~~~~~~~~~
+        // Error! Operator '!==' cannot be applied to types 'E.Foo' and 'E.Bar'.
+    }
+}
+</code></pre>
+                <p>这个例子里，我们先检查
+                    <code>x</code>是否不是
+                    <code>E.Foo</code>。 如果通过了这个检查，然后
+                    <code>||</code>会发生短路效果，
+                    <code>if</code>语句体里的内容会被执行。 然而，这个检查没有通过，那么
+                    <code>x</code>则
+                    <em>只能</em>为
+                    <code>E.Foo</code>，因此没理由再去检查它是否为
+                    <code>E.Bar</code>。</p>
+                <h2 id="enums-at-runtime">运行时的枚举</h2>
+                <p>枚举是在运行时真正存在的对象。 例如下面的枚举：
+                </p>
+                <pre><code class="language-ts">enum E {
+    X, Y, Z
+}
+</code></pre>
+                <p>can actually be passed around to functions</p>
+                <pre><code class="language-ts">function f(obj: { X: number }) {
+    return obj.X;
+}
+
+// Works, since 'E' has a property named 'X' which is a number.
+f(E);
+</code></pre>
+                <h3>反向映射</h3>
+                <p>除了创建一个以属性名做为对象成员的对象之外，数字枚举成员还具有了
+                    <em>反向映射</em>，从枚举值到枚举名字。 例如，在下面的例子中：
                 </p>
                 <pre><code class="language-ts">enum Enum {
     A
@@ -97,7 +284,7 @@
 let a = Enum.A;
 let nameOfA = Enum[a]; // &quot;A&quot;
 </code></pre>
-                <p>编译成：</p>
+                <p>TypeScript可能会将这段代码编译为下面的JavaScript：</p>
                 <pre><code class="language-js">var Enum;
 (function (Enum) {
     Enum[Enum[&quot;A&quot;] = 0] = &quot;A&quot;;
@@ -105,15 +292,25 @@ let nameOfA = Enum[a]; // &quot;A&quot;
 var a = Enum.A;
 var nameOfA = Enum[a]; // &quot;A&quot;
 </code></pre>
-                <p>生成的代码中，枚举类型被编译成一个对象，它包含双向映射（<code>name</code> -&gt; <code>value</code>）和（<code>value</code> -&gt; <code>name</code>）。
-                    引用枚举成员总会生成一次属性访问并且永远不会内联。 在大多数情况下这是很好的并且正确的解决方案。 然而有时候需求却比较严格。 当访问枚举值时，为了避免生成多余的代码和间接引用，可以使用常数枚举。 常数枚举是在
-                    <code>enum</code>关键字前使用<code>const</code>修饰符。</p>
+                <p>生成的代码中，枚举类型被编译成一个对象，它包含了正向映射（
+                    <code>name</code> -&gt;
+                    <code>value</code>）和反向映射（
+                    <code>value</code> -&gt;
+                    <code>name</code>）。 引用枚举成员总会生成为对属性访问并且永远也不会内联代码。
+                </p>
+                <p>要注意的是
+                    <em>不会</em>为字符串枚举成员生成反向映射。</p>
+                <h3>
+                    <code>const</code>枚举</h3>
+                <p>大多数情况下，枚举是十分有效的方案。 然而在某些情况下需求很严格。 为了避免在额外生成的代码上的开销和额外的非直接的对枚举成员的访问，我们可以使用
+                    <code>const</code>枚举。 常量枚举通过在枚举上使用
+                    <code>const</code>修饰符来定义。</p>
                 <pre><code class="language-ts">const enum Enum {
     A = 1,
     B = A * 2
 }
 </code></pre>
-                <p>常数枚举只能使用常数枚举表达式并且不同于常规的枚举的是它们在编译阶段会被删除。 常数枚举成员在使用的地方被内联进来。 这是因为常数枚举不可能有计算成员。
+                <p>常量枚举只能使用常量枚举表达式，并且不同于常规的枚举，它们在编译阶段会被删除。 常量枚举成员在使用的地方会被内联进来。 之所以可以这么做是因为，常量枚举不允许包含计算成员。
                 </p>
                 <pre><code class="language-ts">const enum Directions {
     Up,

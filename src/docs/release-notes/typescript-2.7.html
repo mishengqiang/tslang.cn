@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>TypeScript 2.7 · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+</body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">TypeScript 2.7</h1>
+            </header>
+            <article class="post-content">
+                <h2>更严格的类属性检查</h2>
+                <p>TypeScript 2.7引入了一个新的控制严格性的标记
+                    <code>--strictPropertyInitialization</code>！</p>
+                <p>使用这个标记会确保类的每个实例属性都会在构造函数里或使用属性初始化器赋值。 在某种意义上，它会明确地进行从变量到类的实例属性的赋值检查。比如：
+                </p>
+                <pre><code class="language-ts">class C {
+    foo: number;
+    bar = &quot;hello&quot;;
+    baz: boolean;
+//  ~~~
+//  Error! Property 'baz' has no initializer and is not assigned directly in the constructor.
+    constructor() {
+        this.foo = 42;
+    }
+}
+</code></pre>
+                <p>上例中，
+                    <code>baz</code>从未被赋值，因此TypeScript报错了。 如果我们的本意就是让
+                    <code>baz</code>可以为
+                    <code>undefined</code>，那么应该声明它的类型为
+                    <code>boolean | undefined</code>。</p>
+                <p>在某些场景下，属性会被间接地初始化（使用辅助方法或依赖注入库）。 这种情况下，你可以在属性上使用
+                    <em>显式赋值断言</em>来帮助类型系统识别类型。</p>
+                <pre><code class="language-ts">class C {
+    foo!: number;
+    // ^
+    // Notice this exclamation point!
+    // This is the &quot;definite assignment assertion&quot; modifier.
+    constructor() {
+        this.initialize();
+    }
+
+    initialize() {
+        this.foo = 0;
+    }
+}
+</code></pre>
+                <p>注意，
+                    <code>--strictPropertyInitialization</code>会连同其它
+                    <code>--strict</code>模式标记一起被启用，这可能会影响你的工程。 你可以在
+                    <code>tsconfig.json</code>的
+                    <code>compilerOptions</code>里将
+                    <code>strictPropertyInitialization</code>设置为
+                    <code>false</code>， 或者在命令行上将
+                    <code>--strictPropertyInitialization</code>设置为
+                    <code>false</code>来关闭检查。</p>
+                <h2>显式赋值断言</h2>
+                <p>尽管我们尝试将类型系统做的更富表现力，但我们知道有时用户比TypeScript更加了解类型。</p>
+                <p>上面提到过，显式赋值断言是一个新语法，使用它来告诉TypeScript一个属性会被明确地赋值。 但是除了在类属性上使用它之外，在TypeScript 2.7里你还可以在变量声明上使用它！</p>
+                <pre><code class="language-ts">let x!: number[];
+initialize();
+x.push(4);
+
+function initialize() {
+    x = [0, 1, 2, 3];
+}
+</code></pre>
+                <p>假设我们没有在
+                    <code>x</code>后面加上感叹号，那么TypeScript会报告
+                    <code>x</code>从未被初始化过。 它在延迟初始化或重新初始化的场景下很方便使用。
+                </p>
+                <h2>更便利的与ECMAScript模块的互通性</h2>
+                <p>ECMAScript模块在ES2015里才被标准化，在这之前，JavaScript生态系统里存在几种不同的模块 格式，它们工作方式各有不同。 当新的标准通过后，社区遇到了一个难题，就是如何在已有的“老式”模块模式之间保证最佳的互通性。
+                </p>
+                <p>TypeScript与Babel采取了不同的方案，并且直到现在，还没出现真正地固定标准。 简单地说，如果你使用Babel，Webpack或React Native，并期望与你以往使用地不同的导入行为， 我们提供了一个新的编译选项
+                    <code>--esModuleInterop</code>。</p>
+                <p>TypeScript与Babel都允许用户导入CommonJS模块做为默认导入，但是仍然在导入的命名空间上提 供了每个属性（除非模块使用了
+                    <code>__esModule</code>标记）。</p>
+                <pre><code class="language-ts">import _, { pick } from &quot;lodash&quot;;
+
+_.pick(...);
+pick(...);
+</code></pre>
+                <p>由于TypeScript的不同行为，我们在TypeScript 1.8里增加了
+                    <code>--allowSyntheticDefaultImports</code>标记，允许用户在这种行为下检查类型（并非输出）。</p>
+                <p>通常，在TypeScript视角下的CommonJS（和AMD）模块，命名空间导入总是相当于CommonJS模块对 象的结构，一个默认导入仅相当于模块上一个名字叫做
+                    <code>default</code>的成员。 在这种假定下，你可以创建一个命名导入
+                </p>
+                <pre><code class="language-ts">import { range } from &quot;lodash&quot;;
+
+for (let i of range(10)) {
+    // ...
+}
+</code></pre>
+                <p>然而，ES命名空间导入不能被调用，因此这种方案并非总是可行。</p>
+                <pre><code class="language-ts">import * as express from &quot;express&quot;;
+
+// Should be an error in any valid implementation.
+let app = express();
+</code></pre>
+                <p>为了允许用户使用与Babel或Webpack一致的运行时行为，TypeScript提供了一个新的
+                    <code>--esModuleInterop</code>标记，它用于输出旧模块格式。</p>
+                <p>当使用这个新的
+                    <code>--esModuleInterop</code>标记时，可调用的CommonJS模块必须被做为默认导入：</p>
+                <pre><code class="language-ts">import express from &quot;express&quot;;
+
+let app = express();
+</code></pre>
+                <p>我们强烈建议Node.js用户利用这个标记，当一个库的模块输出目标为commonjs时，例如express，它会导入一个可调用/可构造的模块。</p>
+                <p>Webpack用户也可以使用它；然而，你们代码应该将目标设置为
+                    <code>esnext</code>且
+                    <code>moduleResolution</code> 策略为
+                    <code>node</code>。 使用
+                    <code>esnext</code>模块和
+                    <code>--esModuleInterop</code>等同于启用了
+                    <code>--allowSyntheticDefaultImports</code>。</p>
+                <h2>
+                    <code>unique symbol</code>类型和常量名属性</h2>
+                <p>TypeScript 2.7对ECMAScript里的
+                    <code>symbols</code>有了更深入的了解，你可以更灵活地使用它们。</p>
+                <p>一个需求很大的用例是使用
+                    <code>symbols</code>来声明一个类型良好的属性。 比如，看下面的例子：
+                </p>
+                <pre><code class="language-ts">const Foo = Symbol(&quot;Foo&quot;);
+const Bar = Symbol(&quot;Bar&quot;);
+
+let x = {
+    [Foo]: 100,
+    [Bar]: &quot;hello&quot;,
+};
+
+let a = x[Foo]; // has type 'number'
+let b = x[Bar]; // has type 'string'
+</code></pre>
+                <p>你可以看到，TypeScript可以追踪到
+                    <code>x</code>拥有使用符号
+                    <code>Foo</code>和
+                    <code>Bar</code>声明的属性，因为
+                    <code>Foo</code>和
+                    <code>Bar</code>被声明成常量。 TypeScript利用了这一点，让
+                    <code>Foo</code>和
+                    <code>Bar</code>具有了一种新类型：
+                    <code>unique symbols</code>。</p>
+                <p>
+                    <code>unique symbols</code>是
+                    <code>symbols</code>的子类型，仅可通过调用
+                    <code>Symbol()</code>或
+                    <code>Symbol.for()</code>或由明确的类型注释生成。 它们仅出现在常量声明和只读的静态属性上，并且为了引用一个存在的
+                    <code>unique symbols</code>类型，你必须使用
+                    <code>typeof</code>操作符。 每个对
+                    <code>unique symbols</code>的引用都意味着一个完全唯一的声明身份。</p>
+                <pre><code class="language-ts">// Works
+declare const Foo: unique symbol;
+
+// Error! 'Bar' isn't a constant.
+let Bar: unique symbol = Symbol();
+
+// Works - refers to a unique symbol, but its identity is tied to 'Foo'.
+let Baz: typeof Foo = Foo;
+
+// Also works.
+class C {
+    static readonly StaticSymbol: unique symbol = Symbol();
+}
+</code></pre>
+                <p>因为每个
+                    <code>unique symbols</code>都有个完全独立的身份，因此两个
+                    <code>unique symbols</code>类型之前不能赋值和比较。</p>
+                <pre><code class="language-ts">const Foo = Symbol();
+const Bar = Symbol();
+
+// Error: can't compare two unique symbols.
+if (Foo === Bar) {
+    // ...
+}
+</code></pre>
+                <p>另一个可能的用例是使用
+                    <code>symbols</code>做为联合标记。</p>
+                <pre><code class="language-ts">// ./ShapeKind.ts
+export const Circle = Symbol(&quot;circle&quot;);
+export const Square = Symbol(&quot;square&quot;);
+
+// ./ShapeFun.ts
+import * as ShapeKind from &quot;./ShapeKind&quot;;
+
+interface Circle {
+    kind: typeof ShapeKind.Circle;
+    radius: number;
+}
+
+interface Square {
+    kind: typeof ShapeKind.Square;
+    sideLength: number;
+}
+
+function area(shape: Circle | Square) {
+    if (shape.kind === ShapeKind.Circle) {
+        // 'shape' has type 'Circle'
+        return Math.PI * shape.radius ** 2;
+    }
+    // 'shape' has type 'Square'
+    return shape.sideLength ** 2;
+}
+</code></pre>
+                <h2>
+                    <code>--watch</code>模式下具有更简洁的输出</h2>
+                <p>在TypeScript的
+                    <code>--watch</code>模式下进行重新编译后会清屏。 这样就更方便阅读最近这次编译的输出信息。
+                </p>
+                <h2>更漂亮的
+                    <code>--pretty</code>输出</h2>
+                <p>TypeScript的
+                    <code>--pretty</code>标记可以让错误信息更易阅读和管理。 我们对这个功能进行了两个主要的改进。 首先，
+                    <code>--pretty</code>对文件名，诊段代码和行数添加了颜色（感谢Joshua Goldberg）。 其次，格式化了文件名和位置，以变于在常用的终端里使用Ctrl+Click，Cmd+Click，Alt+Click等来跳转到编译器里的相应位置。
+                </p>
+                <h2>数字分隔符</h2>
+                <p>TypeScript 2.7支持ECMAScript的数字分隔符提案。 这个特性允许用户在数字之间使用下划线（_）来对数字分组（就像使用逗号和点来对数字分组那样）。
+                </p>
+                <pre><code class="language-ts">// Constants
+const COULOMB = 8.957_551_787e9; // N-m^2 / C^2
+const PLANCK = 6.626_070_040e-34; // J-s
+const JENNY = 867_5309; // C-A-L^2
+</code></pre>
+                <p>这些分隔符对于二进制和十六进制同样有用。</p>
+                <pre><code class="language-ts">let bits = 0b0010_1010;
+let routine = 0xC0FFEE_F00D_BED;
+let martin = 0xF0_1E_
+</code></pre>
+                <p>注意，可能有些反常识，JavaScript里的数字表示信用卡和电话号并不适当。 这种情况下使用字符串更好。
+                </p>
+                <h2>固定长度元组</h2>
+                <p>TypeScript 2.6之前，
+                    <code>[number, string, string]</code>被当作
+                    <code>[number, string]</code>的子类型。 这是由于TypeScript的结构性类型系统而造成的；
+                    <code>[number, string, string]</code>的第一个和第二个元素是
+                    <code>[number, string]</code>里相应的第一个和第 二个元素的子类型，并且“末尾的”字符串类型是可以赋值给
+                    <code>[number, string]</code>里元素的联合类型的。 然而，在查看了现实中元组的真实用法后，我们注意到大多数情况下这是不被允许的。
+                </p>
+                <p>感谢Tycho Grouwstra提交的PR，元组类型会考虑它的长度，不同长度的元组不再允许相互赋值。 它通过数字字面量类型实现，因此现在可以区分出不同长度的元组了。
+                </p>
+                <p>概念上讲，你可以把
+                    <code>[number, string]</code>类型等同于下面的
+                    <code>NumStrTuple</code>声明：</p>
+                <pre><code class="language-ts">interface NumStrTuple extends Array&lt;number | string&gt; {
+    0: number;
+    1: string;
+    length: 2; // using the numeric literal type '2'
+}
+</code></pre>
+                <p>请注意，这是一个破坏性改动。 如果你想要以前的行为，让元组仅限制最小的长度，那么你可以使用一个类似的声明但不明确地指定长 度属性，回退到数字。
+                </p>
+                <pre><code class="language-ts">interface MinimumNumStrTuple extends Array&lt;number | string&gt; {
+    0: number;
+    1: string;
+}
+
+</code></pre>
+                <h2>
+                    <code>in</code>操作符细化和精确的
+                    <code>instanceof</code>
+                </h2>
+                <p>TypeScript 2.7带来了两处类型细化方面的改动 - 通过执行“类型保护”确定更详细类型的能力。</p>
+                <p>首先，
+                    <code>instanceof</code>操作符现在利用继承链而非依赖于结构兼容性， 能更准确地反映出
+                    <code>instanceof</code>操作符在运行时的行为。 这可以帮助避免一些复杂的问题，当使用
+                    <code>instanceof</code>去细化结构上相似（但无关）的类型时。</p>
+                <p>其次，感谢GitHub用户IdeaHunter，
+                    <code>in</code>操作符现在做为类型保护使用，会细化掉没有明确声明的属性名。</p>
+                <pre><code class="language-ts">interface A { a: number };
+interface B { b: string };
+
+function foo(x: A | B) {
+    if (&quot;a&quot; in x) {
+        return x.a;
+    }
+    return x.b;
+}
+</code></pre>
+                <h2>更智能的对象字面量推断</h2>
+                <p>在JavaScript里有一种模式，用户会忽略掉一些属性，稍后在使用的时候那些属性的值为
+                    <code>undefined</code>。</p>
+                <pre><code class="language-ts">let foo = someTest ? { value: 42 } : {};
+</code></pre>
+                <p>在以前TypeScript会查找
+                    <code>{ value: number }</code>和
+                    <code>{}</code>的最佳超类型，结果是
+                    <code>{}</code>。 这从技术角度上讲是正确的，但并不是很有用。
+                </p>
+                <p>从2.7版本开始，TypeScript会“规范化”每个对象字面量类型记录每个属性， 为每个
+                    <code>undefined</code>类型属性插入一个可选属性，并将它们联合起来。</p>
+                <p>在上例中，
+                    <code>foo</code>的最类型是
+                    <code>{ value: number } | { value?: undefined }</code>。 结合了TypeScript的细化类型，这让我们可以编写更具表达性的代码且TypeScript也可理解。 看另外一个例子：
+                </p>
+                <pre><code class="language-ts">// Has type
+//  | { a: boolean, aData: number, b?: undefined }
+//  | { b: boolean, bData: string, a?: undefined }
+let bar = Math.random() &lt; 0.5 ?
+    { a: true, aData: 100 } :
+    { b: true, bData: &quot;hello&quot; };
+
+if (bar.b) {
+    // TypeScript now knows that 'bar' has the type
+    //
+    //   '{ b: boolean, bData: string, a?: undefined }'
+    //
+    // so it knows that 'bData' is available.
+    bar.bData.toLowerCase()
+}
+</code></pre>
+                <p>这里，TypeScript可以通过检查
+                    <code>b</code>属性来细化
+                    <code>bar</code>的类型，然后允许我们访问
+                    <code>bData</code>属性。</p>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+
+</html>

@@ -81,7 +81,7 @@
                                     <code>boolean</code>
                                 </td>
                                 <td>
-                                    <code>module === &quot;system&quot;</code>
+                                    <code>module === &quot;system&quot;</code><code>--esModuleInterop</code>
                                 </td>
                                 <td>允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。</td>
                             </tr>
@@ -589,6 +589,18 @@
                             </tr>
                             <tr>
                                 <td>
+                                    <code>--noErrorTruncation</code>
+                                </td>
+                                <td>
+                                    <code>boolean</code>
+                                </td>
+                                <td>
+                                    <code>false</code>
+                                </td>
+                                <td>不截短错误消息。</td>
+                            </tr>
+                            <tr>
+                                <td>
                                     <code>--noFallthroughCasesInSwitch</code>
                                 </td>
                                 <td>
@@ -936,7 +948,7 @@
                                     <code>--noImplicitThis</code>,
                                     <code>--alwaysStrict</code>，
                                     <code>--strictNullChecks</code>和
-                                    <code>--strictFunctionTypes</code>。</td>
+                                    <code>--strictFunctionTypes</code>和<code>--strictPropertyInitialization</code>。</td>
                             </tr>
                             <tr>
                                 <td>
@@ -949,6 +961,18 @@
                                     <code>false</code>
                                 </td>
                                 <td>禁用函数参数双向协变检查。</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <code>--strictPropertyInitialization</code>
+                                </td>
+                                <td>
+                                    <code>boolean</code>
+                                </td>
+                                <td>
+                                    <code>false</code>
+                                </td>
+                                <td>Enusre non-undefined class properties are initialized in the constructor.</td>
                             </tr>
                             <tr>
                                 <td>
