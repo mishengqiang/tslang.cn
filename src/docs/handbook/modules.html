@@ -187,12 +187,13 @@ strings.forEach(s =&gt; {
 console.log(num); // &quot;123&quot;
 </code></pre>
                 <h1><code>export =</code> 和 <code>import = require()</code></h1>
-                <p>CommonJS和AMD都有一个<code>exports</code>对象的概念，它包含了一个模块的所有导出内容。</p>
-                <p>它们也支持把<code>exports</code>替换为一个自定义对象。 默认导出就好比这样一个功能；然而，它们却并不相互兼容。 TypeScript模块支持
-                    <code>export =</code>语法以支持传统的CommonJS和AMD的工作流模型。</p>
-                <p><code>export =</code>语法定义一个模块的导出对象。 它可以是类，接口，命名空间，函数或枚举。
-                </p>
-                <p>若要导入一个使用了<code>export =</code>的模块时，必须使用TypeScript提供的特定语法<code>import module = require(&quot;module&quot;)</code>。</p>
+                <p>CommonJS和AMD的环境里都有一个<code>exports</code>变量，这个变量包含了一个模块的所有导出内容。</p>
+                <p>CommonJS和AMD的<code>exports</code>都可以被赋值为一个<code>对象</code>, 这种情况下其作用就类似于 es6 语法里的默认导出，即 <code>export default</code>语法了。虽然作用相似，但是
+                    <code>export default</code> 语法并不能兼容CommonJS和AMD的<code>exports</code>。</p>
+                <p>为了支持CommonJS和AMD的<code>exports</code>, TypeScript提供了<code>export =</code>语法。</p>
+                <p><code>export =</code>语法定义一个模块的导出<code>对象</code>。
+                    这里的<code>对象</code>一词指的是类，接口，命名空间，函数或枚举。</p>
+                <p>若使用<code>export =</code>导出一个模块，则必须使用TypeScript的特定语法<code>import module = require(&quot;module&quot;)</code>来导入此模块。</p>
                 <h5>ZipCodeValidator.ts</h5>
                 <pre><code class="language-ts">let numberRegexp = /^[0-9]+$/;
 class ZipCodeValidator {
@@ -538,7 +539,7 @@ let x = new myLargeModule.Dog();
         this.current = 0;
     }
 
-    public handelChar(char: string) {
+    public handleChar(char: string) {
         if (char === &quot;=&quot;) {
             this.evaluate();
             return;
@@ -568,7 +569,7 @@ let x = new myLargeModule.Dog();
 
 export function test(c: Calculator, input: string) {
     for (let i = 0; i &lt; input.length; i++) {
-        c.handelChar(input[i]);
+        c.handleChar(input[i]);
     }
 
     console.log(`result of '${input}' is '${c.getResult()}'`);
@@ -591,8 +592,9 @@ class ProgrammerCalculator extends Calculator {
 
     constructor(public base: number) {
         super();
-        if (base &lt;= 0 || base &gt; ProgrammerCalculator.digits.length) {
-            throw new Error(&quot;base has to be within 0 to 16 inclusive.&quot;);
+        const maxBase = ProgrammerCalculator.digits.length;
+        if (base &lt;= 0 || base &gt; maxBase) {
+            throw new Error(`base has to be within 0 to ${maxBase} inclusive.`);
         }
     }
 

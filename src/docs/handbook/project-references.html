@@ -48,7 +48,150 @@
                 <h1 class="post-title">项目引用</h1>
             </header>
             <article class="post-content">
-                
+                <p>工程引用是TypeScript 3.0的新特性，它支持将TypeScript程序的结构分割成更小的组成部分。</p>
+                <p>这样可以改善构建时间，强制在逻辑上对组件进行分离，更好地组织你的代码。</p>
+                <p>TypeScript 3.0还引入了<code>tsc</code>的一种新模式，即<code>--build</code>标记，它与工程引用协同工作可以加速TypeScript的构建。</p>
+                <h1>一个工程示例</h1>
+                <p>让我们来看一个非常普通的工程，并瞧瞧工程引用特性是如何帮助我们更好地组织代码的。
+                    假设这个工程具有两个模块：<code>converter</code>和<code>unites</code>，以及相应的测试代码：</p>
+                <pre><code class="language-shell">/src/converter.ts
+/src/units.ts
+/test/converter-tests.ts
+/test/units-tests.ts
+/tsconfig.json
+</code></pre>
+                <p>测试文件导入相应的实现文件并进行测试：</p>
+                <pre><code class="language-ts">// converter-tests.ts
+import * as converter from &quot;../converter&quot;;
+
+assert.areEqual(converter.celsiusToFahrenheit(0), 32);
+</code></pre>
+                <p>在之前，这种使用单一<code>tsconfig</code>文件的结构会稍显笨拙：</p>
+                <ul>
+                    <li>实现文件也可以导入测试文件</li>
+                    <li>无法同时构建<code>test</code>和<code>src</code>，除非把<code>src</code>也放在输出文件夹中，但通常并不想这样做</li>
+                    <li>仅对实现文件的<em>内部</em>细节进行改动，必需再次对测试进行<em>类型检查</em>，尽管这是根本不必要的</li>
+                    <li>仅对测试文件进行改动，必需再次对实现文件进行<em>类型检查</em>，尽管其实什么都没有变</li>
+                </ul>
+                <p>你可以使用多个<code>tsconfig</code>文件来解决<em>部分</em>问题，但是又会出现新问题：</p>
+                <ul>
+                    <li>缺少内置的实时检查，因此你得多次运行<code>tsc</code></li>
+                    <li>多次调用<code>tsc</code>会增加我们等待的时间</li>
+                    <li><code>tsc -w</code>不能一次在多个配置文件上运行</li>
+                </ul>
+                <p>工程引用可以解决全部这些问题，而且还不止。</p>
+                <h1>何为工程引用？</h1>
+                <p><code>tsconfig.json</code>增加了一个新的顶层属性<code>references</code>。它是一个对象的数组，指明要引用的工程：</p>
+                <pre><code class="language-js">{
+    &quot;compilerOptions&quot;: {
+        // The usual
+    },
+    &quot;references&quot;: [
+        { &quot;path&quot;: &quot;../src&quot; }
+    ]
+}
+</code></pre>
+                <p>每个引用的<code>path</code>属性都可以指向到包含<code>tsconfig.json</code>文件的目录，或者直接指向到配置文件本身（名字是任意的）。</p>
+                <p>当你引用一个工程时，会发生下面的事：</p>
+                <ul>
+                    <li>导入引用工程中的模块实际加载的是它<em>输出</em>的声明文件（<code>.d.ts</code>）。</li>
+                    <li>如果引用的工程生成一个<code>outFile</code>，那么这个输出文件的<code>.d.ts</code>文件里的声明对于当前工程是可见的。</li>
+                    <li>构建模式（后文）会根据需要自动地构建引用的工程。</li>
+                </ul>
+                <p>当你拆分成多个工程后，会显著地加速类型检查和编译，减少编辑器的内存占用，还会改善程序在逻辑上进行分组。</p>
+                <h1><code>composite</code></h1>
+                <p>引用的工程必须启用新的<code>composite</code>设置。
+                    这个选项用于帮助TypeScript快速确定引用工程的输出文件位置。
+                    若启用<code>composite</code>标记则会发生如下变动：</p>
+                <ul>
+                    <li>对于<code>rootDir</code>设置，如果没有被显式指定，默认为包含<code>tsconfig</code>文件的目录</li>
+                    <li>所有的实现文件必须匹配到某个<code>include</code>模式或在<code>files</code>数组里列出。如果违反了这个限制，<code>tsc</code>会提示你哪些文件未指定。</li>
+                    <li>必须开启<code>declaration</code>选项。</li>
+                </ul>
+                <h1><code>declarationMaps</code></h1>
+                <p>我们增加了对<a href="https://github.com/Microsoft/TypeScript/issues/14479">declaration source maps</a>的支持。
+                    如果启用<code>--declarationMap</code>，在某些编辑器上，你可以使用诸如“Go to Definition”，重命名以及跨工程编辑文件等编辑器特性。</p>
+                <h1>带<code>prepend</code>的<code>outFile</code></h1>
+                <p>你可以在引用中使用<code>prepend</code>选项来启用前置某个依赖的输出：</p>
+                <pre><code class="language-js">   &quot;references&quot;: [
+        { &quot;path&quot;: &quot;../utils&quot;, &quot;prepend&quot;: true }
+    ]
+</code></pre>
+                <p>前置工程会将工程的输出添加到当前工程的输出之前。
+                    它对<code>.js</code>文件和<code>.d.ts</code>文件都有效，<code>source map</code>文件也同样会正确地生成。</p>
+                <p><code>tsc</code>永远只会使用磁盘上已经存在的文件来进行这个操作，因此你可能会创建出一个无法生成正确输出文件的工程，因为有些工程的输出可能会在结果文件中重覆了多次。
+                    例如：</p>
+                <pre><code class="language-txt">
+   A
+  ^ ^
+ /   \
+B     C
+ ^   ^
+  \ /
+   D
+</code></pre>
+                <p>这种情况下，不能前置引用，因为在<code>D</code>的最终输出里会有两份<code>A</code>存在 - 这可能会发生未知错误。</p>
+                <h1>关于工程引用的说明</h1>
+                <p>工程引用在某些方面需要你进行权衡.</p>
+                <p>因为有依赖的工程要使用它的依赖生成的<code>.d.ts</code>，因此你必须要检查相应构建后的输出<em>或</em>在下载源码后进行构建，然后才能在编辑器里自由地导航。
+                    我们是在操控幕后的<code>.d.ts</code>生成过程，我们应该减少这种情况，但是目前还们建议提示开发者在下载源码后进行构建。</p>
+                <p>此外，为了兼容已有的构建流程，<code>tsc</code><em>不会</em>自动地构建依赖项，除非启用了<code>--build</code>选项。
+                    下面让我们看看<code>--build</code>。</p>
+                <h1>TypeScript构建模式</h1>
+                <p>在TypeScript工程里支持增量构建是个期待已久的功能。
+                    在TypeScrpt 3.0里，你可以在<code>tsc</code>上使用<code>--build</code>标记。
+                    它实际上是个新的<code>tsc</code>入口点，它更像是一个构建的协调员而不是简简单单的编译器。</p>
+                <p>运行<code>tsc --build</code>（简写<code>tsc -b</code>）会执行如下操作：</p>
+                <ul>
+                    <li>找到所有引用的工程</li>
+                    <li>检查它们是否为最新版本</li>
+                    <li>按顺序构建非最新版本的工程</li>
+                </ul>
+                <p>可以给<code>tsc -b</code>指定多个配置文件地址（例如：<code>tsc -b src test</code>）。
+                    如同<code>tsc -p</code>，如果配置文件名为<code>tsconfig.json</code>，那么文件名则可省略。</p>
+                <h2><code>tsc -b</code>命令行</h2>
+                <p>你可以指令任意数量的配置文件：</p>
+                <pre><code class="language-shell"> &gt; tsc -b                                # Build the tsconfig.json in the current directory
+ &gt; tsc -b src                            # Build src/tsconfig.json
+ &gt; tsc -b foo/release.tsconfig.json bar  # Build foo/release.tsconfig.json and bar/tsconfig.json
+</code></pre>
+                <p>不需要担心命令行上指定的文件顺序 - <code>tsc</code>会根据需要重新进行排序，被依赖的项会优先构建。</p>
+                <p><code>tsc -b</code>还支持其它一些选项：</p>
+                <ul>
+                    <li><code>--verbose</code>：打印详细的日志（可以与其它标记一起使用）</li>
+                    <li><code>--dry</code>: 显示将要执行的操作但是并不真正进行这些操作</li>
+                    <li><code>--clean</code>: 删除指定工程的输出（可以与<code>--dry</code>一起使用）</li>
+                    <li><code>--force</code>: 把所有工程当作非最新版本对待</li>
+                    <li><code>--watch</code>: 观察模式（可以与<code>--verbose</code>一起使用）</li>
+                </ul>
+                <h1>说明</h1>
+                <p>一般情况下，就算代码里有语法或类型错误，<code>tsc</code>也会生成输出（<code>.js</code>和<code>.d.ts</code>），除非你启用了<code>noEmitOnError</code>选项。
+                    这在增量构建系统里就不好了 - 如果某个过期的依赖里有一个新的错误，那么你只能看到它<em>一次</em>，因为后续的构建会跳过这个最新的工程。
+                    正是这个原因，<code>tsc -b</code>的作用就好比在所有工程上启用了<code>noEmitOnError</code>。</p>
+                <p>如果你想要提交所有的构建输出（<code>.js</code>, <code>.d.ts</code>, <code>.d.ts.map</code>等），你可能需要运行<code>--force</code>来构建，因为一些源码版本管理操作依赖于源码版本管理工具保存的本地拷贝和远程拷贝的时间戳。</p>
+                <h1>MSBuild</h1>
+                <p>如果你的工程使用msbuild，你可以用下面的方式开启构建模式。</p>
+                <pre><code class="language-xml">    &lt;TypeScriptBuildMode&gt;true&lt;/TypeScriptBuildMode&gt;</code></pre>
+                <p>将这段代码添加到<code>proj</code>文件。它会自动地启用增量构建模式和清理工作。</p>
+                <p>注意，在使用<code>tsconfig.json</code> / <code>-p</code>时，已存在的TypeScript工程属性会被忽略 - 因此所有的设置需要在<code>tsconfig</code>文件里进行。</p>
+                <p>一些团队已经设置好了基于msbuild的构建流程，并且<code>tsconfig</code>文件具有和它们匹配的工程一致的<em>隐式</em>图序。
+                    若你的项目如此，那么可以继续使用<code>msbuild</code>和<code>tsc -p</code>以及工程引用；它们是完全互通的。</p>
+                <h1>指导</h1>
+                <h2>整体结构</h2>
+                <p>当<code>tsconfig.json</code>多了以后，通常会使用<a href="/docs/handbook/tsconfig-json.html">配置文件继承</a>来集中管理公共的编译选项。
+                    这样你就可以在一个文件里更改配置而不必在多个文件中进行修改。</p>
+                <p>另一个最佳实践是有一个<code>solution</code>级别的<code>tsconfig.json</code>文件，它仅仅用于引用所有的子工程。
+                    它用于提供一个简单的入口；比如，在TypeScript源码里，我们可以简单地运行<code>tsc -b src</code>来构建所有的节点，因为我们在<code>src/tsconfig.json</code>文件里列出了所有的子工程。
+                    注意从3.0开始，如果<code>tsconfig.json</code>文件里有至少一个工程引用<code>reference</code>，那么<code>files</code>数组为空的话也不会报错。</p>
+                <p>你可以在TypeScript源码仓库里看到这些模式 - 阅读<code>src/tsconfig_base.json</code>，<code>src/tsconfig.json</code>和<code>src/tsc/tsconfig.json</code>。</p>
+                <h2>相对模块的结构</h2>
+                <p>通常地，将代码转成使用相对模块并不需要改动太多。
+                    只需在某个给定父目录的每个子目录里放一个<code>tsconfig.json</code>文件，并相应添加<code>reference</code>。
+                    然后将<code>outDir</code>指定为输出目录的子目录或将<code>rootDir</code>指定为所有工程的某个公共根目录。</p>
+                <h2><code>outFile</code>的结构</h2>
+                <p>使用了<code>outFile</code>的编译输出结构十分灵活，因为相对路径是无关紧要的。
+                    要注意的是，你通常不需要使用<code>prepend</code> - 因为这会改善构建时间并结省I/O。
+                    TypeScript项目本身是一个好的参照 - 我们有一些“library”的工程和一些“endpoint”工程，“endpoint”工程会确保足够小并仅仅导入它们需要的“library”。</p>
             </article>
         </div>
     </div>

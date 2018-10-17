@@ -216,7 +216,7 @@ namespace Animals {
 
 namespace Animal {
     export function doAnimalsHaveMuscles() {
-        return haveMuscles;  // &lt;-- error, haveMuscles is not visible here
+        return haveMuscles;  // Error, because haveMuscles is not accessible here
     }
 }
 </code></pre>
@@ -251,7 +251,7 @@ namespace buildLabel {
     export let prefix = &quot;Hello, &quot;;
 }
 
-alert(buildLabel(&quot;Sam Smith&quot;));
+console.log(buildLabel(&quot;Sam Smith&quot;));
 </code></pre>
                 <p>相似的，命名空间可以用来扩展枚举型：</p>
                 <pre><code class="language-ts">enum Color {

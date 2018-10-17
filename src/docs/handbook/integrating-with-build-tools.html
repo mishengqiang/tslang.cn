@@ -175,7 +175,7 @@ gulp.task(&quot;default&quot;, function () {
                 <p>更新工程文件，包含本地安装的<code>Microsoft.TypeScript.Default.props</code>（在顶端）和<code>Microsoft.TypeScript.targets</code>（在底部）文件：</p>
                 <pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
 &lt;Project ToolsVersion=&quot;4.0&quot; DefaultTargets=&quot;Build&quot; xmlns=&quot;http://schemas.microsoft.com/developer/msbuild/2003&quot;&gt;
-  &lt;!-- Include default props at the bottom --&gt;
+  &lt;!-- Include default props at the top --&gt;
   &lt;Import
       Project=&quot;$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props&quot;
       Condition=&quot;Exists('$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.Default.props')&quot; /&gt;

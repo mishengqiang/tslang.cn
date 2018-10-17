@@ -459,10 +459,10 @@ function f({ a, b }: C): void {
 </code></pre>
                 <p>但是，通常情况下更多的是指定默认值，解构默认值有些棘手。 首先，你需要在默认值之前设置其格式。
                 </p>
-                <pre><code class="language-ts">function f({ a, b } = { a: &quot;&quot;, b: 0 }): void {
+                <pre><code class="language-ts">function f({ a="", b=0 } = {}): void {
     // ...
 }
-f(); // ok, default to { a: &quot;&quot;, b: 0 }
+f();
 </code></pre>
                 <blockquote>
                     <p>上面的代码是一个类型推断的例子，将在本手册后文介绍。</p>

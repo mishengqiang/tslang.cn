@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>配置 Watch · TypeScript中文网 · TypeScript——JavaScript的超集</title>
+    <!-- inject:css -->
+    <!-- endinject -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/images/icons/apple-touch-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/images/icons/apple-touch-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/images/icons/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/images/icons/apple-touch-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/images/icons/apple-touch-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/images/icons/apple-touch-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/images/icons/apple-touch-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/images/icons/apple-touch-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/icons/apple-touch-icon-180x180.png">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/assets/images/icons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-96x96.png" sizes="96x96">
+    <link rel="icon" type="image/png" href="/assets/images/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/assets/images/icons/manifest.json">
+    <link rel="mask-icon" href="/assets/images/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="/assets/images/icons/favicon.ico">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="msapplication-TileImage" content="/assets/images/icons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/assets/images/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+    <!-- <script id="twitter-wjs" src="https://platform.twitter.com/widgets.js"></script> -->
+    <!-- <link rel="alternate" type="application/rss+xml" title="RSS" href="/atom.xml"> -->
+</head>
+
+<body>
+<!-- inject:header:html -->
+<!-- endinject -->
+<!-- inject:message:html -->
+<!-- endinject -->
+<div id="content" class="container-fluid fill docs-container">
+    <div class="container">
+        <div class="col-md-3 toc-container">
+            <!-- inject:docs-nav:html -->
+            <!-- endinject -->
+        </div>
+        <div class="col-md-9 col-xs-12 col-sm-12 doc-content-container">
+            <header class="post-header">
+                <h1 class="post-title">配置 Watch</h1>
+            </header>
+            <article class="post-content">
+                <p>编译器支持使用环境变量配置如何监视文件和目录的变化。</p>
+                <h2>使用<code>TSC_WATCHFILE</code>环境变量来配置文件监视</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>选项</th>
+                            <th>描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>PriorityPollingInterval</code></td>
+                            <td>使用<code>fs.watchFile</code>但针对源码文件，配置文件和消失的文件使用不同的轮询间隔</td>
+                        </tr>
+                        <tr>
+                            <td><code>DynamicPriorityPolling</code></td>
+                            <td>使用动态队列，对经常被修改的文件使用较短的轮询间隔，对未修改的文件使用较长的轮询间隔</td>
+                        </tr>
+                        <tr>
+                            <td><code>UseFsEvents</code></td>
+                            <td>使用 <code>fs.watch</code>，它使用文件系统事件（但在不同的系统上可能不一定准确）来查询文件的修改/创建/删除。注意少数的系统如Linux，对监视者的数量有限制，如果使用<code>fs.watch</code>创建监视失败那么将通过<code>fs.watchFile</code>来创建监视</td>
+                        </tr>
+                        <tr>
+                            <td><code>UseFsEventsWithFallbackDynamicPolling</code></td>
+                            <td>此选项与<code>UseFsEvents</code>类似，只不过当使用<code>fs.watch</code>创建监视失败后，回退到使用动态轮询队列进行监视（如<code>DynamicPriorityPolling</code>介绍的那样）</td>
+                        </tr>
+                        <tr>
+                            <td><code>UseFsEventsOnParentDirectory</code></td>
+                            <td>此选项通过<code>fs.watch</code>（使用系统文件事件）监视文件的父目录，因此CPU占用率低但也会降低精度</td>
+                        </tr>
+                        <tr>
+                            <td>默认 （无指定值）</td>
+                            <td>如果环境变量<code>TSC_NONPOLLING_WATCHER</code>设置为<code>true</code>，监视文件的父目录（如同<code>UseFsEventsOnParentDirectory</code>）。否则，使用<code>fs.watchFile</code>监视文件，超时时间为<code>250ms</code>。</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h2>使用<code>TSC_WATCHDIRECTORY</code>环境变量来配置目录监视</h2>
+                <p>在那些Nodejs原生就不支持递归监视目录的平台上，我们会根据<code>TSC_WATCHDIRECTORY</code>的不同选项递归地创建对子目录的监视。
+                    注意在那些原生就支持递归监视目录的平台上（如Windows），这个环境变量会被忽略。</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>选项</th>
+                            <th>描述</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>RecursiveDirectoryUsingFsWatchFile</code></td>
+                            <td>使用<code>fs.watchFile</code>监视目录和子目录，它是一个轮询监视（消耗CPU周期）</td>
+                        </tr>
+                        <tr>
+                            <td><code>RecursiveDirectoryUsingDynamicPriorityPolling</code></td>
+                            <td>使用动态轮询队列来获取目录与其子目录的改变</td>
+                        </tr>
+                        <tr>
+                            <td>默认 （无指定值）</td>
+                            <td>使用<code>fs.watch</code>来监视目录及其子目录</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <h2>背景</h2>
+                <p>在编译器中<code>--watch</code>的实现依赖于Nodejs提供的<code>fs.watch</code>和<code>fs.watchFile</code>，两者各有优缺点。</p>
+                <p><code>fs.watch</code>使用文件系统事件通知文件及目录的变化。
+                    但是它依赖于操作系统，且事件通知并不完全可靠，在很多操作系统上的行为难以预料。
+                    还可能会有创建监视个数的限制，如Linux系统，在包含大量文件的程序中监视器个数很快被耗尽。
+                    但也正是因为它使用文件系统事件，不需要占用过多的CPU周期。
+                    典型地，编译器使用<code>fs.watch</code>来监视目录（比如配置文件里声明的源码目录，无法进行模块解析的目录）。
+                    这样就可以处理改动通知不准确的问题。
+                    但递归地监视仅在Windows和OSX系统上支持。
+                    这就意味着在其它系统上要使用替代方案。</p>
+                <p><code>fs.watchFile</code>使用轮询，因此涉及到CPU周期。
+                    但是这是最可靠的获取文件/目录状态的机制。
+                    典型地，编译器使用<code>fs.watchFile</code>监视源文件，配置文件和消失的文件（失去文件引用），这意味着对CPU的使用依赖于程序里文件的数量。</p>
+            </article>
+        </div>
+    </div>
+</div>
+<!-- inject:footer:html -->
+<!-- endinject -->
+<!-- inject:js -->
+<!-- endinject -->
+</body>
+</html>

@@ -900,6 +900,53 @@ let originalProps = unproxify(proxyProps);
 </code></pre>
                 <p>注意这个拆包推断只适用于同态的映射类型。 如果映射类型不是同态的，那么需要给拆包函数一个明确的类型参数。
                 </p>
+                <h3>预定义的有条件类型</h3>
+                <p>TypeScript 2.8在<code>lib.d.ts</code>里增加了一些预定义的有条件类型：</p>
+                <ul>
+                    <li><code>Exclude&lt;T, U&gt;</code> -- 从<code>T</code>中剔除可以赋值给<code>U</code>的类型。</li>
+                    <li><code>Extract&lt;T, U&gt;</code> -- 提取<code>T</code>中可以赋值给<code>U</code>的类型。</li>
+                    <li><code>NonNullable&lt;T&gt;</code> -- 从<code>T</code>中剔除<code>null</code>和<code>undefined</code>。</li>
+                    <li><code>ReturnType&lt;T&gt;</code> -- 获取函数返回值类型。</li>
+                    <li><code>InstanceType&lt;T&gt;</code> -- 获取构造函数类型的实例类型。</li>
+                </ul>
+                <h4>示例</h4>
+                <pre><code class="language-ts">type T00 = Exclude&lt;&quot;a&quot; | &quot;b&quot; | &quot;c&quot; | &quot;d&quot;, &quot;a&quot; | &quot;c&quot; | &quot;f&quot;&gt;;  // &quot;b&quot; | &quot;d&quot;
+type T01 = Extract&lt;&quot;a&quot; | &quot;b&quot; | &quot;c&quot; | &quot;d&quot;, &quot;a&quot; | &quot;c&quot; | &quot;f&quot;&gt;;  // &quot;a&quot; | &quot;c&quot;
+
+type T02 = Exclude&lt;string | number | (() =&gt; void), Function&gt;;  // string | number
+type T03 = Extract&lt;string | number | (() =&gt; void), Function&gt;;  // () =&gt; void
+
+type T04 = NonNullable&lt;string | number | undefined&gt;;  // string | number
+type T05 = NonNullable&lt;(() =&gt; string) | string[] | null | undefined&gt;;  // (() =&gt; string) | string[]
+
+function f1(s: string) {
+    return { a: 1, b: s };
+}
+
+class C {
+    x = 0;
+    y = 0;
+}
+
+type T10 = ReturnType&lt;() =&gt; string&gt;;  // string
+type T11 = ReturnType&lt;(s: string) =&gt; void&gt;;  // void
+type T12 = ReturnType&lt;(&lt;T&gt;() =&gt; T)&gt;;  // {}
+type T13 = ReturnType&lt;(&lt;T extends U, U extends number[]&gt;() =&gt; T)&gt;;  // number[]
+type T14 = ReturnType&lt;typeof f1&gt;;  // { a: number, b: string }
+type T15 = ReturnType&lt;any&gt;;  // any
+type T16 = ReturnType&lt;never&gt;;  // any
+type T17 = ReturnType&lt;string&gt;;  // Error
+type T18 = ReturnType&lt;Function&gt;;  // Error
+
+type T20 = InstanceType&lt;typeof C&gt;;  // C
+type T21 = InstanceType&lt;any&gt;;  // any
+type T22 = InstanceType&lt;never&gt;;  // any
+type T23 = InstanceType&lt;string&gt;;  // Error
+type T24 = InstanceType&lt;Function&gt;;  // Error
+</code></pre>
+                <blockquote>
+                    <p>注意：<code>Exclude</code>类型是<a href="https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458">建议的</a><code>Diff</code>类型的一种实现。我们使用<code>Exclude</code>这个名字是为了避免破坏已经定义了<code>Diff</code>的代码，并且我们感觉这个名字能更好地表达类型的语义。我们没有增加<code>Omit&lt;T, K&gt;</code>类型，因为它可以很容易的用<code>Pick&lt;T, Exclude&lt;keyof T, K&gt;&gt;</code>来表示。</p>
+                </blockquote>
             </article>
         </div>
     </div>

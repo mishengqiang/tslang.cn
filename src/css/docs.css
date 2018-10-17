@@ -212,7 +212,7 @@
 .docs-container table {
     margin-bottom: 1rem;
     width: 100%;
-    font-size: 1.3em
+    font-size: 1.3em;
 }
 
 .docs-container td, .docs-container th {
@@ -220,7 +220,8 @@
     border: 1px solid #294e80;
     font-size: 1em!important;
     color: #000;
-    background-color: #eaeef3
+    background-color: #eaeef3;
+    vertical-align: middle !important;
 }
 
 .docs-container th {

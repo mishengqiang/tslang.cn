@@ -198,7 +198,7 @@ myGenericNumber.add = function(x, y) { return x + y; };
 stringNumeric.zeroValue = &quot;&quot;;
 stringNumeric.add = function(x, y) { return x + y; };
 
-alert(stringNumeric.add(stringNumeric.zeroValue, &quot;test&quot;));
+console.log(stringNumeric.add(stringNumeric.zeroValue, &quot;test&quot;));
 </code></pre>
                 <p>与接口一样，直接把泛型类型放在类后面，可以帮助我们确认类的所有属性都在使用相同的类型。</p>
                 <p>我们在<a href="./classes.html">类</a>那节说过，类有两部分：静态部分和实例部分。 泛型类指的是实例部分的类型，所以类的静态属性不能使用这个泛型类型。

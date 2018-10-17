@@ -325,27 +325,25 @@ let dad = new Octopus(&quot;Man with the 8 strong legs&quot;);
 dad.name = &quot;Man with the 3-piece suit&quot;; // 错误! name 是只读的.
 </code></pre>
                 <h2>参数属性</h2>
-                <p>在上面的例子中，我们不得不定义一个受保护的成员
-                    <code>name</code>和一个构造函数参数
-                    <code>theName</code>在
-                    <code>Person</code>类里，并且立刻给
-                    <code>name</code>和
-                    <code>theName</code>赋值。 这种情况经常会遇到。
+                <p>在上面的例子中，我们必须在<code>Octopus</code>类里定义一个只读成员
+                    <code>name</code>和一个参数为
+                    <code>theName</code>的构造函数，并且立刻将
+                    <code>theName</code>的值赋给
+                    <code>name</code>，这种情况经常会遇到。
                     <em>参数属性</em>可以方便地让我们在一个地方定义并初始化一个成员。 下面的例子是对之前
-                    <code>Animal</code>类的修改版，使用了参数属性：</p>
-                <pre><code class="language-ts">class Animal {
-    constructor(private name: string) { }
-    move(distanceInMeters: number) {
-        console.log(`${this.name} moved ${distanceInMeters}m.`);
+                    <code>Octopus</code>类的修改版，使用了参数属性：</p>
+                <pre><code class="language-ts">class Octopus {
+    readonly numberOfLegs: number = 8;
+    constructor(readonly name: string) {
     }
 }
 </code></pre>
                 <p>注意看我们是如何舍弃了
                     <code>theName</code>，仅在构造函数里使用
-                    <code>private name: string</code>参数来创建和初始化
+                    <code>readonly name: string</code>参数来创建和初始化
                     <code>name</code>成员。 我们把声明和赋值合并至一处。
                 </p>
-                <p>参数属性通过给构造函数参数添加一个访问限定符来声明。 使用
+                <p>参数属性通过给构造函数参数前面添加一个访问限定符来声明。 使用
                     <code>private</code>限定一个参数属性会声明并初始化一个私有成员；对于
                     <code>public</code>和
                     <code>protected</code>来说也是一样。</p>

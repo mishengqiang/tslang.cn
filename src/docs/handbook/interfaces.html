@@ -248,7 +248,7 @@ let myStr: string = myArray[0];
 </code></pre>
                 <p>上面例子里，我们定义了<code>StringArray</code>接口，它具有索引签名。 这个索引签名表示了当用
                     <code>number</code>去索引<code>StringArray</code>时会得到<code>string</code>类型的返回值。</p>
-                <p>共有支持两种索引签名：字符串和数字。 可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。 这是因为当使用
+                <p>TypeScript支持两种索引签名：字符串和数字。 可以同时使用两种类型的索引，但是数字索引的返回值必须是字符串索引返回值类型的子类型。 这是因为当使用
                     <code>number</code>来索引时，JavaScript会将它转换成<code>string</code>然后再去索引对象。 也就是说用
                     <code>100</code>（一个<code>number</code>）去索引等同于使用<code>&quot;100&quot;</code>（一个<code>string</code>）去索引，因此两者需要保持一致。</p>
                 <pre><code class="language-ts">class Animal {

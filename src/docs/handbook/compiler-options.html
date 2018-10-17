@@ -80,9 +80,17 @@
                                     <code>boolean</code>
                                 </td>
                                 <td>
-                                    <code>module === &quot;system&quot;</code><code>--esModuleInterop</code>
+                                    <code>module === &quot;system&quot;</code>
+                                    或设置了
+                                    <code>--esModuleInterop</code>
+                                    且
+                                    <code>module</code>
+                                    不为
+                                    <code>es2015</code>
+                                    /
+                                    <code>esnext</code>
                                 </td>
-                                <td>允许从没有设置默认导出的模块中默认导入。这并不影响代码的显示，仅为了类型检查。</td>
+                                <td>允许从没有设置默认导出的模块中默认导入。这并不影响代码的输出，仅为了类型检查。</td>
                             </tr>
                             <tr>
                                 <td>
@@ -247,6 +255,12 @@
                                 <td>启用实验性的ES装饰器。</td>
                             </tr>
                             <tr>
+                                <td><code>--extendedDiagnostics</code></td>
+                                <td><code>boolean</code></td>
+                                <td><code>false</code></td>
+                                <td>显示详细的诊段信息。</td>
+                            </tr>
+                            <tr>
                                 <td>
                                     <code>--forceConsistentCasingInFileNames</code>
                                 </td>
@@ -369,64 +383,56 @@
                                 </td>
                                 <td></td>
                                 <td>编译过程中需要引入的库文件的列表。
-                                    <br/>可能的值为：
-                                    <br/>►
-                                    <code>ES5</code>
-                                    <br/>►
-                                    <code>ES6</code>
-                                    <br/>►
-                                    <code>ES2015</code>
-                                    <br/>►
-                                    <code>ES7</code>
-                                    <br/>►
-                                    <code>ES2016</code>
-                                    <br/>►
-                                    <code>ES2017</code>
-                                    <br/>►
-                                    <code>DOM</code>
-                                    <br/>►
-                                    <code>DOM.Iterable</code>
-                                    <br/>►
-                                    <code>WebWorker</code>
-                                    <br/>►
-                                    <code>ScriptHost</code>
-                                    <br/>►
-                                    <code>ES2015.Core</code>
-                                    <br/>►
-                                    <code>ES2015.Collection</code>
-                                    <br/>►
-                                    <code>ES2015.Generator</code>
-                                    <br/>►
-                                    <code>ES2015.Iterable</code>
-                                    <br/>►
-                                    <code>ES2015.Promise</code>
-                                    <br/>►
-                                    <code>ES2015.Proxy</code>
-                                    <br/>►
-                                    <code>ES2015.Reflect</code>
-                                    <br/>►
-                                    <code>ES2015.Symbol</code>
-                                    <br/>►
-                                    <code>ES2015.Symbol.WellKnown</code>
-                                    <br/>►
-                                    <code>ES2016.Array.Include</code>
-                                    <br/>►
-                                    <code>ES2017.object</code>
-                                    <br/>►
-                                    <code>ES2017.SharedMemory</code>
-                                    <br/>►
-                                    <code>ES2017.TypedArrays</code>
-                                    <br/>►
-                                    <code>esnext.asynciterable</code>
-                                    <br/>
-                                    <br/> 注意：如果
-                                    <code>--lib</code>没有指定默认注入的库的列表。默认注入的库为：
-                                    <br/> ► 针对于
-                                    <code>--target ES5</code>：
-                                    <code>DOM，ES5，ScriptHost</code>
-                                    <br/> ► 针对于
-                                    <code>--target ES6</code>：
-                                    <code>DOM，ES6，DOM.Iterable，ScriptHost</code>
+                                    <br />可能的值为： 
+                                    <br />► <code>ES5</code> 
+                                    <br />► <code>ES6</code> 
+                                    <br />► <code>ES2015</code>
+                                    
+                                    <br />► <code>ES7</code> 
+                                    <br />► <code>ES2016</code> 
+                                    <br />► <code>ES2017</code> 
+                                    <br />► <code>ES2018</code>
+                                    
+                                    <br />► <code>ESNext</code> 
+                                    <br />► <code>DOM</code> 
+                                    <br />► <code>DOM.Iterable</code> 
+                                    <br />► <code>WebWorker</code>
+                                    
+                                    <br />► <code>ScriptHost</code> 
+                                    <br />► <code>ES2015.Core</code> 
+                                    <br />► <code>ES2015.Collection</code>
+                                    
+                                    <br />► <code>ES2015.Generator</code> 
+                                    <br />► <code>ES2015.Iterable</code> 
+                                    <br />► <code>ES2015.Promise</code>
+                                    
+                                    <br />► <code>ES2015.Proxy</code> 
+                                    <br />► <code>ES2015.Reflect</code> 
+                                    <br />► <code>ES2015.Symbol</code>
+                                    
+                                    <br />► <code>ES2015.Symbol.WellKnown</code> 
+                                    <br />► <code>ES2016.Array.Include</code> 
+                                    <br />► <code>ES2017.object</code>
+                                    
+                                    <br />► <code>ES2017.Intl</code> 
+                                    <br />► <code>ES2017.SharedMemory</code> 
+                                    <br />► <code>ES2017.String</code>
+                                    
+                                    <br />► <code>ES2017.TypedArrays</code> 
+                                    <br />► <code>ES2018.Intl</code> 
+                                    <br />► <code>ES2018.Promise</code>
+                                    
+                                    <br />► <code>ES2018.RegExp</code> 
+                                    <br />► <code>ESNext.AsyncIterable</code> 
+                                    <br />► <code>ESNext.Array</code>
+                                    
+                                    <br />► <code>ESNext.Intl</code> 
+                                    <br />► <code>ESNext.Symbol</code> 
+                                    <br />
+                                    <br /> 注意：如果<code>--lib</code>没有指定默认注入的库的列表。默认注入的库为：
+                                    <br />
+                                    ► 针对于<code>--target ES5</code>：<code>DOM，ES5，ScriptHost</code>
+                                    <br /> ► 针对于<code>--target ES6</code>：<code>DOM，ES6，DOM.Iterable，ScriptHost</code>
                                 </td>
                             </tr>
                             <tr>
@@ -528,12 +534,11 @@
                                     <code>string</code>
                                 </td>
                                 <td>
-                                    <code>module === "AMD" | "System" | "ES6" ?  "Classic" : "Node"</code>
+                                    <code>module === &quot;AMD&quot; or &quot;System&quot; or &quot;ES6&quot; ? &quot;Classic&quot; : &quot;Node&quot;</code>
                                 </td>
-                                <td>决定如何处理模块。或者是
-                                    <code>&quot;Node&quot;</code>对于Node.js/io.js，或者是
-                                    <code>&quot;Classic&quot;</code>（默认）。查看
-                                    <a href="./module-resolution.html">模块解析</a>了解详情。</td>
+                                <td>
+                                    决定如何处理模块。或者是<code>&quot;Node&quot;</code>对于Node.js/io.js，或者是<code>&quot;Classic&quot;</code>（默认）。查看<a href="./module-resolution.html">模块解析</a>了解详情。
+                                </td>
                             </tr>
                             <tr>
                                 <td>
@@ -800,6 +805,12 @@
                                 <td>不把符号链接解析为其真实路径；将符号链接文件视为真正的文件。</td>
                             </tr>
                             <tr>
+                                <td><code>--preserveWatchOutput</code></td>
+                                <td><code>boolean</code></td>
+                                <td><code>false</code></td>
+                                <td>保留watch模式下过时的控制台输出。</td>
+                            </tr>
+                            <tr>
                                 <td>
                                     <code>--pretty</code>
                                     <sup>[1]</sup>
@@ -962,16 +973,10 @@
                                 <td>禁用函数参数双向协变检查。</td>
                             </tr>
                             <tr>
-                                <td>
-                                    <code>--strictPropertyInitialization</code>
-                                </td>
-                                <td>
-                                    <code>boolean</code>
-                                </td>
-                                <td>
-                                    <code>false</code>
-                                </td>
-                                <td>Enusre non-undefined class properties are initialized in the constructor.</td>
+                                <td><code>--strictPropertyInitialization</code></td>
+                                <td><code>boolean</code></td>
+                                <td><code>false</code></td>
+                                <td>确保类的非<code>undefined</code>属性已经在构造函数里初始化。若要令此选项生效，需要同时启用<code>--strictNullChecks</code>。</td>
                             </tr>
                             <tr>
                                 <td>
@@ -1110,7 +1115,7 @@
                                 </td>
                                 <td></td>
                                 <td></td>
-                                <td>在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。</td>
+                                <td>在监视模式下运行编译器。会监视输出文件，在它们改变时重新编译。监视文件和目录的具体实现可以通过环境变量进行配置。详情请看<a href="./configuring-watch.html">配置 Watch</a>。</td>
                             </tr>
                         </tbody>
                     </table>
