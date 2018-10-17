@@ -1,0 +1,64 @@
+#playground-host {
+  padding: 4em 0 6em 0;
+}
+#playground-host span,
+#playground-host p {
+  font-size: 14px;
+}
+#playground-host #playground-options-menu {
+  color: black;
+  font-family: SegoeUISemibold, 'Segoe UI Semibold', SegoeUI, 'Segoe UI', Arial,
+    sans-serif;
+  font-size: 14px;
+  display: none;
+  position: absolute;
+  font-size: 14px;
+  background-color: white;
+  z-index: 1000;
+  border: 1px solid gray;
+  padding: 10px;
+  margin-left: 346px;
+  size: 1000px;
+}
+#playground-host #playground-options-menu > span {
+  margin-left: 12px;
+}
+#playground-host #playground-options-menu label {
+  margin-left: 4px;
+}
+#playground-host #playground-options-menu label .ts-opt-description {
+  font-size: 12px;
+  color: gray;
+}
+#playground-host #playground-options-menu hr {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+#playground-host #share-message {
+  color: black;
+  display: none;
+}
+#playground-host .frame-title {
+  background-color: gray;
+  color: white;
+  padding: 10px;
+  position: relative;
+  font: 14px SegoeUISemibold, 'Segoe UI Semibold', SegoeUI, 'Segoe UI', Arial,
+    sans-serif;
+}
+#playground-host .playground-button {
+  background-color: #0074c1;
+  color: white;
+  font: 14px SegoeUISemibold, 'Segoe UI Semibold', SegoeUI, 'Segoe UI', Arial,
+    sans-serif;
+  border: none;
+  padding: 10px;
+  position: relative;
+}
+#playground-host #examples {
+  margin-right: 20px;
+}
+#playground-host select {
+  font: 14px SegoeUI, 'Segoe UI', Arial, sans-serif;
+  color: black;
+}

@@ -33,15 +33,117 @@
 </head>
 
 <body>
-</body>
 <!-- inject:header:html -->
 <!-- endinject -->
 <!-- inject:message:html -->
 <!-- endinject -->
-<iframe id="playground" src="http://www.typescriptlang.org/play/index.html" frameborder="0" width="100%" height="800px"></iframe>
+<main id="main-content" class="content">
+    <div id="playground-host">
+        <div class="playground-options-container">
+        </div>
+        <div>
+            <div id="wrapper" style="padding-right: 20px; padding-left: 20px;">
+                <div style="padding-left: 50px; float: left;">
+                    <select id="examples">
+                        <option value="">选择...</option>
+                        <option value="walkthrough1.ts">经典JavaScript</option>
+                        <option value="walkthrough1.1.ts">添加类型</option>
+                        <option value="walkthrough2.ts">使用类</option>
+                        <option value="inheritance_1.ts">使用继承</option>
+                        <option value="walkthrough2.1.ts">使用泛型</option>
+                        <option value="union_types_1.ts">联合类型及类型守卫</option>
+                        <option value="raytracer.ts">构建Raytracer</option>
+                    </select>
+                    <span class="frame-title">TypeScript</span>
+                    <button class="playground-button" id="share">分享</button>
+                    <button class="playground-button" id="options-button">编译项</button>
+                    <span id="share-message"></span>
+                    <div id="playground-options-menu">
+
+
+                        <div title="Trigger an error if TypeScript uses 'any' whenever it can't infer a type.">
+                            <input type="checkbox" class="ts-bool-opt" id="ts-opt-noImplicitAny" name="noImplicitAny">
+                            <label for="ts-opt-noImplicitAny">
+                                noImplicitAny
+                                <div class="ts-opt-description">Trigger an error if TypeScript uses 'any' whenever
+                                    it can't infer a type.</div>
+                            </label>
+                            <hr>
+                        </div>
+
+                        <div title="Makes types non-nullable by default, catching a broad class of errors.">
+                            <input type="checkbox" class="ts-bool-opt" id="ts-opt-strictNullChecks" name="strictNullChecks">
+                            <label for="ts-opt-strictNullChecks">
+                                strictNullChecks
+                                <div class="ts-opt-description">Makes types non-nullable by default, catching a
+                                    broad class of errors.</div>
+                            </label>
+                            <hr>
+                        </div>
+
+                        <div title="Disable bivariant parameter checking for function types.">
+                            <input type="checkbox" class="ts-bool-opt" id="ts-opt-strictFunctionTypes" name="strictFunctionTypes">
+                            <label for="ts-opt-strictFunctionTypes">
+                                strictFunctionTypes
+                                <div class="ts-opt-description">Disable bivariant parameter checking for function
+                                    types.</div>
+                            </label>
+                            <hr>
+                        </div>
+
+                        <div title="Ensure non-undefined class properties are initialized in the constructor.">
+                            <input type="checkbox" class="ts-bool-opt" id="ts-opt-strictPropertyInitialization"
+                                name="strictPropertyInitialization">
+                            <label for="ts-opt-strictPropertyInitialization">
+                                strictPropertyInitialization
+                                <div class="ts-opt-description">Ensure non-undefined class properties are
+                                    initialized in the constructor.</div>
+                            </label>
+                            <hr>
+                        </div>
+
+                        <div title="Flag locations where the type of a 'this' expression implicitly has the type 'any'.">
+                            <input type="checkbox" class="ts-bool-opt" id="ts-opt-noImplicitThis" name="noImplicitThis">
+                            <label for="ts-opt-noImplicitThis">
+                                noImplicitThis
+                                <div class="ts-opt-description">Flag locations where the type of a 'this'
+                                    expression implicitly has the type 'any'.</div>
+                            </label>
+                            <hr>
+                        </div>
+
+                        <div title="Error on functions which do not return from every branch.">
+                            <input type="checkbox" class="ts-bool-opt" id="ts-opt-noImplicitReturns" name="noImplicitReturns">
+                            <label for="ts-opt-noImplicitReturns">
+                                noImplicitReturns
+                                <div class="ts-opt-description">Error on functions which do not return from every
+                                    branch.</div>
+                            </label>
+
+                        </div>
+
+                    </div>
+                </div>
+                <div id="rundiv" style="padding-right: 50px; float: right;">
+                    <button class="playground-button" id="execute">运行</button>
+                    <span class="frame-title">JavaScript</span>
+                </div>
+                <div style="clear: both;"></div>
+                <div id="typescriptEditor" style="border: 1px solid grey; border-image: none; left: 0px; height: 500px; position: relative;"></div>
+                <div id="javascriptEditor" style="border: 1px solid grey; border-image: none; top: -502px; height: 500px; position: relative;"></div>
+                <div style="clear: both;"></div>
+            </div>
+        </div>
+    </div>
+</main>
 <!-- inject:footer:html -->
 <!-- endinject -->
 <!-- inject:js -->
 <!-- endinject -->
-
+<script>
+    var startTime = (new Date()).getTime();
+</script>
+<script src="Script/vs/loader.js"></script>
+<script type="text/javascript" src="playground.js"></script>
+</body>
 </html>
