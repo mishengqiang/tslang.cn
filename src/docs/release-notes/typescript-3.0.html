@@ -48,7 +48,286 @@
                 <h1 class="post-title">Typescript 3.0</h1>
             </header>
             <article class="post-content">
-                
+                <h2>项目引用</h2>
+                <p>TypeScript 3.0 引入了一个叫做项目引用的新概念。项目引用允许TypeScript项目依赖于其它TypeScript项目 - 特别要提的是允许<code>tsconfig.json</code>文件引用其它<code>tsconfig.json</code>文件。当指明了这些依赖后，就可以方便地将代码分割成单独的小项目，有助于TypeScript（以及周边的工具）了解构建顺序和输出结构。</p>
+                <p>TypeScript 3.0 还引入了一种新的<code>tsc</code>模式，即<code>--build</code>标记，它与项目引用同时运用可以加速构建TypeScript。</p>
+                <p>相关详情请阅读<a href="/docs/handbook/project-references.html">项目引用手册</a>。</p>
+                <h2>剩余参数和展开表达式里的元组</h2>
+                <p>TypeScript 3.0 增加了支持以元组类型与函数参数列表进行交互的能力。
+                    如下：</p>
+                <ul>
+                    <li><a href="#rest-parameters-with-tuple-types">将带有元组类型的剩余参数扩展为离散参数</a></li>
+                    <li><a href="#spread-expressions-with-tuple-types">将带有元组类型的展开表达式扩展为离散参数</a></li>
+                    <li><a href="#generic-rest-parameters">泛型剩余参数以及相应的元组类型推断</a></li>
+                    <li><a href="#optional-elements-in-tuple-types">元组类型里的可选元素</a></li>
+                    <li><a href="#rest-elements-in-tuple-types">元组类型里的剩余元素</a></li>
+                </ul>
+                <p>有了这些特性后，便有可能将转换函数和它们参数列表的高阶函数变为强类型的。</p>
+                <h3><a name="rest-parameters-with-tuple-types"></a>带元组类型的剩余参数</h3>
+                <p>当剩余参数里有元组类型时，元组类型被扩展为离散参数序列。
+                    例如，如下两个声明是等价的：</p>
+                <pre><code class="language-ts">declare function foo(...args: [number, string, boolean]): void;
+                                </code></pre>
+                <pre><code class="language-ts">declare function foo(args_0: number, args_1: string, args_2: boolean): void;
+                                </code></pre>
+                <h3><a name="spread-expressions-with-tuple-types"></a>带有元组类型的展开表达式</h3>
+                <p>在函数调用中，若最后一个参数是元组类型的展开表达式，那么这个展开表达式相当于元组元素类型的离散参数序列。</p>
+                <p>因此，下面的调用都是等价的：</p>
+                <pre><code class="language-ts">const args: [number, string, boolean] = [42, &quot;hello&quot;, true];
+foo(42, &quot;hello&quot;, true);
+foo(args[0], args[1], args[2]);
+foo(...args);
+</code></pre>
+                <h3><a name="generic-rest-parameters"></a>泛型剩余参数</h3>
+                <p>剩余参数允许带有泛型类型，这个泛型类型被限制为是一个数组类型，类型推断系统能够推断这类泛型剩余参数里的元组类型。这样就可以进行高阶捕获和展开部分参数列表:</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">declare function bind&lt;T, U extends any[], V&gt;(f: (x: T, ...args: U) =&gt; V, x: T): (...args: U) =&gt; V;
+
+declare function f3(x: number, y: string, z: boolean): void;
+
+const f2 = bind(f3, 42);  // (y: string, z: boolean) =&gt; void
+const f1 = bind(f2, &quot;hello&quot;);  // (z: boolean) =&gt; void
+const f0 = bind(f1, true);  // () =&gt; void
+
+f3(42, &quot;hello&quot;, true);
+f2(&quot;hello&quot;, true);
+f1(true);
+f0();
+</code></pre>
+                <p>上例的<code>f2</code>声明，类型推断可以推断出<code>number</code>，<code>[string, boolean]</code>和<code>void</code>做为<code>T</code>，<code>U</code>和<code>V</code>。</p>
+                <p>注意，如果元组类型是从参数序列中推断出来的，之后又扩展成参数列表，就像<code>U</code>那样，原来的参数名称会被用在扩展中（然而，这个名字没有语义上的意义且是察觉不到的）。</p>
+                <h3><a name="optional-elements-in-tuple-types"></a>元组类型里的可选元素</h3>
+                <p>元组类型现在允许在其元素类型上使用<code>?</code>后缀，表示这个元素是可选的：</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">let t: [number, string?, boolean?];
+t = [42, &quot;hello&quot;, true];
+t = [42, &quot;hello&quot;];
+t = [42];
+</code></pre>
+                <p>在<code>--strictNullChecks</code>模式下，<code>?</code>修饰符会自动地在元素类型中包含<code>undefined</code>，类似于可选参数。</p>
+                <p>在元组类型的一个元素类型上使用<code>?</code>后缀修饰符来把它标记为可忽略的元素，且它右侧所有元素也同时带有了<code>?</code>修饰符。</p>
+                <p>当剩余参数推断为元组类型时，源码中的可选参数在推断出的类型里成为了可选元组元素。</p>
+                <p>带有可选元素的元组类型的<code>length</code>属性是表示可能长度的数字字面量类型的联合类型。
+                    例如，<code>[number, string?, boolean?]</code>元组类型的<code>length</code>属性的类型是<code>1 | 2 | 3</code>。</p>
+                <h3><a name="rest-elements-in-tuple-types"></a>元组类型里的剩余元素</h3>
+                <p>元组类型里最后一个元素可以是剩余元素，形式为<code>...X</code>，这里<code>X</code>是数组类型。
+                    剩余元素代表元组类型是开放的，可以有零个或多个额外的元素。
+                    例如，<code>[number, ...string[]]</code>表示带有一个<code>number</code>元素和任意数量<code>string</code>类型元素的元组类型。</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">function tuple&lt;T extends any[]&gt;(...args: T): T {
+    return args;
+}
+
+const numbers: number[] = getArrayOfNumbers();
+const t1 = tuple(&quot;foo&quot;, 1, true);  // [string, number, boolean]
+const t2 = tuple(&quot;bar&quot;, ...numbers);  // [string, ...number[]]
+</code></pre>
+                <p>这个带有剩余元素的元组类型的<code>length</code>属性类型是<code>number</code>。</p>
+                <h2>新的<code>unknown</code>类型</h2>
+                <p>TypeScript 3.0引入了一个顶级的<code>unknown</code>类型。
+                    对照于<code>any</code>，<code>unknown</code>是类型安全的。
+                    任何值都可以赋给<code>unknown</code>，但是当没有类型断言或基于控制流的类型细化时<code>unknown</code>不可以赋值给其它类型，除了它自己和<code>any</code>外。
+                    同样地，在<code>unknown</code>没有被断言或细化到一个确切类型之前，是不允许在其上进行任何操作的。</p>
+                <h3>例子</h3>
+                <pre><code class="language-ts">// In an intersection everything absorbs unknown
+
+type T00 = unknown &amp; null;  // null
+type T01 = unknown &amp; undefined;  // undefined
+type T02 = unknown &amp; null &amp; undefined;  // null &amp; undefined (which becomes never)
+type T03 = unknown &amp; string;  // string
+type T04 = unknown &amp; string[];  // string[]
+type T05 = unknown &amp; unknown;  // unknown
+type T06 = unknown &amp; any;  // any
+
+// In a union an unknown absorbs everything
+
+type T10 = unknown | null;  // unknown
+type T11 = unknown | undefined;  // unknown
+type T12 = unknown | null | undefined;  // unknown
+type T13 = unknown | string;  // unknown
+type T14 = unknown | string[];  // unknown
+type T15 = unknown | unknown;  // unknown
+type T16 = unknown | any;  // any
+
+// Type variable and unknown in union and intersection
+
+type T20&lt;T&gt; = T &amp; {};  // T &amp; {}
+type T21&lt;T&gt; = T | {};  // T | {}
+type T22&lt;T&gt; = T &amp; unknown;  // T
+type T23&lt;T&gt; = T | unknown;  // unknown
+
+// unknown in conditional types
+
+type T30&lt;T&gt; = unknown extends T ? true : false;  // Deferred
+type T31&lt;T&gt; = T extends unknown ? true : false;  // Deferred (so it distributes)
+type T32&lt;T&gt; = never extends T ? true : false;  // true
+type T33&lt;T&gt; = T extends never ? true : false;  // Deferred
+
+// keyof unknown
+
+type T40 = keyof any;  // string | number | symbol
+type T41 = keyof unknown;  // never
+
+// Only equality operators are allowed with unknown
+
+function f10(x: unknown) {
+    x == 5;
+    x !== 10;
+    x &gt;= 0;  // Error
+    x + 1;  // Error
+    x * 2;  // Error
+    -x;  // Error
+    +x;  // Error
+}
+
+// No property accesses, element accesses, or function calls
+
+function f11(x: unknown) {
+    x.foo;  // Error
+    x[5];  // Error
+    x();  // Error
+    new x();  // Error
+}
+
+// typeof, instanceof, and user defined type predicates
+
+declare function isFunction(x: unknown): x is Function;
+
+function f20(x: unknown) {
+    if (typeof x === &quot;string&quot; || typeof x === &quot;number&quot;) {
+        x;  // string | number
+    }
+    if (x instanceof Error) {
+        x;  // Error
+    }
+    if (isFunction(x)) {
+        x;  // Function
+    }
+}
+
+// Homomorphic mapped type over unknown
+
+type T50&lt;T&gt; = { [P in keyof T]: number };
+type T51 = T50&lt;any&gt;;  // { [x: string]: number }
+type T52 = T50&lt;unknown&gt;;  // {}
+
+// Anything is assignable to unknown
+
+function f21&lt;T&gt;(pAny: any, pNever: never, pT: T) {
+    let x: unknown;
+    x = 123;
+    x = &quot;hello&quot;;
+    x = [1, 2, 3];
+    x = new Error();
+    x = x;
+    x = pAny;
+    x = pNever;
+    x = pT;
+}
+
+// unknown assignable only to itself and any
+
+function f22(x: unknown) {
+    let v1: any = x;
+    let v2: unknown = x;
+    let v3: object = x;  // Error
+    let v4: string = x;  // Error
+    let v5: string[] = x;  // Error
+    let v6: {} = x;  // Error
+    let v7: {} | null | undefined = x;  // Error
+}
+
+// Type parameter 'T extends unknown' not related to object
+
+function f23&lt;T extends unknown&gt;(x: T) {
+    let y: object = x;  // Error
+}
+
+// Anything but primitive assignable to { [x: string]: unknown }
+
+function f24(x: { [x: string]: unknown }) {
+    x = {};
+    x = { a: 5 };
+    x = [1, 2, 3];
+    x = 123;  // Error
+}
+
+// Locals of type unknown always considered initialized
+
+function f25() {
+    let x: unknown;
+    let y = x;
+}
+
+// Spread of unknown causes result to be unknown
+
+function f26(x: {}, y: unknown, z: any) {
+    let o1 = { a: 42, ...x };  // { a: number }
+    let o2 = { a: 42, ...x, ...y };  // unknown
+    let o3 = { a: 42, ...x, ...y, ...z };  // any
+}
+
+// Functions with unknown return type don't need return expressions
+
+function f27(): unknown {
+}
+
+// Rest type cannot be created from unknown
+
+function f28(x: unknown) {
+    let { ...a } = x;  // Error
+}
+
+// Class properties of type unknown don't need definite assignment
+
+class C1 {
+    a: string;  // Error
+    b: unknown;
+    c: any;
+}
+</code></pre>
+                <h2>在JSX里支持<code>defaultProps</code></h2>
+                <p>TypeScript 2.9和之前的版本不支持在JSX组件里使用<a href="https://reactjs.org/docs/typechecking-with-proptypes.html#default-prop-values">React的<code>defaultProps</code></a>声明。
+                    用户通常不得不将属性声明为可选的，然后在<code>render</code>里使用非<code>null</code>的断言，或者在导出之前对组件的类型使用类型断言。</p>
+                <p>TypeScript 3.0在<code>JSX</code>命名空间里支持一个新的类型别名<code>LibraryManagedAttributes</code>。
+                    这个助手类型定义了在检查JSX表达式之前在组件<code>Props</code>上的一个类型转换；因此我们可以进行定制：如何处理提供的<code>props</code>与推断<code>props</code>之间的冲突，推断如何映射，如何处理可选性以及不同位置的推断如何结合在一起。</p>
+                <p>我们可以利用它来处理React的<code>defaultProps</code>以及<code>propTypes</code>。</p>
+                <pre><code class="language-tsx">export interface Props {
+    name: string;
+}
+
+export class Greet extends React.Component&lt;Props&gt; {
+    render() {
+        const { name } = this.props;
+        return &lt;div&gt;Hello ${name.toUpperCase()}!&lt;/div&gt;;
+    }
+    static defaultProps = { name: &quot;world&quot;};
+}
+
+// Type-checks! No type assertions needed!
+let el = &lt;Greet /&gt;
+</code></pre>
+                <h3>说明</h3>
+                <h4><code>defaultProps</code>的确切类型</h4>
+                <p>默认类型是从<code>defaultProps</code>属性的类型推断而来。如果添加了显式的类型注释，比如<code>static defaultProps: Partial&lt;Props&gt;;</code>，编译器无法识别哪个属性具有默认值（因为<code>defaultProps</code>类型包含了<code>Props</code>的所有属性）。</p>
+                <p>使用<code>static defaultProps: Pick&lt;Props, &quot;name&quot;&gt;;</code>做为显式的类型注释，或者不添加类型注释。</p>
+                <p>对于无状态的函数式组件（SFCs），使用ES2015默认的初始化器：</p>
+                <pre><code class="language-tsx">function Greet({ name = &quot;world&quot; }: Props) {
+    return &lt;div&gt;Hello ${name.toUpperCase()}!&lt;/div&gt;;
+}
+</code></pre>
+                <h4><code>@types/React</code>的改动</h4>
+                <p>仍需要在<code>@types/React</code>里<code>JSX</code>命名空间上添加<code>LibraryManagedAttributes</code>定义。</p>
+                <h2><code>/// &lt;reference lib=&quot;...&quot; /&gt;</code>指令</h2>
+                <p>TypeScript增加了一个新的三斜线指令（<code>/// &lt;reference lib=&quot;name&quot; /&gt;</code>），允许一个文件显式地包含一个已知的内置<em>lib</em>文件。</p>
+                <p>内置的<em>lib</em>文件的引用和<em>tsconfig.json</em>里的编译器选项<code>&quot;lib&quot;</code>相同（例如，使用<code>lib=&quot;es2015&quot;</code>而不是<code>lib=&quot;lib.es2015.d.ts&quot;</code>等）。</p>
+                <p>当你写的声明文件依赖于内置类型时，例如DOM APIs或内置的JS运行时构造函数如<code>Symbol</code>或<code>Iterable</code>，推荐使用三斜线引用指令。之前，这个<code>.d.ts</code>文件不得不添加重覆的类型声明。</p>
+                <h3>例子</h3>
+                <p>在某个文件里使用 <code>/// &lt;reference lib=&quot;es2017.string&quot; /&gt;</code>等同于指定<code>--lib es2017.string</code>编译选项。</p>
+                <pre><code class="language-ts">/// &lt;reference lib=&quot;es2017.string&quot; /&gt;
+
+&quot;foo&quot;.padStart(4);
+</code></pre>
             </article>
         </div>
     </div>

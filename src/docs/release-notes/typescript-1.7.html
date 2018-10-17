@@ -51,13 +51,13 @@
                 <h2>支持 <code>async</code>/<code>await</code> 编译到 ES6 (Node v4+)</h2>
                 <p>TypeScript 目前在已经原生支持 ES6 generator 的引擎 (比如 Node v4 及以上版本) 上支持异步函数. 异步函数前置 <code>async</code> 关键字; <code>await</code>                    会暂停执行, 直到一个异步函数执行后返回的 promise 被 fulfill 后获得它的值.</p>
                 <h3>例子</h3>
-                <p>在下面的例子中, 输入的内容将会延时 200 毫秒逐个打印:</p>
+                <p>在下面的例子中, 输入的内容将会延时 400 毫秒逐个打印:</p>
                 <pre><code class="language-ts">&quot;use strict&quot;;
 
 // printDelayed 返回值是一个 'Promise&lt;void&gt;'
 async function printDelayed(elements: string[]) {
     for (const element of elements) {
-        await delay(200);
+        await delay(400);
         console.log(element);
     }
 }

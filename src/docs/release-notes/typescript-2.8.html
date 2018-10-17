@@ -48,7 +48,298 @@
                 <h1 class="post-title">Typescript 2.8</h1>
             </header>
             <article class="post-content">
-                
+                <h2>有条件类型</h2>
+                <p>TypeScript 2.8引入了<em>有条件类型</em>，它能够表示非统一的类型。
+                    有条件的类型会以一个条件表达式进行类型关系检测，从而在两种类型中选择其一：</p>
+                <pre><code class="language-ts">T extends U ? X : Y</code></pre>
+                <p>上面的类型意思是，若<code>T</code>能够赋值给<code>U</code>，那么类型是<code>X</code>，否则为<code>Y</code>。</p>
+                <p>有条件的类型<code>T extends U ? X : Y</code>或者<em>解析</em>为<code>X</code>，或者<em>解析</em>为<code>Y</code>，再或者<em>延迟</em>解析，因为它可能依赖一个或多个类型变量。
+                    是否直接解析或推迟取决于：</p>
+                <ul>
+                    <li>首先，令<code>T'</code>和<code>U'</code>分别为<code>T</code>和<code>U</code>的实例，并将所有类型参数替换为<code>any</code>，如果<code>T'</code>不能赋值给<code>U'</code>，则将有条件的类型解析成<code>Y</code>。直观上讲，如果最宽泛的<code>T</code>的实例不能赋值给最宽泛的<code>U</code>的实例，那么我们就可以断定不存在可以赋值的实例，因此可以解析为<code>Y</code>。</li>
+                    <li>其次，针对每个在<code>U</code>内由<code>推断</code>声明引入的类型变量，依据从<code>T</code>推断到<code>U</code>来收集一组候选类型（使用与泛型函数类型推断相同的推断算法）。对于给定的<code>推断</code>类型变量<code>V</code>，如果有候选类型是从协变的位置上推断出来的，那么<code>V</code>的类型是那些候选类型的联合。反之，如果有候选类型是从逆变的位置上推断出来的，那么<code>V</code>的类型是那些候选类型的交叉类型。否则<code>V</code>的类型是<code>never</code>。</li>
+                    <li>然后，令<code>T''</code>为<code>T</code>的一个实例，所有<code>推断</code>的类型变量用上一步的推断结果替换，如果<code>T''</code><em>明显可赋值</em>给<code>U</code>，那么将有条件的类型解析为<code>X</code>。除去不考虑类型变量的限制之外，<em>明显可赋值</em>的关系与正常的赋值关系一致。直观上，当一个类型明显可赋值给另一个类型，我们就能够知道它可以赋值给那些类型的<em>所有</em>实例。</li>
+                    <li>否则，这个条件依赖于一个或多个类型变量，有条件的类型解析被推迟进行。</li>
+                </ul>
+                <h4>例子</h4>
+                <pre><code class="language-ts">type TypeName&lt;T&gt; =
+    T extends string ? &quot;string&quot; :
+    T extends number ? &quot;number&quot; :
+    T extends boolean ? &quot;boolean&quot; :
+    T extends undefined ? &quot;undefined&quot; :
+    T extends Function ? &quot;function&quot; :
+    &quot;object&quot;;
+
+type T0 = TypeName&lt;string&gt;;  // &quot;string&quot;
+type T1 = TypeName&lt;&quot;a&quot;&gt;;  // &quot;string&quot;
+type T2 = TypeName&lt;true&gt;;  // &quot;boolean&quot;
+type T3 = TypeName&lt;() =&gt; void&gt;;  // &quot;function&quot;
+type T4 = TypeName&lt;string[]&gt;;  // &quot;object&quot;
+</code></pre>
+                <h3>分布式有条件类型</h3>
+                <p>如果有条件类型里待检查的类型是<code>naked type parameter</code>，那么它也被称为“分布式有条件类型”。
+                    分布式有条件类型在实例化时会自动分发成联合类型。
+                    例如，实例化<code>T extends U ? X : Y</code>，<code>T</code>的类型为<code>A | B | C</code>，会被解析为<code>(A extends U ? X : Y) | (B extends U ? X : Y) | (C extends U ? X : Y)</code>。</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">
+type T10 = TypeName&lt;string | (() =&gt; void)&gt;;  // &quot;string&quot; | &quot;function&quot;
+type T12 = TypeName&lt;string | string[] | undefined&gt;;  // &quot;string&quot; | &quot;object&quot; | &quot;undefined&quot;
+type T11 = TypeName&lt;string[] | number[]&gt;;  // &quot;object&quot;
+</code></pre>
+                <p>在<code>T extends U ? X : Y</code>的实例化里，对<code>T</code>的引用被解析为联合类型的一部分（比如，<code>T</code>指向某一单个部分，在有条件类型分布到联合类型之后）。
+                    此外，在<code>X</code>内对<code>T</code>的引用有一个附加的类型参数约束<code>U</code>（例如，<code>T</code>被当成在<code>X</code>内可赋值给<code>U</code>）。</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">type BoxedValue&lt;T&gt; = { value: T };
+type BoxedArray&lt;T&gt; = { array: T[] };
+type Boxed&lt;T&gt; = T extends any[] ? BoxedArray&lt;T[number]&gt; : BoxedValue&lt;T&gt;;
+
+type T20 = Boxed&lt;string&gt;;  // BoxedValue&lt;string&gt;;
+type T21 = Boxed&lt;number[]&gt;;  // BoxedArray&lt;number&gt;;
+type T22 = Boxed&lt;string | number[]&gt;;  // BoxedValue&lt;string&gt; | BoxedArray&lt;number&gt;;
+</code></pre>
+                <p>注意在<code>Boxed&lt;T&gt;</code>的<code>true</code>分支里，<code>T</code>有个额外的约束<code>any[]</code>，因此它适用于<code>T[number]</code>数组元素类型。同时也注意一下有条件类型是如何分布成联合类型的。</p>
+                <p>有条件类型的分布式的属性可以方便地用来<em>过滤</em>联合类型：</p>
+                <pre><code class="language-ts">type Diff&lt;T, U&gt; = T extends U ? never : T;  // Remove types from T that are assignable to U
+type Filter&lt;T, U&gt; = T extends U ? T : never;  // Remove types from T that are not assignable to U
+
+type T30 = Diff&lt;&quot;a&quot; | &quot;b&quot; | &quot;c&quot; | &quot;d&quot;, &quot;a&quot; | &quot;c&quot; | &quot;f&quot;&gt;;  // &quot;b&quot; | &quot;d&quot;
+type T31 = Filter&lt;&quot;a&quot; | &quot;b&quot; | &quot;c&quot; | &quot;d&quot;, &quot;a&quot; | &quot;c&quot; | &quot;f&quot;&gt;;  // &quot;a&quot; | &quot;c&quot;
+type T32 = Diff&lt;string | number | (() =&gt; void), Function&gt;;  // string | number
+type T33 = Filter&lt;string | number | (() =&gt; void), Function&gt;;  // () =&gt; void
+
+type NonNullable&lt;T&gt; = Diff&lt;T, null | undefined&gt;;  // Remove null and undefined from T
+
+type T34 = NonNullable&lt;string | number | undefined&gt;;  // string | number
+type T35 = NonNullable&lt;string | string[] | null | undefined&gt;;  // string | string[]
+
+function f1&lt;T&gt;(x: T, y: NonNullable&lt;T&gt;) {
+    x = y;  // Ok
+    y = x;  // Error
+}
+
+function f2&lt;T extends string | undefined&gt;(x: T, y: NonNullable&lt;T&gt;) {
+    x = y;  // Ok
+    y = x;  // Error
+    let s1: string = x;  // Error
+    let s2: string = y;  // Ok
+}
+</code></pre>
+                <p>有条件类型与映射类型结合时特别有用：</p>
+                <pre><code class="language-ts">type FunctionPropertyNames&lt;T&gt; = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
+type FunctionProperties&lt;T&gt; = Pick&lt;T, FunctionPropertyNames&lt;T&gt;&gt;;
+
+type NonFunctionPropertyNames&lt;T&gt; = { [K in keyof T]: T[K] extends Function ? never : K }[keyof T];
+type NonFunctionProperties&lt;T&gt; = Pick&lt;T, NonFunctionPropertyNames&lt;T&gt;&gt;;
+
+interface Part {
+    id: number;
+    name: string;
+    subparts: Part[];
+    updatePart(newName: string): void;
+}
+
+type T40 = FunctionPropertyNames&lt;Part&gt;;  // &quot;updatePart&quot;
+type T41 = NonFunctionPropertyNames&lt;Part&gt;;  // &quot;id&quot; | &quot;name&quot; | &quot;subparts&quot;
+type T42 = FunctionProperties&lt;Part&gt;;  // { updatePart(newName: string): void }
+type T43 = NonFunctionProperties&lt;Part&gt;;  // { id: number, name: string, subparts: Part[] }
+</code></pre>
+                <p>与联合类型和交叉类型相似，有条件类型不允许递归地引用自己。比如下面的错误。</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">type ElementType&lt;T&gt; = T extends any[] ? ElementType&lt;T[number]&gt; : T;  // Error</code></pre>
+                <h3>有条件类型中的类型推断</h3>
+                <p>现在在有条件类型的<code>extends</code>子语句中，允许出现<code>infer</code>声明，它会引入一个待推断的类型变量。
+                    这个推断的类型变量可以在有条件类型的true分支中被引用。
+                    允许出现多个同类型变量的<code>infer</code>。</p>
+                <p>例如，下面代码会提取函数类型的返回值类型：</p>
+                <pre><code class="language-ts">type ReturnType&lt;T&gt; = T extends (...args: any[]) =&gt; infer R ? R : any;</code></pre>
+                <p>有条件类型可以嵌套来构成一系列的匹配模式，按顺序进行求值：</p>
+                <pre><code class="language-ts">type Unpacked&lt;T&gt; =
+    T extends (infer U)[] ? U :
+    T extends (...args: any[]) =&gt; infer U ? U :
+    T extends Promise&lt;infer U&gt; ? U :
+    T;
+
+type T0 = Unpacked&lt;string&gt;;  // string
+type T1 = Unpacked&lt;string[]&gt;;  // string
+type T2 = Unpacked&lt;() =&gt; string&gt;;  // string
+type T3 = Unpacked&lt;Promise&lt;string&gt;&gt;;  // string
+type T4 = Unpacked&lt;Promise&lt;string&gt;[]&gt;;  // Promise&lt;string&gt;
+type T5 = Unpacked&lt;Unpacked&lt;Promise&lt;string&gt;[]&gt;&gt;;  // string
+</code></pre>
+                <p>下面的例子解释了在协变位置上，同一个类型变量的多个候选类型会被推断为联合类型：</p>
+                <pre><code class="language-ts">type Foo&lt;T&gt; = T extends { a: infer U, b: infer U } ? U : never;
+type T10 = Foo&lt;{ a: string, b: string }&gt;;  // string
+type T11 = Foo&lt;{ a: string, b: number }&gt;;  // string | number
+</code></pre>
+                <p>相似地，在抗变位置上，同一个类型变量的多个候选类型会被推断为交叉类型：</p>
+                <pre><code class="language-ts">type Bar&lt;T&gt; = T extends { a: (x: infer U) =&gt; void, b: (x: infer U) =&gt; void } ? U : never;
+type T20 = Bar&lt;{ a: (x: string) =&gt; void, b: (x: string) =&gt; void }&gt;;  // string
+type T21 = Bar&lt;{ a: (x: string) =&gt; void, b: (x: number) =&gt; void }&gt;;  // string &amp; number
+</code></pre>
+                <p>当推断具有多个调用签名（例如函数重载类型）的类型时，用<em>最后</em>的签名（大概是最自由的包含所有情况的签名）进行推断。
+                    无法根据参数类型列表来解析重载。</p>
+                <pre><code class="language-ts">declare function foo(x: string): number;
+declare function foo(x: number): string;
+declare function foo(x: string | number): string | number;
+type T30 = ReturnType&lt;typeof foo&gt;;  // string | number
+</code></pre>
+                <p>无法在正常类型参数的约束子语句中使用<code>infer</code>声明：</p>
+                <pre><code class="language-ts">type ReturnType&lt;T extends (...args: any[]) =&gt; infer R&gt; = R;  // 错误，不支持</code></pre>
+                <p>但是，可以这样达到同样的效果，在约束里删掉类型变量，用有条件类型替换：</p>
+                <pre><code class="language-ts">type AnyFunction = (...args: any[]) =&gt; any;
+type ReturnType&lt;T extends AnyFunction&gt; = T extends (...args: any[]) =&gt; infer R ? R : any;
+</code></pre>
+                <h3>预定义的有条件类型</h3>
+                <p>TypeScript 2.8在<code>lib.d.ts</code>里增加了一些预定义的有条件类型：</p>
+                <ul>
+                    <li><code>Exclude&lt;T, U&gt;</code> -- 从<code>T</code>中剔除可以赋值给<code>U</code>的类型。</li>
+                    <li><code>Extract&lt;T, U&gt;</code> -- 提取<code>T</code>中可以赋值给<code>U</code>的类型。</li>
+                    <li><code>NonNullable&lt;T&gt;</code> -- 从<code>T</code>中剔除<code>null</code>和<code>undefined</code>。</li>
+                    <li><code>ReturnType&lt;T&gt;</code> -- 获取函数返回值类型。</li>
+                    <li><code>InstanceType&lt;T&gt;</code> -- 获取构造函数类型的实例类型。</li>
+                </ul>
+                <h4>Example</h4>
+                <pre><code class="language-ts">type T00 = Exclude&lt;&quot;a&quot; | &quot;b&quot; | &quot;c&quot; | &quot;d&quot;, &quot;a&quot; | &quot;c&quot; | &quot;f&quot;&gt;;  // &quot;b&quot; | &quot;d&quot;
+type T01 = Extract&lt;&quot;a&quot; | &quot;b&quot; | &quot;c&quot; | &quot;d&quot;, &quot;a&quot; | &quot;c&quot; | &quot;f&quot;&gt;;  // &quot;a&quot; | &quot;c&quot;
+
+type T02 = Exclude&lt;string | number | (() =&gt; void), Function&gt;;  // string | number
+type T03 = Extract&lt;string | number | (() =&gt; void), Function&gt;;  // () =&gt; void
+
+type T04 = NonNullable&lt;string | number | undefined&gt;;  // string | number
+type T05 = NonNullable&lt;(() =&gt; string) | string[] | null | undefined&gt;;  // (() =&gt; string) | string[]
+
+function f1(s: string) {
+    return { a: 1, b: s };
+}
+
+class C {
+    x = 0;
+    y = 0;
+}
+
+type T10 = ReturnType&lt;() =&gt; string&gt;;  // string
+type T11 = ReturnType&lt;(s: string) =&gt; void&gt;;  // void
+type T12 = ReturnType&lt;(&lt;T&gt;() =&gt; T)&gt;;  // {}
+type T13 = ReturnType&lt;(&lt;T extends U, U extends number[]&gt;() =&gt; T)&gt;;  // number[]
+type T14 = ReturnType&lt;typeof f1&gt;;  // { a: number, b: string }
+type T15 = ReturnType&lt;any&gt;;  // any
+type T16 = ReturnType&lt;never&gt;;  // any
+type T17 = ReturnType&lt;string&gt;;  // Error
+type T18 = ReturnType&lt;Function&gt;;  // Error
+
+type T20 = InstanceType&lt;typeof C&gt;;  // C
+type T21 = InstanceType&lt;any&gt;;  // any
+type T22 = InstanceType&lt;never&gt;;  // any
+type T23 = InstanceType&lt;string&gt;;  // Error
+type T24 = InstanceType&lt;Function&gt;;  // Error
+</code></pre>
+                <blockquote>
+                    <p>注意：<code>Exclude</code>类型是<a href="https://github.com/Microsoft/TypeScript/issues/12215#issuecomment-307871458">建议的</a><code>Diff</code>类型的一种实现。我们使用<code>Exclude</code>这个名字是为了避免破坏已经定义了<code>Diff</code>的代码，并且我们感觉这个名字能更好地表达类型的语义。我们没有增加<code>Omit&lt;T, K&gt;</code>类型，因为它可以很容易的用<code>Pick&lt;T, Exclude&lt;keyof T, K&gt;&gt;</code>来表示。</p>
+                </blockquote>
+                <h2>改进对映射类型修饰符的控制</h2>
+                <p>映射类型支持在属性上添加<code>readonly</code>或<code>?</code>修饰符，但是它们不支持<em>移除</em>修饰符。
+                    这对于<a href="https://github.com/Microsoft/TypeScript/pull/12563"><em>同态映射类型</em></a>有些影响，因为同态映射类型默认保留底层类型的修饰符。</p>
+                <p>TypeScript 2.8为映射类型增加了增加或移除特定修饰符的能力。
+                    特别地，映射类型里的<code>readonly</code>或<code>?</code>属性修饰符现在可以使用<code>+</code>或<code>-</code>前缀，来表示修饰符是添加还是移除。</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">type MutableRequired&lt;T&gt; = { -readonly [P in keyof T]-?: T[P] };  // 移除readonly和?
+type ReadonlyPartial&lt;T&gt; = { +readonly [P in keyof T]+?: T[P] };  // 添加readonly和?
+</code></pre>
+                <p>不带<code>+</code>或<code>-</code>前缀的修饰符与带<code>+</code>前缀的修饰符具有相同的作用。因此上面的<code>ReadonlyPartial&lt;T&gt;</code>类型与下面的一致</p>
+                <pre><code class="language-ts">type ReadonlyPartial&lt;T&gt; = { readonly [P in keyof T]?: T[P] };  // 添加readonly和?</code></pre>
+                <p>利用这个特性，<code>lib.d.ts</code>现在有了一个新的<code>Required&lt;T&gt;</code>类型。
+                    它移除了<code>T</code>的所有属性的<code>?</code>修饰符，因此所有属性都是必需的。</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">type Required&lt;T&gt; = { [P in keyof T]-?: T[P] };</code></pre>
+                <p>注意在<code>--strictNullChecks</code>模式下，当同态映射类型移除了属性底层类型的<code>?</code>修饰符，它同时也移除了那个属性上的<code>undefined</code>类型：</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">type Foo = { a?: string };  // 等同于 { a?: string | undefined }
+type Bar = Required&lt;Foo&gt;;  // 等同于 { a: string }
+</code></pre>
+                <h2>改进交叉类型上的<code>keyof</code></h2>
+                <p>TypeScript 2.8作用于交叉类型的<code>keyof</code>被转换成作用于交叉成员的<code>keyof</code>的联合。
+                    换句话说，<code>keyof (A &amp; B)</code>会被转换成<code>keyof A | keyof B</code>。
+                    这个改动应该能够解决<code>keyof</code>表达式推断不一致的问题。</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">type A = { a: string };
+type B = { b: string };
+
+type T1 = keyof (A &amp; B);  // &quot;a&quot; | &quot;b&quot;
+type T2&lt;T&gt; = keyof (T &amp; B);  // keyof T | &quot;b&quot;
+type T3&lt;U&gt; = keyof (A &amp; U);  // &quot;a&quot; | keyof U
+type T4&lt;T, U&gt; = keyof (T &amp; U);  // keyof T | keyof U
+type T5 = T2&lt;A&gt;;  // &quot;a&quot; | &quot;b&quot;
+type T6 = T3&lt;B&gt;;  // &quot;a&quot; | &quot;b&quot;
+type T7 = T4&lt;A, B&gt;;  // &quot;a&quot; | &quot;b&quot;
+</code></pre>
+                <h2>更好的处理<code>.js</code>文件中的命名空间模式</h2>
+                <p>TypeScript 2.8加强了识别<code>.js</code>文件里的命名空间模式。
+                    JavaScript顶层的空对象字面量声明，就像函数和类，会被识别成命名空间声明。</p>
+                <pre><code class="language-js">var ns = {};     // recognized as a declaration for a namespace `ns`
+ns.constant = 1; // recognized as a declaration for var `constant`
+</code></pre>
+                <p>顶层的赋值应该有一致的行为；也就是说，<code>var</code>或<code>const</code>声明不是必需的。</p>
+                <pre><code class="language-js">app = {}; // does NOT need to be `var app = {}`
+app.C = class {
+};
+app.f = function() {
+};
+app.prop = 1;
+</code></pre>
+                <h3>立即执行的函数表达式做为命名空间</h3>
+                <p>立即执行的函数表达式返回一个函数，类或空的对象字面量，也会被识别为命名空间：</p>
+                <pre><code class="language-js">var C = (function () {
+    function C(n) {
+    this.p = n;
+    }
+    return C;
+})();
+C.staticProperty = 1;
+</code></pre>
+                <h3>默认声明</h3>
+                <p>“默认声明”允许引用了声明的名称的初始化器出现在逻辑或的左边：</p>
+                <pre><code class="language-js">my = window.my || {};
+my.app = my.app || {};
+</code></pre>
+                <h3>原型赋值</h3>
+                <p>你可以把一个对象字面量直接赋值给原型属性。独立的原型赋值也可以：</p>
+                <pre><code class="language-ts">var C = function (p) {
+    this.p = p;
+};
+C.prototype = {
+    m() {
+    console.log(this.p);
+    }
+};
+C.prototype.q = function(r) {
+    return this.p === r;
+};
+</code></pre>
+                <h3>嵌套与合并声明</h3>
+                <p>现在嵌套的层次不受限制，并且多文件之间的声明合并也没有问题。以前不是这样的。</p>
+                <pre><code class="language-js">var app = window.app || {};
+app.C = class { };
+</code></pre>
+                <h2>各文件的JSX工厂</h2>
+                <p>TypeScript 2.8增加了使用<code>@jsx dom</code>指令为每个文件设置JSX工厂名。
+                    JSX工厂也可以使用<code>--jsxFactory</code>编译参数设置（默认值为<code>React.createElement</code>）。TypeScript 2.8你可以基于文件进行覆写。</p>
+                <h4>例子</h4>
+                <pre><code class="language-ts">/** @jsx dom */
+import { dom } from &quot;./renderer&quot;
+&lt;h&gt;&lt;/h&gt;
+</code></pre>
+                <p>生成：</p>
+                <pre><code class="language-js">var renderer_1 = require(&quot;./renderer&quot;);
+renderer_1.dom(&quot;h&quot;, null);
+</code></pre>
+                <h2>本地范围的JSX命名空间</h2>
+                <p>JSX类型检查基于JSX命名空间里的定义，比如<code>JSX.Element</code>用于JSX元素的类型，<code>JSX.IntrinsicElements</code>用于内置的元素。
+                    在TypeScript 2.8之前<code>JSX</code>命名空间被视为全局命名空间，并且一个工程只允许存在一个。
+                    TypeScript 2.8开始，<code>JSX</code>命名空间将在<code>jsxNamespace</code>下面查找（比如<code>React</code>），允许在一次编译中存在多个jsx工厂。
+                    为了向后兼容，全局的<code>JSX</code>命名空间被当做回退选项。
+                    使用独立的<code>@jsx</code>指令，每个文件可以有自己的JSX工厂。</p>
+                <h2>新的<code>--emitDeclarationsOnly</code></h2>
+                <p><code>--emitDeclarationsOnly</code>允许<em>仅</em>生成声明文件；使用这个标记<code>.js</code>/<code>.jsx</code>输出会被跳过。当使用其它的转换工具如Babel处理<code>.js</code>输出的时候，可以使用这个标记。</p>
             </article>
         </div>
     </div>

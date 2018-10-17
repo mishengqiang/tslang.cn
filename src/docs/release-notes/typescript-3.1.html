@@ -48,7 +48,103 @@
                 <h1 class="post-title">Typescript 3.1</h1>
             </header>
             <article class="post-content">
-                
+                <h1>元组和数组上的映射类型</h1>
+                <p>TypeScript 3.1，在元组和数组上的映射对象类型现在会生成新的元组/数组，而非创建一个新的类型并且这个类型上具有如<code>push()</code>，<code>pop()</code>和<code>length</code>这样的成员。
+                    例子：</p>
+                <pre><code class="language-ts">type MapToPromise&lt;T&gt; = { [K in keyof T]: Promise&lt;T[K]&gt; };
+
+type Coordinate = [number, number]
+
+type PromiseCoordinate = MapToPromise&lt;Coordinate&gt;; // [Promise&lt;number&gt;, Promise&lt;number&gt;]
+</code></pre>
+                <p><code>MapToPromise</code>接收参数<code>T</code>，当它是个像<code>Coordinate</code>这样的元组时，只有数值型属性会被转换。
+                    <code>[number, number]</code>具有两个数值型属性：<code>0</code>和<code>1</code>。
+                    针对这样的数组，<code>MapToPromise</code>会创建一个新的元组，<code>0</code>和<code>1</code>属性是原类型的一个<code>Promise</code>。
+                    因此<code>PromiseCoordinate</code>的类型为<code>[Promise&lt;number&gt;, Promise&lt;number&gt;]</code>。</p>
+                <h1>函数上的属性声明</h1>
+                <p>TypeScript 3.1提供了在函数声明上定义属性的能力，还支持<code>const</code>声明的函数。只需要在函数直接给属性赋值就可以了。
+                    这样我们就可以规范JavaScript代码，不必再借助于<code>namespace</code>。
+                    例子：</p>
+                <pre><code class="language-ts">function readImage(path: string, callback: (err: any, image: Image) =&gt; void) {
+    // ...
+}
+
+readImage.sync = (path: string) =&gt; {
+    const contents = fs.readFileSync(path);
+    return decodeImageSync(contents);
+}
+</code></pre>
+                <p>这里，<code>readImage</code>函数异步地读取一张图片。
+                    此外，我们还在<code>readImage</code>上提供了一个便捷的函数<code>readImage.sync</code>。</p>
+                <p>一般来说，使用ECMAScript导出是个更好的方式，但这个新功能支持此风格的代码能够在TypeScript里执行。
+                    此外，这种属性声明的方式允许我们表达一些常见的模式，例如React无状态函数型组件（SFCs）里的<code>defaultProps</code>和<code>propTpes</code> 。</p>
+                <pre><code class="language-ts">export const FooComponent =&gt; ({ name }) =&gt; (
+    &lt;div&gt;Hello! I am {name}&lt;/div&gt;
+);
+
+FooComponent.defaultProps = {
+    name: &quot;(anonymous)&quot;,
+};
+</code></pre>
+                <!--
+                                fs.readFile(path, (err, data) => {
+                                        if (err) callback(err, undefined);
+                                        else decodeImage(data, (err, image) => {
+                                            if (err) callback(err, undefined);
+                                            else callback(undefined, image);
+                                        });
+                                    });
+                                -->
+                <hr>
+                <p><sup id="ts-3-1-only-homomorphic">[1]</sup> 更确切地说，是上面那种同态映射类型。</p>
+                <h1>使用<code>typesVersions</code>选择版本</h1>
+                <p>由社区的反馈还有我们的经验得知，利用最新的TypeScript功能的同时容纳旧版本的用户很困难。
+                    TypeScript引入了叫做<code>typesVersions</code>的新特性来解决这种情况。</p>
+                <p>在TypeScript 3.1里使用Node模块解析时，TypeScript会读取<code>package.json</code>文件，找到它需要读取的文件，它首先会查看名字为<code>typesVersions</code>的字段。
+                    一个带有<code>typesVersions</code>字段的<code>package.json</code>文件：</p>
+                <pre><code class="language-json">{
+    &quot;name&quot;: &quot;package-name&quot;,
+    &quot;version&quot;: &quot;1.0&quot;,
+    &quot;types&quot;: &quot;./index.d.ts&quot;,
+    &quot;typesVersions&quot;: {
+        &quot;&gt;=3.1&quot;: { &quot;*&quot;: [&quot;ts3.1/*&quot;] }
+    }
+}
+</code></pre>
+                <p><code>package.json</code>告诉TypeScript去检查当前版本的TypeScript是否正在运行。
+                    如果是3.1或以上的版本，它会找出你导入的包的路径，然后读取这个包里面的<code>ts3.1</code>文件夹里的内容。
+                    这就是<code>{ &quot;*&quot;: [&quot;ts3.1/*&quot;] }</code>的意义 - 如果你对路径映射熟悉，它们的工作方式类似。</p>
+                <p>因此在上例中，如果我们正在从<code>&quot;package-name&quot;</code>中导入，并且正在运行的TypeScript版本为3.1，我们会尝试从<code>[...]/node_modules/package-name/ts3.1/index.d.ts</code>开始解析。
+                    如果是从<code>package-name/foo</code>导入，由会查找<code>[...]/node_modules/package-name/ts3.1/foo.d.ts</code>和<code>[...]/node_modules/package-name/ts3.1/foo/index.d.ts</code>。</p>
+                <p>那如果当前运行的TypeScript版本不是3.1呢？
+                    如果<code>typesVersions</code>里没有能匹配上的版本，TypeScript将回退到查看<code>types</code>字段，因此TypeScript 3.0及之前的版本会重定向到<code>[...]/node_modules/package-name/index.d.ts</code>。</p>
+                <h2>匹配行为</h2>
+                <p>TypeScript使用Node的<a href="https://github.com/npm/node-semver#ranges">semver ranges</a>去决定编译器和语言版本。</p>
+                <h2>多个字段</h2>
+                <p><code>typesVersions</code>支持多个字段，每个字段都指定了一个匹配范围。</p>
+                <pre><code class="language-json">{
+    &quot;name&quot;: &quot;package-name&quot;,
+    &quot;version&quot;: &quot;1.0&quot;,
+    &quot;types&quot;: &quot;./index.d.ts&quot;,
+    &quot;typesVersions&quot;: {
+        &quot;&gt;=3.2&quot;: { &quot;*&quot;: [&quot;ts3.2/*&quot;] },
+        &quot;&gt;=3.1&quot;: { &quot;*&quot;: [&quot;ts3.1/*&quot;] }
+    }
+}
+</code></pre>
+                <p>因为范围可能会重叠，因此指定的顺序是有意义的。
+                    在上例中，尽管<code>&gt;=3.2</code>和<code>&gt;=3.1</code>都匹配TypeScript 3.2及以上版本，反转它们的顺序将会有不同的结果，因此上例与下面的代码并不等同。</p>
+                <pre><code class="language-json5">{
+    &quot;name&quot;: &quot;package-name&quot;,
+    &quot;version&quot;: &quot;1.0&quot;,
+    &quot;types&quot;: &quot;./index.d.ts&quot;,
+    &quot;typesVersions&quot;: {
+        // 注意，这样写不生效
+        &quot;&gt;=3.1&quot;: { &quot;*&quot;: [&quot;ts3.1/*&quot;] },
+        &quot;&gt;=3.2&quot;: { &quot;*&quot;: [&quot;ts3.2/*&quot;] }
+    }
+}
+</code></pre>
             </article>
         </div>
     </div>
